@@ -1,0 +1,15 @@
+# Ignore object files and executables
+*.o
+*.out
+
+# Ignore generated files
+/build/
+
+# Ignore editor files
+*~
+
+# Ignore system-specific files
+.DS_Store
+Thumbs.db
+minishell
+.vscode

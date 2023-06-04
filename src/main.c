@@ -6,11 +6,17 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/04 21:30:59 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/06/05 01:38:15 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int    main(int argc, char **argv)
 {
+    (void)argc;
+    (void)argv;
+    while (1)
+    {
+        ;
+    }
     return (0);
 }

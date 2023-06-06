@@ -6,12 +6,14 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:36:20 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/07 00:47:25 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/06/07 00:49:29 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
+
+#include <stdlib.h>
 
 /**
 *  TOK_WORD = word
@@ -65,6 +67,7 @@ typedef struct s_token
 typedef struct s_lexer
 {
 	t_token			*tok_lst;
+    size_t          tok_count;
 	enum e_state	state;
 }					t_lexer;
 

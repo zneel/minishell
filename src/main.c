@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/06 17:41:54 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/06/07 00:47:31 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int argc, char **argv)
 	while (1)
 	{
 		line = readline(prompt_str);
-		lex(line);
+		lexer(line);
 		free(line);
 	}
 	return (0);

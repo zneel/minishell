@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:35:58 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/07 00:47:26 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/06/07 00:49:05 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_lexer	*init_lexer(void)
 		return (NULL);
 	lexer->state = STATE_DEFAULT;
 	lexer->tok_lst = NULL;
+	lexer->tok_count = 0;
 	return (lexer);
 }
 

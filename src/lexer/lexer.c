@@ -1,35 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/06 17:41:54 by ebouvier         ###   ########.fr       */
+/*   Created: 2023/06/06 15:35:58 by ebouvier          #+#    #+#             */
+/*   Updated: 2023/06/07 00:33:42 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "lexer.h"
+#include "libft.h"
 
-int	main(int argc, char **argv)
+t_token	*lex(char *line)
 {
-	char	*logname;
-	char	*name;
-	char *line;
-	char *prompt_str;
+	ft_printf("lexed=%s\n", line);
+	return (NULL);
+}
 
-	(void)argc;
-	(void)argv;
-	logname = getenv("LOGNAME");
-	name = getenv("NAME");
-	prompt_str = ft_strjoin(logname, name);
-	while (1)
-	{
-		line = readline(prompt_str);
-		lex(line);
-		free(line);
-	}
-	return (0);
+void	delete_lexer(t_lexer *lexer)
+{
+    t_token *curr;
+    t_token *tail;
+
+    curr = lexer->tok_lst;
+    while (curr)
+    {
+        tail = curr;
+        curr = curr->next; 
+        free(tail->value);
+        free(tail);
+    }
 }

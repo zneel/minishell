@@ -1,11 +1,11 @@
 NAME=minishell
 CC=cc
-CFLAGS=-Wall -Wextra -Werror
+CFLAGS=-Wall -Wextra -Werror -MMD
 
 RESET   = \033[0m
 RED     = \033[31m
 GREEN   = \033[32m
-PINK      = \033[38;5;206m
+PINK	= \033[38;5;206m
 YELLOW  = \033[33m
 BLUE    = \033[34m
 
@@ -13,14 +13,16 @@ ifeq ($(DEBUG), 1)
 	CFLAGS+=-g3
 endif
 
-ifeq ($(SANITIZE), 1)
+ifeq ($(SAN), 1)
 	CFLAGS+=-fsanitize=address
 endif
 
 INCLUDES = -Iinclude -Ilibft/includes
-LIBS = -Llibft -lft
+LIBS = -Llibft -lft -lreadline
 
-SRC=src/main.c
+SRC =	src/main.c \
+		src/lexer/lexer.c
+
 OBJ=$(SRC:.c=.o)
 MMD=$(SRC:.c=.d)
 LIBRARY=libft/libft.a
@@ -39,12 +41,12 @@ $(NAME): $(LIBRARY) $(OBJ)
 	@echo "	==================================================================="
 	@echo "$(RESET)"
 	@echo "$(BLUE)Compiling...$(RESET)"
-	@$(CC) $(CFLAGS) $(INCLUDES) $(LIBS) $(OBJ) -o $(NAME)
+	@$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(OBJ) $(LIBRARY) $(LIBS)
 	@echo "$(GREEN)Compilation completed!$(RESET)"
 
 %.o: %.c
 	@echo "$(YELLOW)Compiling $<...$(RESET)"
-	@$(CC) $(CFLAGS) -c $< -o $@ > /dev/null
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ > /dev/null
 	@echo "$(GREEN)$< compiled successfully!$(RESET)"
 
 $(LIBRARY):
@@ -65,7 +67,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-
-
-
-                                                                   

@@ -21,7 +21,8 @@ INCLUDES = -Iinclude -Ilibft/includes
 LIBS = -Llibft -lft -lreadline
 
 SRC =	src/main.c \
-		src/lexer/lexer.c
+		src/lexer/lexer.c \
+		src/lexer/debug.c
 
 OBJ=$(SRC:.c=.o)
 MMD=$(SRC:.c=.d)

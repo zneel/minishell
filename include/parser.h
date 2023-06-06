@@ -1,35 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/06 17:41:54 by ebouvier         ###   ########.fr       */
+/*   Created: 2023/06/06 15:25:00 by ebouvier          #+#    #+#             */
+/*   Updated: 2023/06/06 15:30:16 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "lexer.h"
+#ifndef AST_H
+# define AST_H
 
-int	main(int argc, char **argv)
+typedef struct s_ast
 {
-	char	*logname;
-	char	*name;
-	char *line;
-	char *prompt_str;
+    
+} t_ast;
 
-	(void)argc;
-	(void)argv;
-	logname = getenv("LOGNAME");
-	name = getenv("NAME");
-	prompt_str = ft_strjoin(logname, name);
-	while (1)
-	{
-		line = readline(prompt_str);
-		lex(line);
-		free(line);
-	}
-	return (0);
-}
+#endif

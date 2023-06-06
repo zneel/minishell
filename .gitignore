@@ -1,6 +1,7 @@
 # Ignore object files and executables
 *.o
 *.out
+*.d
 
 # Ignore generated files
 /build/

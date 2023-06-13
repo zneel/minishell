@@ -48,7 +48,7 @@ variable        ::= "$" plain_string
 ```
 ### LEXER
 The goal there is to tokenise a string.
-for exemple the command: `ls -l | grep x` we tokenise `ls -l` as a `WORD` the keyword `|` as a `PIPE` and `x` as `WORD`
+for exemple the command: `ls -l | grep x` we tokenise `ls -l` as a `COMMAND` the keyword `|` as a `PIPE` and `x` as `COMMAND`
 ### PARSER
 The goal there is to make an ast from the tokens:
 If we take the exemple we have:

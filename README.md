@@ -11,7 +11,8 @@ commandline     ::= list
                 |   list ";"
 list            ::= conditional
                 |   list ";" conditional
-conditional     ::= pipeline
+conditional     ::= "(" conditional ")"
+                |   pipeline
                 |   conditional "&&" pipeline
                 |   conditional "||" pipeline
 pipeline        ::= command

@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 00:42:28 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/20 11:10:22 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:45:07 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,15 @@ void	debug_token(t_token *token)
 
 void	debug_lexer(t_lexer *lexer)
 {
+	t_token	*curr;
+
+	curr = lexer->tok_lst;
 	ft_printf("====================================\n");
-	while (lexer->tok_lst)
+	while (curr)
 	{
-		debug_token(lexer->tok_lst);
+		debug_token(curr);
 		ft_printf("lexer->tok_count=%d\n", lexer->tok_count);
 		ft_printf("====================================\n");
-		lexer->tok_lst = lexer->tok_lst->next;
+		curr = curr->next;
 	}
 }

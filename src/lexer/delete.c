@@ -1,26 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   delete.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/20 11:22:20 by ebouvier         ###   ########.fr       */
+/*   Created: 2023/06/14 12:00:41 by ebouvier          #+#    #+#             */
+/*   Updated: 2023/06/20 10:51:33 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-#include "minishell.h"
 
-int	main(int argc, char **argv)
+void	delete_token(t_token *token)
 {
-	t_lexer	*lexed;
+	free(token->value);
+	free(token);
+}
 
-	(void)argc;
-	(void)argv;
-	lexed = lexer("|");
-	debug_lexer(lexed);
-	delete_lexer(lexed);
-	return (0);
+void	delete_tokens(t_token *token)
+{
+	t_token	*curr;
+	t_token	*tail;
+
+	curr = token;
+	while (curr)
+	{
+		tail = curr->next;
+		delete_token(curr);
+		curr = tail;
+	}
+}
+
+void	delete_lexer(t_lexer *lexer)
+{
+	delete_tokens(lexer->tok_lst);
+	free(lexer);
 }

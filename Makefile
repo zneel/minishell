@@ -17,12 +17,18 @@ ifeq ($(SAN), 1)
 	CFLAGS+=-fsanitize=address
 endif
 
+ifeq ($(DEV), 1)
+	CFLAGS+=-fsanitize=address -g3
+endif
+
 INCLUDES = -Iinclude -Ilibft/includes
 LIBS = -Llibft -lft -lreadline
 
 SRC =	src/main.c \
 		src/lexer/lexer.c \
-		src/lexer/debug.c
+		src/lexer/debug.c \
+		src/lexer/delete.c \
+		src/lexer/token.c
 
 OBJ=$(SRC:.c=.o)
 MMD=$(SRC:.c=.d)

@@ -6,14 +6,13 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:36:20 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/23 14:31:59 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/06/24 14:22:54 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
-# include <stack.h>
 # include <stdlib.h>
 
 # define LPAREN '('
@@ -67,6 +66,7 @@ typedef struct s_lexer
 	char			curr_char;
 	size_t			curr_pos;
 	size_t			read_pos;
+	size_t			line_len;
 	t_token			*tok_lst;
 	size_t			tok_count;
 }					t_lexer;

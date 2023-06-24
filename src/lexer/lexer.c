@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:35:58 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/23 15:31:23 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/06/24 16:36:50 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_lexer	*init_lexer(char *str)
 	lexer->tok_lst = NULL;
 	lexer->tok_count = 0;
 	lexer->line = str;
+	lexer->line_len = ft_strlen(str);
 	lexer->curr_pos = 0;
 	lexer->read_pos = 0;
 	lexer->curr_char = '\0';
@@ -33,7 +34,7 @@ t_lexer	*init_lexer(char *str)
 
 void	read_char(t_lexer *lexer)
 {
-	if (lexer->read_pos >= ft_strlen(lexer->line))
+	if (lexer->read_pos >= lexer->line_len)
 		lexer->curr_char = '\0';
 	else
 		lexer->curr_char = lexer->line[lexer->read_pos];
@@ -41,46 +42,33 @@ void	read_char(t_lexer *lexer)
 	lexer->read_pos++;
 }
 
-ssize_t	escape_quote(char *str)
+void	escape_quotes(t_lexer *lexer)
 {
-	char	current_quote;
-	size_t	len;
+	char	quote;
 
-	current_quote = *str++;
-	len = 0;
-	while (*str && *str != current_quote)
+	quote = 0;
+	while (lexer->curr_char && !(quote == 0 && ft_isspace(lexer->curr_char)))
 	{
-		len++;
-		str++;
+		if (lexer->curr_char == QUOTE || lexer->curr_char == DQUOTE)
+		{
+			if (quote == 0)
+				quote = lexer->curr_char;
+			else if (quote == lexer->curr_char)
+				quote = 0;
+		}
+		read_char(lexer);
 	}
-	if (!*str)
-		return (-1);
-	return (len);
 }
 
 char	*handle_word(t_lexer *lexer)
 {
 	size_t	start;
-	char	*word;
 	ssize_t	len;
-	ssize_t	escape_len;
+	char	*word;
 
 	start = lexer->curr_pos;
-	if (lexer->curr_char == QUOTE || lexer->curr_char == DQUOTE)
-	{
-		len = escape_quote(lexer->line + lexer->curr_pos);
-		if (len == -1)
-			return (NULL);
-		escape_len = len;
-		while (escape_len--)
-			read_char(lexer);
-	}
-	else
-	{
-		while (lexer->curr_char && !ft_isspace(lexer->curr_char))
-			read_char(lexer);
-		len = lexer->curr_pos - start;
-	}
+	escape_quotes(lexer);
+	len = lexer->curr_pos - start;
 	word = malloc(sizeof(char) * (len + 1));
 	if (!word)
 		return (NULL);
@@ -128,7 +116,6 @@ t_lexer	*lexer(char *str)
 	lexer = init_lexer(str);
 	if (!lexer)
 		return (NULL);
-	ft_printf("--->input:%s\n", str);
 	read_char(lexer);
 	while (lexer->curr_char)
 	{
@@ -136,6 +123,5 @@ t_lexer	*lexer(char *str)
 			add_token(lexer, next_token(lexer));
 		read_char(lexer);
 	}
-	debug_lexer(lexer);
 	return (lexer);
 }

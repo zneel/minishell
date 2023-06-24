@@ -6,13 +6,14 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:35:58 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/20 11:45:52 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/06/23 15:31:23 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "lexer.h"
 #include "libft.h"
+#include <stdio.h>
 
 t_lexer	*init_lexer(char *str)
 {
@@ -40,31 +41,58 @@ void	read_char(t_lexer *lexer)
 	lexer->read_pos++;
 }
 
-char	*handle_word(char *str)
+ssize_t	escape_quote(char *str)
 {
-	char	*start;
-	char	*word;
+	char	current_quote;
 	size_t	len;
 
-	start = str;
-	while (*str && !ft_isspace(*str))
+	current_quote = *str++;
+	len = 0;
+	while (*str && *str != current_quote)
+	{
+		len++;
 		str++;
-	len = str - start;
+	}
+	if (!*str)
+		return (-1);
+	return (len);
+}
+
+char	*handle_word(t_lexer *lexer)
+{
+	size_t	start;
+	char	*word;
+	ssize_t	len;
+	ssize_t	escape_len;
+
+	start = lexer->curr_pos;
+	if (lexer->curr_char == QUOTE || lexer->curr_char == DQUOTE)
+	{
+		len = escape_quote(lexer->line + lexer->curr_pos);
+		if (len == -1)
+			return (NULL);
+		escape_len = len;
+		while (escape_len--)
+			read_char(lexer);
+	}
+	else
+	{
+		while (lexer->curr_char && !ft_isspace(lexer->curr_char))
+			read_char(lexer);
+		len = lexer->curr_pos - start;
+	}
 	word = malloc(sizeof(char) * (len + 1));
 	if (!word)
 		return (NULL);
-	ft_strlcpy(word, start, len + 1);
+	ft_strlcpy(word, lexer->line + start, len + 1);
 	return (word);
 }
 
 t_token	*next_token(t_lexer *lexer)
 {
 	char	*word;
-	size_t	i;
 
-	if (lexer->curr_char == '\0')
-		return (new_token(TOK_END, NULL, 0));
-	else if (lexer->curr_char == '|' && lexer->line[lexer->read_pos] == '|')
+	if (lexer->curr_char == '|' && lexer->line[lexer->read_pos] == '|')
 		return (read_char(lexer), new_token(TOK_OR, ft_strdup("||"), 2));
 	else if (lexer->curr_char == ';')
 		return (new_token(TOK_SEMI, ft_strdup(";"), 1));
@@ -86,10 +114,7 @@ t_token	*next_token(t_lexer *lexer)
 		return (new_token(TOK_RD_OUT, ft_strdup("<"), 1));
 	else if (ft_isascii(lexer->curr_char))
 	{
-		word = handle_word(lexer->line + lexer->curr_pos);
-		i = -1;
-		while (++i < ft_strlen(word))
-			read_char(lexer);
+		word = handle_word(lexer);
 		return (new_token(TOK_WORD, word, ft_strlen(word)));
 	}
 	else

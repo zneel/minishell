@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 00:42:28 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/20 11:45:07 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/06/20 12:28:31 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,25 @@ char	*token_to_str(t_type type)
 		return ("TOK_ERROR");
 	else
 		return ("TOK_UNKNOWN");
+}
+
+void	debug_state(t_lexer *lexer)
+{
+	int	i;
+
+	i = 3;
+	while (i--)
+	{
+		if (lexer->state & (1U << i))
+		{
+			if (i == 0)
+				ft_printf("STATE_DQUOTE\n");
+			else if (i == 1)
+				ft_printf("STATE_QUOTE\n");
+			else if (i == 2)
+				ft_printf("STATE_DEFAULT\n");
+		}
+	}
 }
 
 void	debug_token(t_token *token)

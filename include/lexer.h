@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:36:20 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/20 11:08:10 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/06/23 14:31:59 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,11 @@
 *  TOK_WORD = word (default)
 *  TOK_PIPE = | (pipe)
 *  TOK_SEMI = ; (semicolon)
-*  TOK_GT = > (greater than)
-*  TOK_LT = < (less than)
 *  TOK_AND = && (and)
 *  TOK_OR = || (or)
 *  TOK_RD_IN = < (redirection in)
 *  TOK_RD_OUT = > (redirection out)
-*  TOK_HEREDOC_IN = << (here document in)
+*  TOK_HEREDOC = << (here document in)
 *  TOK_LPAREN = ( (parenthesis open)
 *  TOK_RPAREN = ) (parenthesis close)
 *  TOK_APPEND = >> (append)
@@ -67,7 +65,7 @@ typedef struct s_lexer
 {
 	char			*line;
 	char			curr_char;
-	int				curr_pos;
+	size_t			curr_pos;
 	size_t			read_pos;
 	t_token			*tok_lst;
 	size_t			tok_count;
@@ -81,7 +79,6 @@ t_token				*new_token(t_type type, char *value, size_t len);
 
 void				debug_token(t_token *token);
 void				debug_lexer(t_lexer *lexer);
-
-void				handle_state(t_lexer *lexer, char c);
+void				debug_state(t_lexer *lexer);
 
 #endif

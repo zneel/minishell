@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 12:16:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/20 11:41:14 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/06/20 12:22:09 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	add_token(t_lexer *lexer, t_token *token)
 {
 	t_token	*curr;
 
-	ft_printf("adding token: %s\n", token->value);
+	ft_printf("adding token:%s\n", token->value);
 	curr = lexer->tok_lst;
 	if (!curr)
 		lexer->tok_lst = token;

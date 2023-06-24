@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/20 11:45:38 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/06/23 14:20:24 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int argc, char **argv)
 
 	(void)argc;
 	(void)argv;
-	lexed = lexer("echo hello world | cat -e");
+	lexed = lexer("echo 'echo \"hello world\"'");
 	debug_lexer(lexed);
 	delete_lexer(lexed);
 	return (0);

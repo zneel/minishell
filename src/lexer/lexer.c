@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:35:58 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/05 16:49:50 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/05 18:30:06 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	escape_quotes(t_lexer *lexer)
 	}
 }
 
+// stop lexing when we encounter a special char
 char	*handle_word(t_lexer *lexer)
 {
 	size_t	start;

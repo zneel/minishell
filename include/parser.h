@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast.h                                              :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elliotbouvier <elliotbouvier@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:25:00 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/06 15:30:16 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:04:04 by elliotbouvi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AST_H
-# define AST_H
+#ifndef PARSER_H
+# define PARSER_H
 
+#include "lexer.h"
 typedef struct s_ast
 {
-    
-} t_ast;
+    t_token            *token;
+    struct s_ast    *left;
+    struct s_ast    *right;
+}                    t_ast;
 
 #endif

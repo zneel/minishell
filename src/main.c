@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/24 16:36:18 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:43:28 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,13 @@
 int	main(int argc, char **argv)
 {
 	t_lexer	*lexed;
-	char *line;
+	char	*line;
 
 	(void)argc;
 	(void)argv;
-	// lexed = lexer("echo 'echo \"hello &&world\"' | grep world || bon' 'jour && false");
 	while (1)
 	{
-		line = readline("minishel> ");
+		line = readline("minishell> ");
 		if (!line)
 			return (1);
 		lexed = lexer(line);

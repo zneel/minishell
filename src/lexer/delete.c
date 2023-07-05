@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 12:00:41 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/20 10:51:33 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:50:37 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ void	delete_tokens(t_token *token)
 
 void	delete_lexer(t_lexer *lexer)
 {
-	delete_tokens(lexer->tok_lst);
+	delete_tokens(lexer->token_lst);
 	free(lexer);
 }

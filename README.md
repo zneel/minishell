@@ -20,26 +20,11 @@ pipeline        ::= command
                 |   pipeline "|" command
 command         ::= word
                 |   redirection
-                |   builtin
                 |   command word
                 |   command redirection
 redirection     ::= redirectionop filename
                 |   "<<" word newline text word newline
-redirectionop   ::=  "<" | ">" | "2>" | ">>"
-builtin         ::= echo
-                |   cd
-                |   pwd
-                |   export
-                |   unset
-                |   env
-                |   exit
-echo            ::= "echo" ["-n"] string
-cd              ::= "cd" string
-pwd             ::= "pwd"
-export          ::= "export" string
-unset           ::= "unset" string
-env             ::= "env"
-exit            ::= "exit"
+redirectionop   ::=  "<" | ">" | ">>"
 text            ::= strings newline
                 |   strings
 strings         ::= string

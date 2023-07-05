@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:36:20 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/24 14:22:54 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:49:41 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,35 +21,33 @@
 # define DQUOTE '\"'
 
 /**
-*  TOK_WORD = word (default)
-*  TOK_PIPE = | (pipe)
-*  TOK_SEMI = ; (semicolon)
-*  TOK_AND = && (and)
-*  TOK_OR = || (or)
-*  TOK_RD_IN = < (redirection in)
-*  TOK_RD_OUT = > (redirection out)
-*  TOK_HEREDOC = << (here document in)
-*  TOK_LPAREN = ( (parenthesis open)
-*  TOK_RPAREN = ) (parenthesis close)
-*  TOK_APPEND = >> (append)
-*  TOK_END = \0	(end of line)
-*  TOK_ERROR = error (error)
+*  T_WORD = word (default)
+*  T_PIPE = | (pipe)
+*  T_AND = && (and)
+*  T_OR = || (or)
+*  T_LESS = < (redirection in)
+*  T_GREAT = > (redirection out)
+*  T_DLESS = << (here document in)
+*  T_DGREAT = >> (append)
+*  T_LPAREN = ( (parenthesis open)
+*  T_RPAREN = ) (parenthesis close)
+*  T_END = \0	(end of line)
+*  T_ERROR = error (error)
 */
 typedef enum e_type
 {
-	TOK_WORD = 0,
-	TOK_PIPE,
-	TOK_SEMI,
-	TOK_AND,
-	TOK_OR,
-	TOK_RD_IN,
-	TOK_RD_OUT,
-	TOK_HEREDOC,
-	TOK_LPAREN,
-	TOK_RPAREN,
-	TOK_APPEND,
-	TOK_END,
-	TOK_ERROR,
+	T_WORD = 0,
+	T_PIPE,
+	T_AND,
+	T_OR,
+	T_LESS,
+	T_GREAT,
+	T_DLESS,
+	T_DGREAT,
+	T_LPAREN,
+	T_RPAREN,
+	T_END,
+	T_ERROR,
 }					t_type;
 
 typedef struct s_token
@@ -67,18 +65,17 @@ typedef struct s_lexer
 	size_t			curr_pos;
 	size_t			read_pos;
 	size_t			line_len;
-	t_token			*tok_lst;
-	size_t			tok_count;
+	t_token			*token_lst;
+	size_t			token_count;
 }					t_lexer;
 
 t_lexer				*lexer(char *line);
 void				delete_lexer(t_lexer *lexer);
 void				delete_token(t_token *token);
 void				add_token(t_lexer *lexer, t_token *token);
-t_token				*new_token(t_type type, char *value, size_t len);
+t_token				*new_token(t_type type, char *value);
 
 void				debug_token(t_token *token);
 void				debug_lexer(t_lexer *lexer);
-void				debug_state(t_lexer *lexer);
 
 #endif

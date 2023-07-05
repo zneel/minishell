@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 12:16:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/24 14:43:23 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:49:58 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "lexer.h"
 #include "libft.h"
 
-t_token	*new_token(t_type type, char *value, size_t len)
+t_token	*new_token(t_type type, char *value)
 {
 	t_token	*token;
 
@@ -28,7 +28,7 @@ t_token	*new_token(t_type type, char *value, size_t len)
 	}
 	token->type = type;
 	token->value = value;
-	token->len = len;
+	token->len = ft_strlen(value);
 	token->next = NULL;
 	return (token);
 }
@@ -38,14 +38,14 @@ void	add_token(t_lexer *lexer, t_token *token)
 	t_token	*curr;
 
 	ft_printf("adding token:%s\n", token->value);
-	curr = lexer->tok_lst;
+	curr = lexer->token_lst;
 	if (!curr)
-		lexer->tok_lst = token;
+		lexer->token_lst = token;
 	else
 	{
 		while (curr->next)
 			curr = curr->next;
 		curr->next = token;
 	}
-	lexer->tok_count++;
+	lexer->token_count++;
 }

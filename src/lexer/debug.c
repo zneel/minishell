@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 00:42:28 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/24 11:45:20 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:50:23 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,34 +16,32 @@
 
 char	*token_to_str(t_type type)
 {
-	if (type == TOK_WORD)
-		return ("TOK_WORD");
-	else if (type == TOK_PIPE)
-		return ("TOK_PIPE");
-	else if (type == TOK_SEMI)
-		return ("TOK_SEMI");
-	else if (type == TOK_AND)
-		return ("TOK_AND");
-	else if (type == TOK_OR)
-		return ("TOK_OR");
-	else if (type == TOK_RD_IN)
-		return ("TOK_RD_IN");
-	else if (type == TOK_RD_OUT)
-		return ("TOK_RD_OUT");
-	else if (type == TOK_HEREDOC)
-		return ("TOK_HEREDOC");
-	else if (type == TOK_LPAREN)
-		return ("TOK_LPAREN");
-	else if (type == TOK_RPAREN)
-		return ("TOK_RPAREN");
-	else if (type == TOK_APPEND)
-		return ("TOK_APPEND");
-	else if (type == TOK_END)
-		return ("TOK_END");
-	else if (type == TOK_ERROR)
-		return ("TOK_ERROR");
+	if (type == T_WORD)
+		return ("T_WORD");
+	else if (type == T_PIPE)
+		return ("T_PIPE");
+	else if (type == T_AND)
+		return ("T_AND");
+	else if (type == T_OR)
+		return ("T_OR");
+	else if (type == T_GREAT)
+		return ("T_GREAT");
+	else if (type == T_LESS)
+		return ("T_LESS");
+	else if (type == T_DLESS)
+		return ("T_DLESS");
+	else if (type == T_DGREAT)
+		return ("T_DGREAT");
+	else if (type == T_LPAREN)
+		return ("T_LPAREN");
+	else if (type == T_RPAREN)
+		return ("T_RPAREN");
+	else if (type == T_END)
+		return ("T_END");
+	else if (type == T_ERROR)
+		return ("T_ERROR");
 	else
-		return ("TOK_UNKNOWN");
+		return ("T_UNKNOWN");
 }
 
 void	debug_token(t_token *token)
@@ -57,12 +55,12 @@ void	debug_lexer(t_lexer *lexer)
 {
 	t_token	*curr;
 
-	curr = lexer->tok_lst;
+	curr = lexer->token_lst;
 	ft_printf("====================================\n");
 	while (curr)
 	{
 		debug_token(curr);
-		ft_printf("lexer->tok_count=%d\n", lexer->tok_count);
+		ft_printf("lexer->T_count=%d\n", lexer->token_count);
 		ft_printf("====================================\n");
 		curr = curr->next;
 	}

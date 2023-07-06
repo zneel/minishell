@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:25:00 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/24 18:03:09 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/24 18:58:23 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSER_H
 
 # include "lexer.h"
+# include "stack.h"
 
 typedef struct s_node	t_node;
 
@@ -38,5 +39,12 @@ struct					s_node
 	t_node				*right;
 	t_node				*parent;
 };
+
+typedef struct s_parser
+{
+	t_token				*current_tok;
+	long				parse_state;
+	t_stack				*parse_stack;
+}						t_parser;
 
 #endif

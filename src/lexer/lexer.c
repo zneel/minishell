@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:35:58 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/05 18:30:06 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/06 10:13:41 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,6 @@ t_lexer	*lexer(char *str)
 			add_token(lexer, next_token(lexer));
 		read_char(lexer);
 	}
+	add_token(lexer, new_token(T_END, ft_strdup("(null)")));
 	return (lexer);
 }

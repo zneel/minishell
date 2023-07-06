@@ -8,31 +8,31 @@
 We first define a BNF grammar then we implement the lexer and finally the parser.
 #### BNF (Backnus-Naur Form) grammar:
 ```
-commandline     ::= "(" commandline ")"
+commandline     ::= LPAREN commandline RPAREN
                 |   pipeline
                 |   commandline AND pipeline
                 |   commandline OR pipeline
 
 pipeline        ::= command
-                |   pipeline "|" command
+                |   pipeline PIPE command
 
 command         ::= prefix cmd_word  suffix
-                |  prefix io_redirect suffix
+                |   prefix io_redirect suffix
 
 cmd_word        ::= WORD
 
 prefix          ::= WORD
-                |  io_redirect
+                |   io_redirect
 
 suffix          ::= WORD
-                |  io_redirect
+                |   io_redirect
 
 io_redirect     ::= io_file
-                |  io_here
+                |   io_here
 
-io_file         ::= "<" filename
-                |  ">" filename
-                |  DGREAT filename
+io_file         ::= LESS filename
+                |   GREAT filename
+                |   DGREAT filename
 
 filename       ::= WORD
 

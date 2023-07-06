@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/06 09:46:18 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/06 12:11:00 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ typedef struct s_minishell
 
 t_list	*env_cpy(char **env);
 char	**convert_env(t_list *lst);
+char	*get_env(t_list *env, char *var);
 
 #endif

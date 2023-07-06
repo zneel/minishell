@@ -32,7 +32,8 @@ SRC =	src/main.c \
 		src/builtin/echo.c \
 		src/builtin/pwd.c \
 		src/env/env_cpy.c \
-		src/env/convert_env.c
+		src/env/convert_env.c \
+		src/env/get_env.c
 
 OBJ=$(SRC:.c=.o)
 MMD=$(SRC:.c=.d)

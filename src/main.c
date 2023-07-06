@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/06 11:03:48 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/06 12:08:36 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ int	main(int argc, char **argv, char **env)
 	t_minishell	minishell;
 	char		*line;
 
-	(void)argc;
-	(void)argv;
+	// (void)argc;
+	// (void)argv;
 	minishell.env = env_cpy(env);
+	pwd(argc, argv, minishell);
 	while (1)
 	{
 		line = readline("minishell> ");

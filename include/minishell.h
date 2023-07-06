@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/06/06 17:20:32 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/06 09:19:20 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,4 +16,13 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
+# include "lists.h"
+
+typedef struct minishell
+{
+	t_list	*env;
+}	t_minishell;
+
+t_list	*env_cpy(char **env);
+
 #endif

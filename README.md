@@ -9,14 +9,14 @@ We first define a BNF grammar then we implement the lexer and finally the parser
 #### BNF (Backnus-Naur Form) grammar:
 ```
 commandline     ::= LPAREN commandline RPAREN
-                |   pipeline
                 |   commandline AND pipeline
                 |   commandline OR pipeline
+                |   pipeline
 
-pipeline        ::= command
-                |   pipeline PIPE command
+pipeline        ::= pipeline PIPE command
+                |   command
 
-command         ::= prefix cmd_word  suffix
+command         ::= prefix cmd_word suffix
                 |   prefix io_redirect suffix
 
 cmd_word        ::= WORD

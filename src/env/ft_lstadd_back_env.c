@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_env.c                                        :+:      :+:    :+:   */
+/*   ft_lstadd_back_env.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/06 11:20:08 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/06 13:01:21 by mhoyer           ###   ########.fr       */
+/*   Created: 2023/07/06 12:40:06 by mhoyer            #+#    #+#             */
+/*   Updated: 2023/07/06 12:50:38 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "minishell.h"
 
-int	print_env(int argc, char **argv, t_minishell minishell)
+void	ft_lstadd_back_env(t_kv **lst, t_kv *new_node)
 {
-	(void)argc;
-	(void)argv;
-	while (minishell.env)
+	t_kv	*current;
+	t_kv	*tail;
+
+	if (!*lst)
+		*lst = new_node;
+	else
 	{
-		printf("%s=%s\n", minishell.env->key, minishell.env->value);
-		minishell.env = minishell.env->next;
+		current = *lst;
+		tail = NULL;
+		while (current)
+		{
+			tail = current;
+			current = current->next;
+		}
+		tail->next = new_node;
 	}
-	return (0);
 }

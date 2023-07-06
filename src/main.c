@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/06 11:27:27 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/06 13:46:52 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ int	main(int argc, char **argv, char **env)
 		debug_lexer(lexed);
 		delete_lexer(lexed);
 	}
+	ft_lstclear_env(&minishell.env, free);
 	return (0);
 }

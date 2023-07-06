@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_env.c                                        :+:      :+:    :+:   */
+/*   ft_lstsize_env.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/06 11:20:08 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/06 13:01:21 by mhoyer           ###   ########.fr       */
+/*   Created: 2023/07/06 13:21:54 by mhoyer            #+#    #+#             */
+/*   Updated: 2023/07/06 13:29:14 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "minishell.h"
 
-int	print_env(int argc, char **argv, t_minishell minishell)
+int	ft_lstsize_env(t_kv *lst)
 {
-	(void)argc;
-	(void)argv;
-	while (minishell.env)
+	int		size;
+	t_kv	*current;
+
+	size = 0;
+	current = lst;
+	while (current)
 	{
-		printf("%s=%s\n", minishell.env->key, minishell.env->value);
-		minishell.env = minishell.env->next;
+		current = current->next;
+		++size;
 	}
-	return (0);
+	return (size);
 }

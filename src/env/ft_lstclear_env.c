@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_env.c                                        :+:      :+:    :+:   */
+/*   ft_lstclear_env.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/06 11:20:08 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/06 13:01:21 by mhoyer           ###   ########.fr       */
+/*   Created: 2023/07/06 12:50:25 by mhoyer            #+#    #+#             */
+/*   Updated: 2023/07/06 12:54:29 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "minishell.h"
 
-int	print_env(int argc, char **argv, t_minishell minishell)
+void	ft_lstclear_env(t_kv **lst, void (*del)(void *))
 {
-	(void)argc;
-	(void)argv;
-	while (minishell.env)
+	t_kv	*current;
+	t_kv	*tail;
+
+	if (!del || !lst)
+		return ;
+	current = *lst;
+	tail = NULL;
+	while (current)
 	{
-		printf("%s=%s\n", minishell.env->key, minishell.env->value);
-		minishell.env = minishell.env->next;
+		del(current->key);
+		del(current->value);
+		tail = current;
+		current = current->next;
+		free(tail);
 	}
-	return (0);
+	*lst = NULL;
 }

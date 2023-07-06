@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_env.c                                        :+:      :+:    :+:   */
+/*   free_mat.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/06 11:20:08 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/06 13:01:21 by mhoyer           ###   ########.fr       */
+/*   Created: 2023/07/06 12:57:10 by mhoyer            #+#    #+#             */
+/*   Updated: 2023/07/06 12:58:42 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "minishell.h"
 
-int	print_env(int argc, char **argv, t_minishell minishell)
+void	free_mat(char **mat)
 {
-	(void)argc;
-	(void)argv;
-	while (minishell.env)
-	{
-		printf("%s=%s\n", minishell.env->key, minishell.env->value);
-		minishell.env = minishell.env->next;
-	}
-	return (0);
+	int	i;
+	
+	i = -1;
+	if (!mat || !*mat)
+		return ;
+	while (mat[++i])
+		free(mat[i]);
+	free(mat);
 }

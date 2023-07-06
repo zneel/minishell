@@ -6,20 +6,42 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:25:00 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/05 18:29:44 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/06 09:25:00 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-#include "lexer.h"
+# include "lexer.h"
+# include "stack.h"
 
-typedef struct s_ast
+typedef struct s_node	t_node;
+
+typedef enum e_node_type
 {
-	t_token			*token;
-	struct s_ast	*left;
-	struct s_ast	*right;
-}					t_ast;
+	PIPE,
+	AND,
+	OR,
+	LESS,
+	GREAT,
+	DGREAT,
+	WORD,
+}						t_node_type;
+
+struct					s_node
+{
+	t_node_type			*type;
+	char				*value;
+	t_node				*left;
+	t_node				*right;
+};
+
+typedef struct s_parser
+{
+	t_token				*current_tok;
+	long				parse_state;
+	t_stack				*parse_stack;
+}						t_parser;
 
 #endif

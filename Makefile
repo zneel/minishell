@@ -29,6 +29,7 @@ SRC =	src/main.c \
 		src/lexer/debug.c \
 		src/lexer/delete.c \
 		src/lexer/token.c \
+		src/parser/parser.c \
 		src/builtin/echo.c \
 		src/builtin/pwd.c \
 		src/builtin/print_env.c \

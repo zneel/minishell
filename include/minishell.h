@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/06 09:19:20 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/06 09:46:18 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@
 # include "libft.h"
 # include "lists.h"
 
-typedef struct minishell
+typedef struct s_minishell
 {
 	t_list	*env;
 }	t_minishell;
 
 t_list	*env_cpy(char **env);
+char	**convert_env(t_list *lst);
 
 #endif

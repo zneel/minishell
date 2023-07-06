@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.h                                          :+:      :+:    :+:   */
+/*   print_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/06 08:01:45 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/06 11:25:15 by mhoyer           ###   ########.fr       */
+/*   Created: 2023/07/06 11:20:08 by mhoyer            #+#    #+#             */
+/*   Updated: 2023/07/06 11:26:53 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#include "builtin.h"
 
-# include "libft.h"
-# include <stdlib.h>
-# include <stdio.h>
-# include "minishell.h"
-
-int	echo(int argc, char **argv);
-int	pwd(int argc, char **argv);
-int	print_env(int argc, char **argv, t_minishell minishell);
-
-#endif
+int	print_env(int argc, char **argv, t_minishell minishell)
+{
+	(void)argc;
+	(void)argv;
+	while (minishell.env)
+	{
+		printf("%s\n", (char *)minishell.env->content);
+		minishell.env = minishell.env->next;
+	}
+	return (0);
+}

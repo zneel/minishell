@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:05:49 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/06 10:43:09 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/06 10:49:17 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,15 @@ int	init_parser(t_parser *parser)
 	parser->root = NULL;
 	parser->parse_state = 0;
 	parser->error = NO_ERROR;
+	return (1);
 }
 
 t_node	*parse(t_lexer *lexer)
 {
 	t_parser	parser;
 
-	if (!init_parser(&parser))
+	if (!lexer && !init_parser(&parser))
 		return (NULL);
+	consume_token(&parser, lexer);
 	return (parser.root);
 }

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/06 09:49:24 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/06 10:47:45 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtin.h"
 #include "ft_printf.h"
 #include "lexer.h"
 #include "minishell.h"
-#include "builtin.h"
 
 int	main(int argc, char **argv, char **env)
 {
@@ -24,6 +24,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	minishell.env = env_cpy(env);
+	(void)minishell;
 	while (1)
 	{
 		line = readline("minishell> ");

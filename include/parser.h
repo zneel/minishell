@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:25:00 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/06 09:25:00 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/06 09:49:22 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_parser
 	t_token				*current_tok;
 	long				parse_state;
 	t_stack				*parse_stack;
+	t_node				*root;
 }						t_parser;
 
 #endif

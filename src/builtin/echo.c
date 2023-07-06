@@ -1,35 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/06 08:13:52 by mhoyer           ###   ########.fr       */
+/*   Created: 2023/07/06 07:37:23 by mhoyer            #+#    #+#             */
+/*   Updated: 2023/07/06 08:09:55 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include "lexer.h"
-#include "minishell.h"
 #include "builtin.h"
 
-int	main(int argc, char **argv)
+int	echo(int argc, char **argv)
 {
-	t_lexer	*lexed;
-	char	*line;
+	int	i;
+	int	endl;
 
-	(void)argc;
-	(void)argv;
-	while (1)
+	if (argc < 1 || argv[0] == NULL)
+		return (1);
+	endl = 0;
+	if (argv[1] && ft_strncmp(argv[1], "-n", 2) == 0)
+		endl = 1;
+	i = endl;
+	while (argv[++i])
 	{
-		line = readline("minishell> ");
-		if (!line)
-			return (1);
-		lexed = lexer(line);
-		debug_lexer(lexed);
-		delete_lexer(lexed);
+		if (i - 1 != endl)
+			printf(" ");
+		printf("%s", argv[i]);	
 	}
+	if (!endl)
+		printf("\n");
 	return (0);
 }

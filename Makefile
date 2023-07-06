@@ -28,7 +28,9 @@ SRC =	src/main.c \
 		src/lexer/lexer.c \
 		src/lexer/debug.c \
 		src/lexer/delete.c \
-		src/lexer/token.c
+		src/lexer/token.c \
+		src/builtin/echo.c \
+		src/builtin/pwd.c
 
 OBJ=$(SRC:.c=.o)
 MMD=$(SRC:.c=.d)

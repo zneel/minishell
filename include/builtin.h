@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 08:01:45 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/06 08:07:15 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/06 10:56:14 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@
 # include "libft.h"
 # include <stdlib.h>
 # include <stdio.h>
+# include "minishell.h"
 
 int	echo(int argc, char **argv);
-int	pwd(int argc, char **argv);
+int	pwd(int argc, char **argv, t_minishell minishell);
 
 #endif

@@ -31,7 +31,8 @@ SRC =	src/main.c \
 		src/lexer/token.c \
 		src/builtin/echo.c \
 		src/builtin/pwd.c \
-		src/env/env_cpy.c
+		src/env/env_cpy.c \
+		src/env/convert_env.c
 
 OBJ=$(SRC:.c=.o)
 MMD=$(SRC:.c=.d)

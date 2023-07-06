@@ -1,38 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_cpy.c                                          :+:      :+:    :+:   */
+/*   convert_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/06 09:05:32 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/06 09:37:41 by mhoyer           ###   ########.fr       */
+/*   Created: 2023/07/06 09:30:28 by mhoyer            #+#    #+#             */
+/*   Updated: 2023/07/06 09:47:22 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_list	*env_cpy(char **env)
+char	**convert_env(t_list *lst)
 {
-	t_list	*lst_env;
-	t_list	*new;
-	char	*tmp;
+	char	**mat;
 	int		i;
 
-	if (!env || !*env)
+	mat = ft_calloc(sizeof(char *), ft_lstsize(lst) + 1);
+	if (!mat)
 		return (NULL);
-	lst_env = NULL;
-	i = -1;
-	while (env[++i])
+	i = 0;
+	while (lst)
 	{
-		tmp = ft_calloc(sizeof(char), ft_strlen(env[i]) + 1);
-		if (!tmp)
-			return (ft_lstclear(&lst_env, &free), NULL);
-		ft_strlcpy(tmp, env[i], ft_strlen(env[i]) + 1);
-		new = ft_lstnew(tmp);
-		if (!new)
-			return (ft_lstclear(&lst_env, &free), NULL);
-		ft_lstadd_back(&lst_env, new);
+		mat[i] = ft_calloc(sizeof(char), ft_strlen(lst->content) + 1);
+		if (!mat[i])
+		{
+			while (--i >= 0)
+				free(mat[i - 1]);
+			free(mat);
+			return (NULL);
+		}
+		ft_strlcpy(mat[i], lst->content, ft_strlen(lst->content) + 1);
+		i++;
+		lst = lst->next;
 	}
-	return (lst_env);
+	mat[i] = NULL;
+	return (mat);
 }

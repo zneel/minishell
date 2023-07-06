@@ -8,30 +8,37 @@
 We first define a BNF grammar then we implement the lexer and finally the parser.
 #### BNF (Backnus-Naur Form) grammar:
 ```
-commandline     ::= list
-                |   list ";"
-list            ::= conditional
-                |   list ";" conditional
-conditional     ::= "(" conditional ")"
+commandline     ::= "(" commandline ")"
                 |   pipeline
-                |   conditional "&&" pipeline
-                |   conditional "||" pipeline
+                |   commandline AND pipeline
+                |   commandline OR pipeline
+
 pipeline        ::= command
                 |   pipeline "|" command
-command         ::= word
-                |   redirection
-                |   command word
-                |   command redirection
-redirection     ::= redirectionop filename
-                |   "<<" word newline text word newline
-redirectionop   ::=  "<" | ">" | ">>"
-text            ::= strings newline
-                |   strings
-strings         ::= string
-                |   strings string
-word            ::= quoted_string | plain_string | variable
-quoted_string   ::= "'" plain_string "'" | "\"" plain_string "\""
-variable        ::= "$" plain_string
+
+command         ::= prefix cmd_word  suffix
+                |  prefix io_redirect suffix
+
+cmd_word        ::= WORD
+
+prefix          ::= WORD
+                |  io_redirect
+
+suffix          ::= WORD
+                |  io_redirect
+
+io_redirect     ::= io_file
+                |  io_here
+
+io_file         ::= "<" filename
+                |  ">" filename
+                |  DGREAT filename
+
+filename       ::= WORD
+
+io_here        ::= DLESS here_end
+
+here_end       ::= WORD
 ```
 ### LEXER
 The goal there is to tokenise a string.

@@ -12,12 +12,18 @@
 
 #include "builtin.h"
 
-int	pwd(int argc, char **argv)
+int	pwd(int argc, char **argv, t_minishell minishell)
 {
 	char	*dir;
 
 	(void)argc;
 	(void)argv;
+	while (minishell.env)
+	{
+		if (strncmp(minishell.env->key, "PWD", ft_strlen("PWD")) == 0)
+			return (printf("%s\n", minishell.env->value), 0);
+		minishell.env = minishell.env->next;
+	}
 	dir = getcwd(NULL, 0);
 	if (dir == NULL)
 		return (1);

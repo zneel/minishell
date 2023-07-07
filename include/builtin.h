@@ -19,7 +19,7 @@
 # include "minishell.h"
 
 int	echo(int argc, char **argv);
-int	pwd(int argc, char **argv);
+int	pwd(int argc, char **argv, t_minishell minishell);
 int	print_env(int argc, char **argv, t_minishell minishell);
 
 #endif

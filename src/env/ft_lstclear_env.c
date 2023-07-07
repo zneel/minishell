@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.h                                          :+:      :+:    :+:   */
+/*   ft_lstclear_env.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/06 08:01:45 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/06 11:25:15 by mhoyer           ###   ########.fr       */
+/*   Created: 2023/07/06 12:50:25 by mhoyer            #+#    #+#             */
+/*   Updated: 2023/07/06 12:54:29 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#include "minishell.h"
 
-# include "libft.h"
-# include <stdlib.h>
-# include <stdio.h>
-# include "minishell.h"
+void	ft_lstclear_env(t_kv **lst, void (*del)(void *))
+{
+	t_kv	*current;
+	t_kv	*tail;
 
-int	echo(int argc, char **argv);
-int	pwd(int argc, char **argv);
-int	print_env(int argc, char **argv, t_minishell minishell);
-
-#endif
+	if (!del || !lst)
+		return ;
+	current = *lst;
+	tail = NULL;
+	while (current)
+	{
+		del(current->key);
+		del(current->value);
+		tail = current;
+		current = current->next;
+		free(tail);
+	}
+	*lst = NULL;
+}

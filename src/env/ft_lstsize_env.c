@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.h                                          :+:      :+:    :+:   */
+/*   ft_lstsize_env.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/06 08:01:45 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/06 11:25:15 by mhoyer           ###   ########.fr       */
+/*   Created: 2023/07/06 13:21:54 by mhoyer            #+#    #+#             */
+/*   Updated: 2023/07/06 13:29:14 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#include "minishell.h"
 
-# include "libft.h"
-# include <stdlib.h>
-# include <stdio.h>
-# include "minishell.h"
+int	ft_lstsize_env(t_kv *lst)
+{
+	int		size;
+	t_kv	*current;
 
-int	echo(int argc, char **argv);
-int	pwd(int argc, char **argv);
-int	print_env(int argc, char **argv, t_minishell minishell);
-
-#endif
+	size = 0;
+	current = lst;
+	while (current)
+	{
+		current = current->next;
+		++size;
+	}
+	return (size);
+}

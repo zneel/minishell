@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 08:01:45 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/06 11:25:15 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/08 09:40:49 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@
 int	echo(int argc, char **argv);
 int	pwd(int argc, char **argv, t_minishell minishell);
 int	print_env(int argc, char **argv, t_minishell minishell);
+int	export(int argc, char **argv, t_minishell *minishell);
 
 #endif

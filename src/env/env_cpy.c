@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:05:32 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/06 13:45:17 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/07 11:26:47 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ char	**ft_separate(char *str, char sep)
 	if (!splited)
 		return (NULL);
 	i = 0;
-	while (str[i] != sep)
+	while (str[i] && str[i] != sep)
 		i++;
+	if ((size_t)i == ft_strlen(str))
+		return (NULL);
 	splited[0] = ft_calloc(sizeof(char), i + 1);
 	if (!splited[0])
 		return (free(splited), NULL);

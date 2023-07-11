@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/08 10:32:29 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/11 12:29:10 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	main(int argc, char **argv, char **env)
 		line = readline("minishell> ");
 		if (!line)
 			return (1);
+		if (line && *line && *line != ' ')
+			add_history(line);
 		lexed = lexer(line);
 		debug_lexer(lexed);
 		delete_lexer(lexed);

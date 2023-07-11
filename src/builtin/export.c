@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 10:54:01 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/08 10:31:50 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/11 07:36:05 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ int	export(int argc, char **argv, t_minishell *minishell)
 	int		i;
 
 	i = 0;
-	(void)argc;
+	if (argc < 2)
+		return (1);
 	while (argv[++i] && argv[i][0] != '=')
 	{
 		tmp = ft_separate(argv[i], '=');

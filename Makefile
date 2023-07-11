@@ -33,10 +33,12 @@ SRC =	src/main.c \
 		src/builtin/pwd.c \
 		src/builtin/print_env.c \
 		src/builtin/export.c \
+		src/builtin/unset.c \
 		src/env/env_cpy.c \
 		src/env/convert_env.c \
 		src/env/ft_lstadd_back_env.c \
 		src/env/ft_lstclear_env.c \
+		src/env/ft_lstdelone_env.c \
 		src/env/ft_lstnew_env.c \
 		src/env/ft_lstsize_env.c \
 		src/env/free_mat.c

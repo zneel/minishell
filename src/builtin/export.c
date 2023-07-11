@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 10:54:01 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/11 07:36:05 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/11 11:45:37 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 
 int	check_disp(t_kv *env, char *new)
 {
+	int	i;
+
+	i = -1;
+	while (new[++i])
+	{
+		if (ft_isalpha(new[i]) == 0)
+			return (2);
+	}
 	while (env)
 	{
 		if (ft_strncmp(env->key, new, ft_strlen(new)) == 0)
@@ -54,30 +62,49 @@ int	new_env(t_kv **env, char **tmp)
 	return (0);
 }
 
-int	export(int argc, char **argv, t_minishell *minishell)
+int	export_annexe(int i, char **argv, t_minishell *minishell)
 {
 	char	**tmp;
+	int		error;
+
+	tmp = ft_separate(argv[i], '=');
+	if (!tmp || !tmp[0] || !tmp[1])
+		return (1);
+	if (check_disp(minishell->env, tmp[0]) == 1)
+		error = replace_env(minishell->env, tmp);
+	else if (check_disp(minishell->env, tmp[0]) == 0)
+		error = new_env(&minishell->env, tmp);
+	else
+		error = 1;
+	if (error)
+	{
+		free(tmp[0]);
+		free(tmp[1]);
+	}
+	free(tmp);
+	return (error);
+}
+
+int	export(int argc, char **argv, t_minishell *minishell)
+{
 	int		i;
+	t_kv	*parc;
 
 	i = 0;
-	if (argc < 2)
-		return (1);
-	while (argv[++i] && argv[i][0] != '=')
+	(void)argc;
+	if (argv && *argv && argv[1] == NULL)
 	{
-		tmp = ft_separate(argv[i], '=');
-		if (!tmp || !tmp[0] || !tmp[1])
+		parc = minishell->env;
+		while (parc)
+		{
+			printf("export %s=%s\n", parc->key, parc->value);
+			parc = parc->next;
+		}
+	}
+	while (argv && *argv && argv[++i] && argv[i][0] != '=')
+	{
+		if (export_annexe(i, argv, minishell))
 			return (1);
-		if (check_disp(minishell->env, tmp[0]))
-		{
-			if (replace_env(minishell->env, tmp))
-				return (1);
-		}
-		else
-		{
-			if (new_env(&minishell->env, tmp))
-				return (1);
-		}
-		free(tmp);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/11 09:59:39 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/13 10:08:00 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int		ft_lstsize_env(t_kv *lst);
 void	ft_lstdelone_env(t_kv *mem, t_kv *lst, void (*del)(void *));
 
 t_kv	*env_cpy(char **env);
+char	*get_env(t_minishell minishell, char *to_search);
+int		modif_env(t_minishell *minishell, char *key_s, char *value_m);
 char	**convert_env(t_kv *lst);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/26 21:31:07 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/26 21:36:25 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,13 @@ void			ft_lstdelone_env(t_kv *mem, t_kv *lst, void (*del)(void *));
 void			ft_lstsort_env(t_kv *top);
 t_kv			*ft_lstcpy_env(t_kv *top);
 
-t_kv			*ft_lstnew_env(char *key, char *value);
-void			ft_lstadd_back_env(t_kv **lst, t_kv *new_node);
-void			ft_lstclear_env(t_kv **lst, void (*del)(void *));
-int				ft_lstsize_env(t_kv *lst);
-void			ft_lstdelone_env(t_kv *mem, t_kv *lst, void (*del)(void *));
 void			free_minishell(t_minishell *minishell);
 
 t_kv			*env_cpy(char **env);
+char			**convert_env(t_kv *lst);
+t_kv			*env_cpy(char **env);
+char			*get_env(t_minishell minishell, char *to_search);
+int				modif_env(t_minishell *minishell, char *key_s, char *value_m);
 char			**convert_env(t_kv *lst);
 
 #endif

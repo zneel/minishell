@@ -31,10 +31,13 @@ SRC =	src/main.c \
 		src/lexer/token.c \
 		src/builtin/echo.c \
 		src/builtin/pwd.c \
+		src/builtin/cd.c \
 		src/builtin/print_env.c \
 		src/builtin/export.c \
 		src/builtin/unset.c \
 		src/env/env_cpy.c \
+		src/env/get_env.c \
+		src/env/modif_env.c \
 		src/env/convert_env.c \
 		src/env/ft_lstadd_back_env.c \
 		src/env/ft_lstclear_env.c \

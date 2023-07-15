@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/27 11:05:15 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/29 08:47:39 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "lists.h"
 #include "minishell.h"
 #include "parser.h"
+#include "signaux.h"
 
 void	init_minishell(t_minishell *minishell, char **env)
 {
@@ -35,6 +36,8 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
+	signal(SIGINT, sigint);
+	signal(SIGQUIT, SIG_IGN);
 	init_minishell(&minishell, env);
 	while (1)
 	{

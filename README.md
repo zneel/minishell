@@ -7,38 +7,31 @@
 
 We first define a BNF grammar then we implement the lexer and finally the parser.
 #### BNF (Backnus-Naur Form) grammar:
-```
-commandline     ::= LPAREN commandline RPAREN
-                |   commandline AND pipeline
-                |   commandline OR pipeline
-                |   pipeline
-
-pipeline        ::= pipeline PIPE command
-                |   command
-
+```abnf
+command_line    ::= pipeline command_rest
+                |   group command_rest
+command_rest    ::= AND pipeline command_rest
+                |   OR pipeline command_rest
+                |   EPSILON
+group           ::= LPAREN command_line RPAREN
+pipeline        ::= command pipeline_rest
+pipeline_rest   ::= PIPE command pipeline_rest
+                |   EPSILON
 command         ::= prefix cmd_word suffix
                 |   prefix io_redirect suffix
-
 cmd_word        ::= WORD
-
 prefix          ::= WORD
                 |   io_redirect
-
 suffix          ::= WORD
                 |   io_redirect
-
 io_redirect     ::= io_file
                 |   io_here
-
 io_file         ::= LESS filename
                 |   GREAT filename
                 |   DGREAT filename
-
-filename       ::= WORD
-
-io_here        ::= DLESS here_end
-
-here_end       ::= WORD
+filename        ::= WORD
+io_here         ::= DLESS here_end
+here_end        ::= WORD
 ```
 ### LEXER
 The goal there is to tokenise a string.

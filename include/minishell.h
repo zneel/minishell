@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/25 11:49:40 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/26 21:31:07 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,13 @@ typedef struct s_command
 
 char			**ft_separate(char *str, char sep);
 void			free_mat(char **mat);
+t_kv			*ft_lstnew_env(char *key, char *value);
+void			ft_lstadd_back_env(t_kv **lst, t_kv *new_node);
+void			ft_lstclear_env(t_kv **lst, void (*del)(void *));
+int				ft_lstsize_env(t_kv *lst);
+void			ft_lstdelone_env(t_kv *mem, t_kv *lst, void (*del)(void *));
+void			ft_lstsort_env(t_kv *top);
+t_kv			*ft_lstcpy_env(t_kv *top);
 
 t_kv			*ft_lstnew_env(char *key, char *value);
 void			ft_lstadd_back_env(t_kv **lst, t_kv *new_node);

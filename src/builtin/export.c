@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 10:54:01 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 09:23:54 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/26 21:31:38 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,16 +89,22 @@ int	export(t_command *cmd, t_minishell *minishell)
 {
 	int		i;
 	t_kv	*parc;
+	t_kv	*mem_parc;
 
 	i = 0;
 	if (cmd->command && *cmd->command && cmd->command[1] == NULL)
 	{
-		parc = minishell->env;
+		parc = ft_lstcpy_env(minishell->env);
+		if (!parc)
+			return (1);
+		mem_parc = parc;
+		ft_lstsort_env(parc);
 		while (parc)
 		{
 			printf("export %s=%s\n", parc->key, parc->value);
 			parc = parc->next;
 		}
+		return (ft_lstclear_env(&mem_parc, free), 0);
 	}
 	while (cmd->command && *cmd->command && cmd->command[++i]
 		&& cmd->command[i][0] != '=')

@@ -59,6 +59,9 @@ SRC =	src/main.c \
 		src/exec/here_doc.c \
 		src/exec/error.c \
 		src/exec/exec_mini.c
+		src/env/ft_lstsort_env.c \
+		src/env/ft_lstcpy_env.c \
+		src/env/free_mat.c
 
 OBJ=$(SRC:.c=.o)
 MMD=$(SRC:.c=.d)

@@ -63,8 +63,8 @@ SRC =	src/main.c \
 		src/exec/utils.c \
 		src/exec/here_doc.c \
 		src/exec/error.c \
-		src/exec/exec_mini.c
-		src/signaux/ctrlC.c \
+		src/exec/exec_mini.c \
+		src/signaux/ctrl_c.c \
 		src/signaux/ctrl_backslash.c
 
 OBJ=$(SRC:.c=.o)

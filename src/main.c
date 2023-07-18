@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/29 08:47:39 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/29 08:48:24 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	main(int argc, char **argv, char **env)
 		}
 		if (line && *line && !ft_isspace(*line))
 			add_history(line);
+		if (line == NULL)
+			return (ft_lstclear_env(&minishell.env, free), 0);
 		lexed = lexer(line);
 		free(line);
 		debug_lexer(lexed);

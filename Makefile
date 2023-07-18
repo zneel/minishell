@@ -42,8 +42,7 @@ SRC =	src/main.c \
 		src/env/ft_lstnew_env.c \
 		src/env/ft_lstsize_env.c \
 		src/env/free_mat.c \
-		src/signaux/ctrlC.c \
-		src/signaux/ctrl_backslash.c
+		src/exec/exec.c
 
 OBJ=$(SRC:.c=.o)
 MMD=$(SRC:.c=.d)

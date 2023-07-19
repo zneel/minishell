@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:21 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/18 09:24:06 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/19 12:59:38 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 # include "parser.h"
 # include "libft.h"
+# include "minishell.h"
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
 
-int		nb_node(t_ast *node);
-void	visit(t_ast *node);
-void	exec(t_ast *node);
+char	**get_cmd(char *raw_cmd, char **env);
+void    prep_exec(t_node *node, t_minishell *minishell);
 
 #endif

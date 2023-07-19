@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/11 09:59:39 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/19 13:37:20 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,16 @@ typedef struct s_kv
 typedef struct s_minishell
 {
 	t_kv	*env;
+	int		stdin;
+	int		stdout;
 }	t_minishell;
+
+typedef struct s_command
+{
+	char **command;
+	int fd_in;
+	int fd_out;
+} t_command;
 
 char	**ft_separate(char *str, char sep);
 void	free_mat(char **mat);

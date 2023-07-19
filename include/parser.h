@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:25:00 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/05 18:29:44 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/19 13:03:20 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,28 @@
 
 #include "lexer.h"
 
-typedef struct s_ast
+typedef struct s_node t_node;
+
+typedef enum e_node_type
 {
-	t_token			*token;
-	struct s_ast	*left;
-	struct s_ast	*right;
-}					t_ast;
+	PIPE,
+	AND,
+	OR,
+	LESS,
+	GREAT,
+	DGREAT,
+	COMMAND,
+	L_PAREN,
+	R_PAREN,
+}						t_node_type;
+
+struct s_node
+{
+	t_node_type			type;
+	char				*raw_command;
+	t_node				*left;
+	t_node				*right;
+	t_node				*parent;
+};
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/19 13:46:23 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/20 11:15:02 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,27 @@ int	main(int argc, char **argv, char **env)
     	t_node ast = {
         .type = PIPE,
         .left = &(t_node){
-            .type = COMMAND,
-            .raw_command = "cat",
+            .type = PIPE,
+            .left = &(t_node){
+                .type = COMMAND,
+                .raw_command = "yes",
+                .parent = &ast,
+                .left = NULL,
+                .right = NULL,
+            },
+            .right = &(t_node){
+                .type = COMMAND,
+                .raw_command = "head",
+                .parent= &ast,
+                .left = NULL,
+                .right = NULL,
+            },
             .parent = &ast,
-            .left = NULL,
-            .right = NULL,
         },
         .right = &(t_node){
             .type = COMMAND,
-            .raw_command = "ls",
-            .parent= &ast,
+            .raw_command = "cat -e",
+            .parent = &ast,
             .left = NULL,
             .right = NULL,
         },

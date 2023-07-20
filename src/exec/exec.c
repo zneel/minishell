@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:55 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/19 13:49:06 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/20 11:47:23 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,11 @@ void	execute_first(t_command *cmd, char **env,int pipefd[2])
 	}
 	else
 	{
-		close(pipefd[0]);
 		close(pipefd[1]);
 	}
 }
 
-void	execute_command(t_command *cmd, char **env, int pipefd[2])
+void	execute_middle(t_command *cmd, char **env, int pipefd[2])
 {
 	pid_t	pid;
 
@@ -67,12 +66,17 @@ void	execute_command(t_command *cmd, char **env, int pipefd[2])
 	pid = fork();
 	if (pid == 0)
 	{
-		// dup2(cmd->fd_in, 0);
-		// dup2(cmd->fd_out, 1);
-		// close(cmd->pipe[1]);
-		// close(cmd->pipe[0]);
+		dup2(pipefd[0], STDIN_FILENO);
+		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[1]);
+		close(pipefd[0]);
 		if (execve(cmd->command[0], cmd->command, env) == -1)
-			exit(1);
+			printf("exitmiddle");
+	}
+	else
+	{
+		close(pipefd[0]);
+		close(pipefd[1]);
 	}
 }
 
@@ -92,7 +96,6 @@ void	execute_last(t_command *cmd, char **env, int pipefd[2])
 	else
 	{
 		close(pipefd[0]);
-		close(pipefd[1]);
 	}
 }
 
@@ -117,14 +120,12 @@ void	execute_pipeline(t_node *node, char **env)
 		command = node_to_command(node->right, env);
 		execute_last(command, env, pipefd);
 	}
-	// else
-	// {
-	//     printf("middle : (%s)\n", node->right->raw_command[0]);
-	//     command = node_to_command(node->right);
-	//     command->fd_in = command->pipe[0];
-	//     command->fd_out = command->pipe[1];
-	//     execute_command(command, minishell);
-	// }
+	else
+	{
+	    printf("middle : (%s)\n", node->right->raw_command);
+	    command = node_to_command(node->right, env);
+	    execute_middle(command, env, pipefd);
+	}
 }
 
 void    wait_all(int nb_cmd)
@@ -214,5 +215,5 @@ void	prep_exec(t_node *node, t_minishell *minishell)
 	minishell->stdin = dup(0);
 	minishell->stdout = dup(1);
 	exec(node, minishell);
-	wait_all(2);
+	wait_all(3);
 }

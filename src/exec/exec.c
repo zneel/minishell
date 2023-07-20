@@ -6,13 +6,19 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:55 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/20 11:47:23 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/20 22:42:38 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "minishell.h"
 #include <stdio.h>
+
+void	close_if(int fd)
+{
+	if (fd >= 0)
+		close(fd);
+}
 
 int	nb_node(t_node *node)
 {
@@ -41,42 +47,31 @@ void	execute_first(t_command *cmd, char **env,int pipefd[2])
 	pid_t	pid;
 
 	pid = fork();
-	(void)cmd;
 	if (pid == 0)
 	{
-		dup2(0, STDIN_FILENO);
-		close(pipefd[0]);
+		close_if(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[1]);
+		close_if(pipefd[1]);
 		if (execve(cmd->command[0], cmd->command, env) == -1)
 			printf("exitlast");
 	}
-	else
-	{
-		close(pipefd[1]);
-	}
 }
 
-void	execute_middle(t_command *cmd, char **env, int pipefd[2])
+void	execute_middle(t_command *cmd, char **env, int pipefd[2], int newPipe[2])
 {
 	pid_t	pid;
 
-	(void)cmd;
-	(void)pipefd;
 	pid = fork();
 	if (pid == 0)
 	{
+		close_if(pipefd[1]);
 		dup2(pipefd[0], STDIN_FILENO);
-		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[1]);
-		close(pipefd[0]);
+		close_if(pipefd[0]);
+		close_if(newPipe[0]);
+		dup2(newPipe[1], STDOUT_FILENO);
+		close_if(newPipe[1]);
 		if (execve(cmd->command[0], cmd->command, env) == -1)
 			printf("exitmiddle");
-	}
-	else
-	{
-		close(pipefd[0]);
-		close(pipefd[1]);
 	}
 }
 
@@ -87,44 +82,57 @@ void	execute_last(t_command *cmd, char **env, int pipefd[2])
 	pid = fork();
 	if (pid == 0)
 	{
-		close(pipefd[1]);
-		dup2(pipefd[0], 0);
-		close(pipefd[0]);
+		close_if(pipefd[1]);
+		dup2(pipefd[0], STDIN_FILENO);
+		close_if(pipefd[0]);
 		if (execve(cmd->command[0], cmd->command, env) == -1)
 			printf("exitlast");
-	}
-	else
-	{
-		close(pipefd[0]);
 	}
 }
 
 void	execute_pipeline(t_node *node, char **env)
 {
 	t_command	*command;
-	int pipefd[2];
+	int 		pipefd[2][2];
 
 	if (node->left->type == PIPE)
 		execute_pipeline(node->left, env);
-    pipe(pipefd);
+	pipefd[0][0] = -1;
+	pipefd[0][1] = -1;
+	pipefd[1][0] = -1;
+	pipefd[1][1] = -1;
 	if (node->left->type != PIPE)
 	{
+		pipe(pipefd[1]);
 		printf("first : (%s)\n", node->left->raw_command);
 		command = node_to_command(node->left, env);
-		execute_first(command, env, pipefd);
+		execute_first(command, env, pipefd[1]);
+		close_if(pipefd[0][0]);
+		pipefd[0][0] = pipefd[1][0];
+		pipefd[1][0] = -1;
+		close_if(pipefd[1][1]);
 	}
 	if ((node->parent && node->parent->type != PIPE) || (!node->parent
 			&& node->right->type == COMMAND))
 	{
 		printf("last : (%s)\n", node->right->raw_command);
 		command = node_to_command(node->right, env);
-		execute_last(command, env, pipefd);
+		execute_last(command, env, pipefd[0]);
+		close_if(pipefd[0][0]);
+		close_if(pipefd[0][1]);
+		close_if(pipefd[1][0]);
+		close_if(pipefd[1][1]);
 	}
-	else
+	if (node->parent && node->parent->type == PIPE)
 	{
+		pipe(pipefd[1]);
 	    printf("middle : (%s)\n", node->right->raw_command);
 	    command = node_to_command(node->right, env);
-	    execute_middle(command, env, pipefd);
+	    execute_middle(command, env, pipefd[0], pipefd[1]);
+		close_if(pipefd[0][0]);
+		pipefd[0][0] = pipefd[1][0];
+		pipefd[1][0] = -1;
+		close_if(pipefd[1][1]);
 	}
 }
 
@@ -215,5 +223,5 @@ void	prep_exec(t_node *node, t_minishell *minishell)
 	minishell->stdin = dup(0);
 	minishell->stdout = dup(1);
 	exec(node, minishell);
-	wait_all(3);
+	wait_all(4);
 }

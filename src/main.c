@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/20 11:15:02 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/20 22:47:25 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,26 @@ int	main(int argc, char **argv, char **env)
         .left = &(t_node){
             .type = PIPE,
             .left = &(t_node){
-                .type = COMMAND,
-                .raw_command = "yes",
+                .type = PIPE,
+                .left = &(t_node){
+                    .type = COMMAND,
+                    .raw_command = "yes",
+                    .parent= &ast,
+                     .left = NULL,
+                    .right = NULL,
+                },
+                .right = &(t_node){
+                    .type = COMMAND,
+                    .raw_command = "head",
+                    .parent= &ast,
+                    .left = NULL,
+                    .right = NULL,
+                },
                 .parent = &ast,
-                .left = NULL,
-                .right = NULL,
             },
             .right = &(t_node){
                 .type = COMMAND,
-                .raw_command = "head",
+                .raw_command = "cat -e",
                 .parent= &ast,
                 .left = NULL,
                 .right = NULL,
@@ -40,8 +51,27 @@ int	main(int argc, char **argv, char **env)
         },
         .right = &(t_node){
             .type = COMMAND,
-            .raw_command = "cat -e",
+            .raw_command = "cat",
             .parent = &ast,
+            .left = NULL,
+            .right = NULL,
+        },
+        .parent = NULL
+    };
+
+    t_node test = {
+        .type = PIPE,
+        .left = &(t_node){
+            .type = COMMAND,
+            .raw_command = "yes",
+            .parent = &ast,
+            .left = NULL,
+            .right = NULL,
+        },
+        .right = &(t_node){
+            .type = COMMAND,
+            .raw_command = "head",
+            .parent= &ast,
             .left = NULL,
             .right = NULL,
         },
@@ -83,11 +113,13 @@ int	main(int argc, char **argv, char **env)
 	t_minishell	minishell;
 	// char		*line;
 
-	(void)argc;
 	(void)argv;
 	minishell.env = env_cpy(env);
-    prep_exec(&ast, &minishell);
-	// while (1)
+    if (argc == 1)
+        prep_exec(&test, &minishell);
+    else
+        prep_exec(&ast, &minishell);
+    // while (1)
 	// {
 	// 	line = readline("minishell> ");
 	// 	if (!line)
@@ -99,5 +131,5 @@ int	main(int argc, char **argv, char **env)
 	// 	delete_lexer(lexed);
 	// }
 	// ft_lstclear_env(&minishell.env, free);
-	return (0);
+    return (0);
 }

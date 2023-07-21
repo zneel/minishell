@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:55 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/20 22:42:38 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/21 14:52:30 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,120 +42,158 @@ t_command	*node_to_command(t_node *node, char **env)
 	return (command);
 }
 
-void	execute_first(t_command *cmd, char **env,int pipefd[2])
+void	execute_first(t_command *cmd, char **env, int pipefd[2][2])
 {
 	pid_t	pid;
+	int		fdin;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		close_if(pipefd[0]);
-		dup2(pipefd[1], STDOUT_FILENO);
-		close_if(pipefd[1]);
+		fdin = open("/dev/stdin", O_RDONLY);
+		dup2(fdin, STDIN_FILENO);
+		close(fdin);
+		close_if(pipefd[1][0]);
+		dup2(pipefd[1][1], STDOUT_FILENO);
+		close_if(pipefd[1][1]);
+	}
+	else
+	{
+		close_if(pipefd[0][0]);
+		pipefd[0][0] = pipefd[1][0];
+		pipefd[1][0] = -1;
+		close_if(pipefd[1][1]);
+	}
+	if (pid == 0)
+	{
 		if (execve(cmd->command[0], cmd->command, env) == -1)
 			printf("exitlast");
 	}
 }
 
-void	execute_middle(t_command *cmd, char **env, int pipefd[2], int newPipe[2])
+void	execute_middle(t_command *cmd, char **env, int pipefd[2][2])
 {
 	pid_t	pid;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		close_if(pipefd[1]);
-		dup2(pipefd[0], STDIN_FILENO);
-		close_if(pipefd[0]);
-		close_if(newPipe[0]);
-		dup2(newPipe[1], STDOUT_FILENO);
-		close_if(newPipe[1]);
+		close_if(pipefd[0][1]);
+		dup2(pipefd[0][0], STDIN_FILENO);
+		close_if(pipefd[0][0]);
+		close_if(pipefd[1][0]);
+		dup2(pipefd[1][1], STDOUT_FILENO);
+		close_if(pipefd[1][1]);
+	}
+	else
+	{
+		close_if(pipefd[0][0]);
+		pipefd[0][0] = pipefd[1][0];
+		pipefd[1][0] = -1;
+		close_if(pipefd[1][1]);
+	}
+	if (pid == 0)
+	{
 		if (execve(cmd->command[0], cmd->command, env) == -1)
 			printf("exitmiddle");
 	}
 }
 
-void	execute_last(t_command *cmd, char **env, int pipefd[2])
+void	execute_last(t_command *cmd, char **env, int pipefd[2][2])
 {
 	pid_t	pid;
+	int		fdout;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		close_if(pipefd[1]);
-		dup2(pipefd[0], STDIN_FILENO);
-		close_if(pipefd[0]);
+		close_if(pipefd[0][1]);
+		dup2(pipefd[0][0], STDIN_FILENO);
+		close_if(pipefd[0][0]);
+		fdout = open("/dev/stdout", O_WRONLY);
+		dup2(fdout, 1);
+		close(fdout);
+	}
+	else
+	{
+		close_if(pipefd[0][0]);
+		pipefd[0][0] = -1;
+	}
+	if (pid == 0)
+	{
 		if (execve(cmd->command[0], cmd->command, env) == -1)
 			printf("exitlast");
 	}
 }
 
-void	execute_pipeline(t_node *node, char **env)
+void	init_pipes(int pipefd[2][2])
 {
-	t_command	*command;
-	int 		pipefd[2][2];
-
-	if (node->left->type == PIPE)
-		execute_pipeline(node->left, env);
 	pipefd[0][0] = -1;
 	pipefd[0][1] = -1;
 	pipefd[1][0] = -1;
 	pipefd[1][1] = -1;
-	if (node->left->type != PIPE)
-	{
-		pipe(pipefd[1]);
-		printf("first : (%s)\n", node->left->raw_command);
-		command = node_to_command(node->left, env);
-		execute_first(command, env, pipefd[1]);
-		close_if(pipefd[0][0]);
-		pipefd[0][0] = pipefd[1][0];
-		pipefd[1][0] = -1;
-		close_if(pipefd[1][1]);
-	}
-	if ((node->parent && node->parent->type != PIPE) || (!node->parent
-			&& node->right->type == COMMAND))
-	{
-		printf("last : (%s)\n", node->right->raw_command);
-		command = node_to_command(node->right, env);
-		execute_last(command, env, pipefd[0]);
-		close_if(pipefd[0][0]);
-		close_if(pipefd[0][1]);
-		close_if(pipefd[1][0]);
-		close_if(pipefd[1][1]);
-	}
-	if (node->parent && node->parent->type == PIPE)
-	{
-		pipe(pipefd[1]);
-	    printf("middle : (%s)\n", node->right->raw_command);
-	    command = node_to_command(node->right, env);
-	    execute_middle(command, env, pipefd[0], pipefd[1]);
-		close_if(pipefd[0][0]);
-		pipefd[0][0] = pipefd[1][0];
-		pipefd[1][0] = -1;
-		close_if(pipefd[1][1]);
-	}
 }
 
-void    wait_all(int nb_cmd)
+void	execute_pipeline(t_node *root, t_node *node, char **env,
+		int pipefd[2][2])
 {
-    int i;
-    
-    i = 0;
-    while (i < nb_cmd)
-    {
-        wait(NULL);
-        i++;
-    }
-}
-
-void	exec(t_node *node, t_minishell *minishell)
-{
-	// t_command	*command;
+	t_command	*command;
 
 	if (!node)
 		return ;
 	if (node->type == PIPE)
-		execute_pipeline(node, convert_env(minishell->env));
+	{
+		execute_pipeline(root, node->left, env, pipefd);
+		execute_pipeline(root, node->right, env, pipefd);
+	}
+	if (node->type == COMMAND)
+	{
+		command = node_to_command(node, env);
+		if (node->parent && node->parent->type == PIPE
+			&& node->parent->left == node)
+		{
+			pipe(pipefd[1]);
+			printf("first : (%s)\n", node->raw_command);
+			execute_first(command, env, pipefd);
+		}
+		else if (node->parent && node->parent->type == PIPE
+				&& node->parent->right == node && node->parent != root)
+		{
+			pipe(pipefd[1]);
+			printf("middle : (%s)\n", node->raw_command);
+			execute_middle(command, env, pipefd);
+		}
+		else if (node->parent && node->parent == root
+				&& node->parent->right == node)
+		{
+			printf("last : (%s)\n", node->raw_command);
+			execute_last(command, env, pipefd);
+		}
+	}
+}
+
+void	wait_all(int nb_cmd)
+{
+	int	i;
+
+	i = 0;
+	while (i < nb_cmd)
+	{
+		wait(NULL);
+		i++;
+	}
+}
+
+void	exec(t_node *node, t_minishell *minishell)
+{
+	int	pipefd[2][2];
+
+	init_pipes(pipefd);
+	// t_command	*command;
+	if (!node)
+		return ;
+	if (node->type == PIPE)
+		execute_pipeline(node, node, convert_env(minishell->env), pipefd);
 	// else if (node->type == COMMAND)
 	// {
 	// 	command = node_to_command(node, convert_env(minishell->env));
@@ -220,8 +258,8 @@ void	exec(t_node *node, t_minishell *minishell)
 
 void	prep_exec(t_node *node, t_minishell *minishell)
 {
-	minishell->stdin = dup(0);
-	minishell->stdout = dup(1);
+	// minishell->stdin = dup(0);
+	// minishell->stdout = dup(1);
 	exec(node, minishell);
-	wait_all(4);
+	wait_all(3);
 }

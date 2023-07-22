@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/21 14:33:54 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/22 09:41:06 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ typedef struct s_minishell
 typedef struct s_command
 {
 	char		**command;
-	int			fd_in;
-	int			fd_out;
+	char		*file_in;
+	char		*file_out;
 }				t_command;
 
 char			**ft_separate(char *str, char sep);

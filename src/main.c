@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/22 17:17:34 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/23 09:26:36 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ int	main(int argc, char **argv, char **env)
         .parent = NULL};
     t_node command2 = {
         .type = COMMAND,
-        .raw_command = "head -n 5",
+        .raw_command = "fsaf",
         .left = NULL,
         .right = NULL,
         .parent = NULL};
@@ -239,6 +239,5 @@ int	main(int argc, char **argv, char **env)
 	//pretty_print_ast(&astre, "");
 	prep_exec(&astre, &minishell);
 	ft_lstclear_env(&minishell.env, free);
-
 	return (0);
 }

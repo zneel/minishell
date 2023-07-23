@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 11:04:11 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/22 17:10:11 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/23 09:18:53 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,9 @@ void	free_cmd(t_command *cmd)
 {
 	free_mat(cmd->command);
 	free(cmd);
+}
+
+void	free_minishell(t_minishell *minishell)
+{
+	ft_lstclear_env(&minishell->env, free);
 }

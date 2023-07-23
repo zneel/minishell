@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:54:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/22 16:32:15 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/22 20:45:43 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_command	*node_to_command(t_node *node, char **env)
 
 	command = malloc(sizeof(t_command));
 	if (!command)
-		return (NULL); // free all exit
+		return (NULL);
 	command->command = get_cmd(node->raw_command, env);
 	command->file_in = "/dev/stdin";
 	command->file_out = "/dev/stdout";

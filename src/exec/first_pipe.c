@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:37 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/22 17:14:46 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/23 09:14:42 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,10 @@ void	child_first(t_command *cmd, int pipefd[2][2])
 	close_if(pipefd[1][1]);
 }
 
-int	execute_first(t_command *cmd, char **env, int pipefd[2][2])
+int	execute_first(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 {
 	pid_t	pid;
+	char	**env;
 
 	pid = fork();
 	if (pid == -1)
@@ -47,8 +48,14 @@ int	execute_first(t_command *cmd, char **env, int pipefd[2][2])
 		parent_first(pipefd);
 	if (pid == 0)
 	{
-		if (execve(cmd->command[0], cmd->command, env) == -1)
+		env = convert_env(minishell->env);
+		if (!env)
+			return (1);
+		if ((cmd->command == NULL || cmd->command[0] == NULL) || (execve(cmd->command[0], cmd->command, env) == -1))
 		{
+			free_cmd(cmd);
+			free_mat(env);
+			free_minishell(minishell);
 			exit(msg_error("Cmd not found"));
 		}
 	}

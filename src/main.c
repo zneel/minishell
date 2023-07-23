@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/23 10:02:42 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/23 10:09:27 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ int	main(int argc, char **argv, char **env)
         .right = NULL,
         .parent = NULL};
     t_node redirout = {
-        .type = GREAT,
+        .type = DGREAT,
         .raw_command = "out",
         .left = NULL,
         .right = NULL,
@@ -237,7 +237,13 @@ int	main(int argc, char **argv, char **env)
     redirin.parent = &command1;
 	
 	//pretty_print_ast(&astre, "");
-	prep_exec(&astre, &minishell);
+    t_node alone = {
+        .type = COMMAND,
+        .raw_command = "cat",
+        .left = &redirin,
+        .right = &redirout,
+        .parent = NULL};
+	prep_exec(&alone, &minishell);
 	ft_lstclear_env(&minishell.env, free);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/23 09:41:59 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/23 10:12:18 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdio.h>
+
+# define file_heredoc "/tmp/here_doc.tmp"
+
 typedef struct s_kv
 {
 	char		*key;

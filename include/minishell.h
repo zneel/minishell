@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/22 09:41:06 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/23 09:41:59 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct s_command
 	char		**command;
 	char		*file_in;
 	char		*file_out;
+	int			has_heredoc;
+	int			has_append;
 }				t_command;
 
 char			**ft_separate(char *str, char sep);

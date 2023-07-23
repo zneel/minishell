@@ -1,43 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/06 15:25:00 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/23 09:40:00 by mhoyer           ###   ########.fr       */
+/*   Created: 2023/07/23 09:51:32 by mhoyer            #+#    #+#             */
+/*   Updated: 2023/07/23 10:03:58 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "exec.h"
 
-#include "lexer.h"
-
-typedef struct s_node t_node;
-
-typedef enum e_node_type
+void	here_doc(char *limiter)
 {
-	PIPE,
-	AND,
-	OR,
-	LESS,
-	DLESS,
-	GREAT,
-	DGREAT,
-	COMMAND,
-	L_PAREN,
-	R_PAREN,
-}						t_node_type;
-
-struct s_node
-{
-	t_node_type			type;
-	char				*raw_command;
-	t_node				*left;
-	t_node				*right;
-	t_node				*parent;
-};
-
-#endif
+	int	fd;
+	char	*line;
+	
+	fd = open("/tmp/here_doc.tmp", O_WRONLY | O_CREAT, 0777);
+	if (fd == -1)
+		return ;
+	line = readline("here_doc> ");
+	while (ft_strncmp(line, limiter, ft_strlen(limiter) - 1) != 0)
+	{
+		ft_putendl_fd(line, fd);
+		free(line);
+		line = readline("here_doc> ");
+	}
+	close(fd);
+}

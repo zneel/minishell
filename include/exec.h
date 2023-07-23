@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:21 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/23 09:18:36 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/23 09:52:13 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 char		**get_cmd(char *raw_cmd, char **env);
 int   		prep_exec(t_node *node, t_minishell *minishell);
+void	here_doc(char *limiter);
 
 void		execute_command(t_command *cmd, t_minishell *minishell);
 int		execute_first(t_command *cmd, t_minishell *minishell, int pipefd[2][2]);

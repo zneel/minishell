@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:37 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/23 09:14:42 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/23 10:00:32 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,13 @@ void	child_first(t_command *cmd, int pipefd[2][2])
 {
 	int	fdin;
 
-	fdin = open(cmd->file_in, O_RDONLY);
+	if (cmd->has_heredoc == 0)
+		fdin = open(cmd->file_in, O_RDONLY);
+	else
+	{
+		here_doc(cmd->file_in);
+		fdin = open("/tmp/here_doc.tmp", O_RDONLY);
+	}
 	if (fdin == -1)
 		exit(msg_error("Infile not found"));
 	dup2(fdin, STDIN_FILENO);

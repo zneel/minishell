@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:41 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/23 09:16:02 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/23 09:45:21 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ void	child_last(t_command *cmd, int pipefd[2][2])
 	close_if(pipefd[0][1]);
 	dup2(pipefd[0][0], STDIN_FILENO);
 	close_if(pipefd[0][0]);
-	fdout = open(cmd->file_out, O_WRONLY);
+	if (cmd->has_append == 0)
+		fdout = open(cmd->file_out, O_WRONLY | O_TRUNC);
+	else
+		fdout = open(cmd->file_out, O_WRONLY | O_APPEND);
 	dup2(fdout, STDOUT_FILENO);
 	close(fdout);
 }

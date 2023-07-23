@@ -50,6 +50,7 @@ SRC =	src/main.c \
 		src/exec/last_pipe.c \
 		src/exec/pipeline.c \
 		src/exec/utils.c \
+		src/exec/here_doc.c \
 		src/exec/error.c
 
 OBJ=$(SRC:.c=.o)

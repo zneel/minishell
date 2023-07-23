@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:54:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/22 20:45:43 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/23 09:44:13 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,33 @@ void	wait_all(int nb_cmd)
 	}
 }
 
+t_command	*open_file(t_command *command, t_node *node)
+{
+	int	fd;
+
+	if (node->right && node->right->type == GREAT)
+	{
+		command->file_out = node->right->raw_command;
+		command->has_append = 0;
+	}
+	else if (node->right && node->right->type == DGREAT)
+	{
+		command->file_out = node->right->raw_command;
+		command->has_append = 1;
+	}
+	if (access(command->file_out, F_OK | R_OK) == -1)
+	{
+		fd = open(command->file_out, O_CREAT, 0777);
+		if (fd == -1)
+			return (NULL);
+		close(fd);
+	}
+	return (command);
+}
+
 t_command	*node_to_command(t_node *node, char **env)
 {
 	t_command	*command;
-	int			fd;
 
 	command = malloc(sizeof(t_command));
 	if (!command)
@@ -52,17 +75,13 @@ t_command	*node_to_command(t_node *node, char **env)
 	if (node->left && node->left->type == LESS)
 	{
 		command->file_in = node->left->raw_command;
+		command->has_heredoc = 0;
 	}
-	else if (node->right && node->right->type == GREAT)
+	else if (node->left && node->left->type == DLESS)
 	{
-		command->file_out = node->right->raw_command;
+		command->file_in = node->left->raw_command;
+		command->has_heredoc = 1;
 	}
-	if (access(command->file_out, F_OK | R_OK) == -1)
-	{
-		fd = open(command->file_out, O_CREAT, 0777);
-		if (fd == -1)
-			return (NULL);
-		close(fd);
-	}
+	command = open_file(command, node);
 	return (command);
 }

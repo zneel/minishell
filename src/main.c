@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/23 09:26:36 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/23 10:02:42 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,14 +177,14 @@ int	main(int argc, char **argv, char **env)
 (void)env;
 
 	 t_node redirin = {
-        .type = LESS,
-        .raw_command = "/dev/stdin",
+        .type = DLESS,
+        .raw_command = "end",
         .left = NULL,
         .right = NULL,
         .parent = NULL};
     t_node redirout = {
         .type = GREAT,
-        .raw_command = "/dev/stdout",
+        .raw_command = "out",
         .left = NULL,
         .right = NULL,
         .parent = NULL,
@@ -203,13 +203,13 @@ int	main(int argc, char **argv, char **env)
         .parent = NULL};
     t_node command2 = {
         .type = COMMAND,
-        .raw_command = "fsaf",
+        .raw_command = "head",
         .left = NULL,
         .right = NULL,
         .parent = NULL};
     t_node command1 = {
         .type = COMMAND,
-        .raw_command = "cat Makefile",
+        .raw_command = "cat",
         .left = &redirin,
         .right = NULL,
         .parent = NULL};

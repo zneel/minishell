@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:21 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/23 09:52:13 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/23 19:17:04 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "parser.h"
 # include "libft.h"
+# include "ft_printf.h"
 # include "minishell.h"
 # include <sys/stat.h>
 # include <sys/types.h>
@@ -36,7 +37,7 @@ void		init_pipes(int pipefd[2][2]);
 void		close_if(int fd);
 void		wait_all(int nb_cmd);
 t_command	*node_to_command(t_node *node, char **env);
-int			msg_error(char *str);
+int			msg_error(char *str, char * error);
 void	free_cmd(t_command *cmd);
 void	free_minishell(t_minishell *minishell);
 

@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:39 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/23 09:14:57 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/23 19:21:25 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,11 @@ int	execute_middle(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 			return (1);
 		if ((cmd->command == NULL || cmd->command[0] == NULL) || (execve(cmd->command[0], cmd->command, env) == -1))
 		{
+			msg_error("Cmd not found", cmd->command[0]);
 			free_cmd(cmd);
 			free_mat(env);
 			free_minishell(minishell);
-			exit(msg_error("Cmd not found"));
+			exit(1);
 		}
 	}
 	return (0);

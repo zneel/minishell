@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 12:57:05 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/19 13:05:33 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/23 19:26:42 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,7 @@ char	**get_cmd(char *raw_cmd, char **env)
 	pathed_cmd = join_cmd(cmd[0], env);
 	if (!pathed_cmd)
 	{
-		free_mat(cmd);
-		return (NULL);
+		return (cmd);
 	}
 	free(cmd[0]);
 	cmd[0] = pathed_cmd;

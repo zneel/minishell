@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:55 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/23 09:16:46 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/23 20:07:31 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	prep_exec(t_node *node, t_minishell *minishell)
 {
 	if (exec(node, minishell) == 1)
 		return (1);
-	wait_all(3);
+	wait_all(4);
+	// unlink(file_heredoc);
 	return (0);
 }

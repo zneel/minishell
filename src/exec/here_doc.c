@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 09:51:32 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/23 10:03:58 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/23 20:10:14 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	here_doc(char *limiter)
 	int	fd;
 	char	*line;
 	
-	fd = open("/tmp/here_doc.tmp", O_WRONLY | O_CREAT, 0777);
+	fd = open(file_heredoc, O_WRONLY | O_TRUNC | O_CREAT, 0777);
 	if (fd == -1)
 		return ;
 	line = readline("here_doc> ");

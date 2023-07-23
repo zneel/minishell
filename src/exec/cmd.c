@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:52:56 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/23 10:12:33 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/23 19:32:52 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ void	dup_in(t_command *cmd)
 	if (cmd->has_heredoc == 0)
 		fdin = open(cmd->file_in, O_RDONLY);
 	else
-	{
-		here_doc(cmd->file_in);
 		fdin = open(file_heredoc, O_RDONLY);
-	}
 	if (fdin == -1)
-		exit(msg_error("Infile not found"));
+	{
+		if (cmd->has_heredoc == 0)
+			exit(msg_error("No such file or directory", cmd->file_in));
+		else
+			exit(msg_error("No such file or directory", file_heredoc));
+	}
 	dup2(fdin, STDIN_FILENO);
 	close(fdin);
 }
@@ -46,6 +48,8 @@ void	execute_command(t_command *cmd, t_minishell *minishell)
 	pid_t pid;
 	char	**env;
 
+	if (cmd->has_heredoc == 1)
+		here_doc(cmd->file_in);
 	pid = fork();
 	if (pid == -1)
 		exit(1);
@@ -58,11 +62,11 @@ void	execute_command(t_command *cmd, t_minishell *minishell)
 			exit (1);
 		if ((cmd->command == NULL || cmd->command[0] == NULL) || (execve(cmd->command[0], cmd->command, env) == -1))
 		{
+			msg_error("Cmd not found", cmd->command[0]);
 			free_cmd(cmd);
 			free_mat(env);
 			free_minishell(minishell);
-			exit(msg_error("Cmd not found"));
+			exit(1);
 		}
 	}
-	unlink(file_heredoc);
 }

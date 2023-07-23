@@ -6,16 +6,15 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 11:04:11 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/23 09:18:53 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/23 19:15:44 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-int	msg_error(char *str)
+int	msg_error(char *str, char *error)
 {
-	ft_putstr_fd("Error: ", 2);
-	ft_putendl_fd(str, 2);
+	ft_dprintf(2, "%s: %s\n", error, str);
 	return (1);
 }
 

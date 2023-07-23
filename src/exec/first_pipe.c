@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:37 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/23 10:12:43 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/23 20:08:29 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,14 @@ void	child_first(t_command *cmd, int pipefd[2][2])
 	if (cmd->has_heredoc == 0)
 		fdin = open(cmd->file_in, O_RDONLY);
 	else
-	{
-		here_doc(cmd->file_in);
 		fdin = open(file_heredoc, O_RDONLY);
-	}
 	if (fdin == -1)
-		exit(msg_error("Infile not found"));
+	{
+		if (cmd->has_heredoc == 0)
+			exit(msg_error("No such file or directory", cmd->file_in));
+		else
+			exit(msg_error("No such file or directory", file_heredoc));
+	}
 	dup2(fdin, STDIN_FILENO);
 	close(fdin);
 	close_if(pipefd[1][0]);
@@ -45,6 +47,8 @@ int	execute_first(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 	pid_t	pid;
 	char	**env;
 
+	if (cmd->has_heredoc)
+		here_doc(cmd->file_in);
 	pid = fork();
 	if (pid == -1)
 		return (1);
@@ -59,12 +63,12 @@ int	execute_first(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 			return (1);
 		if ((cmd->command == NULL || cmd->command[0] == NULL) || (execve(cmd->command[0], cmd->command, env) == -1))
 		{
+			msg_error("Cmd not found", cmd->command[0]);
 			free_cmd(cmd);
 			free_mat(env);
 			free_minishell(minishell);
-			exit(msg_error("Cmd not found"));
+			exit(1);
 		}
 	}
-	unlink(file_heredoc);
 	return (0);
 }

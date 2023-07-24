@@ -41,7 +41,18 @@ SRC =	src/main.c \
 		src/env/ft_lstdelone_env.c \
 		src/env/ft_lstnew_env.c \
 		src/env/ft_lstsize_env.c \
-		src/env/free_mat.c
+		src/env/free_mat.c \
+		src/exec/exec.c \
+		src/exec/path.c \
+		src/exec/cmd.c \
+		src/exec/first_pipe.c \
+		src/exec/middle_pipe.c \
+		src/exec/last_pipe.c \
+		src/exec/pipeline.c \
+		src/exec/utils.c \
+		src/exec/here_doc.c \
+		src/exec/error.c \
+		src/exec/exec_mini.c
 
 OBJ=$(SRC:.c=.o)
 MMD=$(SRC:.c=.d)

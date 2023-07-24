@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 11:04:11 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/24 16:35:08 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/24 19:08:40 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ void	free_cmd(t_command *cmd)
 	free(cmd);
 }
 
-void	nothing(void*)
+void	nothing(void *x)
 {
+	(void)x;
 }
 
 void	free_minishell(t_minishell *minishell)

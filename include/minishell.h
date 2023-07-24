@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/24 09:17:25 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/24 19:08:14 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void			ft_lstadd_back_env(t_kv **lst, t_kv *new_node);
 void			ft_lstclear_env(t_kv **lst, void (*del)(void *));
 int				ft_lstsize_env(t_kv *lst);
 void			ft_lstdelone_env(t_kv *mem, t_kv *lst, void (*del)(void *));
+void			free_minishell(t_minishell *minishell);
 
 t_kv			*env_cpy(char **env);
 char			**convert_env(t_kv *lst);

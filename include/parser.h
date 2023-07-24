@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:25:00 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/24 16:11:31 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/24 18:03:09 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,17 @@ typedef enum e_node_type
 	AND,
 	OR,
 	LESS,
-	DLESS,
 	GREAT,
 	DGREAT,
 	COMMAND,
-	L_PAREN,
-	R_PAREN,
+	HERE_DOC,
+	UNKNOWN,
 }						t_node_type;
 
 struct					s_node
 {
 	t_node_type			type;
-	char				*raw_command;
+	char				*data;
 	t_node				*left;
 	t_node				*right;
 	t_node				*parent;

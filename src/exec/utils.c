@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:54:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/24 12:38:45 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/24 18:06:27 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,15 @@ t_command	*open_file(t_command *command, t_node *node)
 	int	fd;
 
 	if (node->right && node->right->type == GREAT)
-		command->file_out = node->right->raw_command;
+		command->file_out = node->right->data;
 	else if (node->right && node->right->type == DGREAT)
 	{
-		command->file_out = node->right->raw_command;
+		command->file_out = node->right->data;
 		command->has_append = 1;
 	}
 	if (access(command->file_out, F_OK | R_OK) == -1)
 	{
-		fd = open(command->file_out, O_CREAT, 0777);
+		fd = open(command->file_out, O_CREAT, 0644);
 		if (fd == -1)
 			return (NULL);
 		close(fd);
@@ -66,16 +66,16 @@ t_command	*node_to_command(t_node *node, char **env)
 	command = malloc(sizeof(t_command));
 	if (!command)
 		return (NULL);
-	command->command = get_cmd(node->raw_command, env);
+	command->command = get_cmd(node->data, env);
 	command->file_in = "/dev/stdin";
 	command->file_out = "/dev/stdout";
 	command->has_heredoc = 0;
 	command->has_append = 0;
 	if (node->left && node->left->type == LESS)
-		command->file_in = node->left->raw_command;
-	else if (node->left && node->left->type == DLESS)
+		command->file_in = node->left->data;
+	else if (node->left && node->left->type == HERE_DOC)
 	{
-		command->file_in = node->left->raw_command;
+		command->file_in = node->left->data;
 		command->has_heredoc = 1;
 	}
 	command = open_file(command, node);

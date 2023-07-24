@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:41 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/24 15:43:13 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/24 18:20:52 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	child_last(t_command *cmd, int pipefd[2][2])
 	close_if(pipefd[0][1]);
 	dup2(pipefd[0][0], STDIN_FILENO);
 	close_if(pipefd[0][0]);
-	if (cmd->has_append == 0)
+	if (cmd->has_append == false)
 		fdout = open(cmd->file_out, O_WRONLY | O_TRUNC);
 	else
 		fdout = open(cmd->file_out, O_WRONLY | O_APPEND);
@@ -50,7 +50,7 @@ int	execute_last(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 	{
 		env = convert_env(minishell->env);
 		if (!env)
-			return (1);
+			exec_failed(cmd, env, minishell);
 		if (execve(cmd->command[0], cmd->command, env) == -1)
 			exec_failed(cmd, env, minishell);
 	}

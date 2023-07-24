@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:37 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/24 15:43:01 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/24 18:01:29 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ void	child_first(t_command *cmd, int pipefd[2][2])
 {
 	int	fdin;
 
-	if (cmd->has_heredoc == 0)
-		fdin = open(cmd->file_in, O_RDONLY);
+	if (cmd->has_heredoc == false)
+		fdin = open(cmd->file_in, O_RDONLY, 0644);
 	else
-		fdin = open(file_heredoc, O_RDONLY);
+		fdin = open(file_heredoc, O_RDONLY, 0644);
 	if (fdin == -1)
 	{
-		if (cmd->has_heredoc == 0)
+		if (cmd->has_heredoc == false)
 			exit(msg_error("No such file or directory", cmd->file_in));
 		else
 			exit(msg_error("No such file or directory", file_heredoc));

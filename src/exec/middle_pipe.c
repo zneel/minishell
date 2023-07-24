@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:39 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/24 15:43:08 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/24 18:20:47 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	execute_middle(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 	{
 		env = convert_env(minishell->env);
 		if (!env)
-			return (1);
+			exec_failed(cmd, env, minishell);
 		if (execve(cmd->command[0], cmd->command, env) == -1)
 			exec_failed(cmd, env, minishell);
 	}

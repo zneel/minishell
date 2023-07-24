@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:52:56 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/24 16:10:53 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/24 18:30:11 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ void	dup_in(t_command *cmd)
 {
 	int	fdin;
 
-	if (cmd->has_heredoc == 0)
-		fdin = open(cmd->file_in, O_RDONLY);
+	if (cmd->has_heredoc == false)
+		fdin = open(cmd->file_in, O_RDONLY, 0644);
 	else
-		fdin = open(file_heredoc, O_RDONLY);
+		fdin = open(file_heredoc, O_RDONLY, 0644);
 	if (fdin == -1)
 	{
-		if (cmd->has_heredoc == 0)
+		if (cmd->has_heredoc == false)
 			exit(msg_error("No such file or directory", cmd->file_in));
 		else
 			exit(msg_error("No such file or directory", file_heredoc));
@@ -35,7 +35,7 @@ void	dup_out(t_command *cmd)
 {
 	int	fdout;
 
-	if (cmd->has_append == 0)
+	if (cmd->has_append == false)
 		fdout = open(cmd->file_out, O_WRONLY | O_TRUNC);
 	else
 		fdout = open(cmd->file_out, O_WRONLY | O_APPEND);
@@ -48,7 +48,7 @@ void	execute_command(t_command *cmd, t_minishell *minishell)
 	pid_t	pid;
 	char	**env;
 
-	if (cmd->has_heredoc == 1)
+	if (cmd->has_heredoc == true)
 		here_doc(cmd->file_in);
 	pid = fork();
 	if (pid == -1)
@@ -59,7 +59,7 @@ void	execute_command(t_command *cmd, t_minishell *minishell)
 		dup_out(cmd);
 		env = convert_env(minishell->env);
 		if (!env)
-			exit(1);
+			exec_failed(cmd, env, minishell);
 		if (execve(cmd->command[0], cmd->command, env) == -1)
 			exec_failed(cmd, env, minishell);
 	}

@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/24 16:36:46 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/24 18:03:21 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,8 @@ char    *node_type_to_str(t_node_type type)
         return ("GREAT");
     case DGREAT:
         return ("DGREAT");
-    case L_PAREN:
-        return ("L_PAREN");
-    case R_PAREN:
-        return ("R_PAREN");
+    case HERE_DOC:
+        return ("HERE_DOC");
     default:
         return ("UNKNOWN");
     }
@@ -51,8 +49,8 @@ void    pretty_print_ast(t_node *node, char *prefix)
     if (node == NULL)
         return ;
     printf("%s├── Type: %s\n", prefix, node_type_to_str(node->type));
-    if (node->raw_command != NULL)
-        printf("%s|   ├── Command: %s\n", prefix, node->raw_command);
+    if (node->data != NULL)
+        printf("%s|   ├── Command: %s\n", prefix, node->data);
     len = strlen(prefix);
     new_prefix = malloc(len + 5);
     strcpy(new_prefix, prefix);

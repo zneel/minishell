@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:21 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/24 16:35:15 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/24 23:00:17 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "libft.h"
 # include "minishell.h"
 # include "parser.h"
+# include "builtin.h"
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -26,6 +27,7 @@ char		**get_cmd(char *raw_cmd, char **env);
 int			prep_exec(t_node *node, t_minishell *minishell);
 void		here_doc(char *limiter);
 
+int			exec_builtin(t_command *cmd, t_minishell *minishell);
 int			exec_cmd(t_node *node, t_minishell *minishell);
 int			exec_or(t_node *node, t_minishell *minishell);
 int			exec_and(t_node *node, t_minishell *minishell);

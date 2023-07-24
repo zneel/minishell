@@ -6,16 +6,16 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:25:00 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/23 09:40:00 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/24 16:11:31 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-#include "lexer.h"
+# include "lexer.h"
 
-typedef struct s_node t_node;
+typedef struct s_node	t_node;
 
 typedef enum e_node_type
 {
@@ -31,7 +31,7 @@ typedef enum e_node_type
 	R_PAREN,
 }						t_node_type;
 
-struct s_node
+struct					s_node
 {
 	t_node_type			type;
 	char				*raw_command;

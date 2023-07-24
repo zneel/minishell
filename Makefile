@@ -51,7 +51,8 @@ SRC =	src/main.c \
 		src/exec/pipeline.c \
 		src/exec/utils.c \
 		src/exec/here_doc.c \
-		src/exec/error.c
+		src/exec/error.c \
+		src/exec/exec_mini.c
 
 OBJ=$(SRC:.c=.o)
 MMD=$(SRC:.c=.d)

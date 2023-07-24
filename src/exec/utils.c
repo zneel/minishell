@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:54:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/23 09:44:13 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/24 12:38:45 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ void	close_if(int fd)
 		close(fd);
 }
 
-void	wait_all(int nb_cmd)
+void	wait_all(t_minishell *minishell)
 {
-	int	i;
+	t_list	*parc;
 
-	i = 0;
-	while (i < nb_cmd)
+	parc = minishell->pids;
+	while (parc)
 	{
-		wait(NULL);
-		i++;
+		waitpid(-1, &minishell->status, 0);
+		parc = parc->next;
 	}
 }
 
@@ -43,10 +43,7 @@ t_command	*open_file(t_command *command, t_node *node)
 	int	fd;
 
 	if (node->right && node->right->type == GREAT)
-	{
 		command->file_out = node->right->raw_command;
-		command->has_append = 0;
-	}
 	else if (node->right && node->right->type == DGREAT)
 	{
 		command->file_out = node->right->raw_command;
@@ -72,11 +69,10 @@ t_command	*node_to_command(t_node *node, char **env)
 	command->command = get_cmd(node->raw_command, env);
 	command->file_in = "/dev/stdin";
 	command->file_out = "/dev/stdout";
+	command->has_heredoc = 0;
+	command->has_append = 0;
 	if (node->left && node->left->type == LESS)
-	{
 		command->file_in = node->left->raw_command;
-		command->has_heredoc = 0;
-	}
 	else if (node->left && node->left->type == DLESS)
 	{
 		command->file_in = node->left->raw_command;

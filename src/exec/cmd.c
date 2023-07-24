@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:52:56 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/23 19:32:52 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/24 16:10:53 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	dup_in(t_command *cmd)
 {
-	int fdin;
+	int	fdin;
 
 	if (cmd->has_heredoc == 0)
 		fdin = open(cmd->file_in, O_RDONLY);
@@ -45,7 +45,7 @@ void	dup_out(t_command *cmd)
 
 void	execute_command(t_command *cmd, t_minishell *minishell)
 {
-	pid_t pid;
+	pid_t	pid;
 	char	**env;
 
 	if (cmd->has_heredoc == 1)
@@ -59,14 +59,10 @@ void	execute_command(t_command *cmd, t_minishell *minishell)
 		dup_out(cmd);
 		env = convert_env(minishell->env);
 		if (!env)
-			exit (1);
-		if ((cmd->command == NULL || cmd->command[0] == NULL) || (execve(cmd->command[0], cmd->command, env) == -1))
-		{
-			msg_error("Cmd not found", cmd->command[0]);
-			free_cmd(cmd);
-			free_mat(env);
-			free_minishell(minishell);
 			exit(1);
-		}
+		if (execve(cmd->command[0], cmd->command, env) == -1)
+			exec_failed(cmd, env, minishell);
 	}
+	else
+		ft_lstadd_back(&minishell->pids, ft_lstnew(&pid));
 }

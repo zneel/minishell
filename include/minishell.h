@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/23 10:12:18 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/24 09:17:25 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef struct s_kv
 typedef struct s_minishell
 {
 	t_kv		*env;
+	t_list		*pids;
+	int			status;
 	int			stdin;
 	int			stdout;
 }				t_minishell;

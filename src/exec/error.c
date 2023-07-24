@@ -6,15 +6,24 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 11:04:11 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/23 19:15:44 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/24 16:35:08 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
+void	exec_failed(t_command *cmd, char **env, t_minishell *minishell)
+{
+	msg_error("Cmd not found", cmd->command[0]);
+	free_cmd(cmd);
+	free_mat(env);
+	free_minishell(minishell);
+	exit(1);
+}
+
 int	msg_error(char *str, char *error)
 {
-	ft_dprintf(2, "%s: %s\n", error, str);
+	ft_dprintf(2, "minishell: %s: %s\n", error, str);
 	return (1);
 }
 
@@ -24,7 +33,12 @@ void	free_cmd(t_command *cmd)
 	free(cmd);
 }
 
+void	nothing(void*)
+{
+}
+
 void	free_minishell(t_minishell *minishell)
 {
+	ft_lstclear(&minishell->pids, nothing);
 	ft_lstclear_env(&minishell->env, free);
 }

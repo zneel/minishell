@@ -6,14 +6,14 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 00:42:28 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/24 14:08:46 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:58:42 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "libft.h"
 
-char	*token_to_str(t_type type)
+char	*token_to_tstr(t_type type)
 {
 	if (type == T_WORD)
 		return ("T_WORD");
@@ -41,9 +41,37 @@ char	*token_to_str(t_type type)
 		return ("T_UNKNOWN");
 }
 
+char	*token_to_str(t_type type)
+{
+	if (type == T_WORD)
+		return ("T_WORD");
+	else if (type == T_PIPE)
+		return ("|");
+	else if (type == T_AND)
+		return ("&&");
+	else if (type == T_OR)
+		return ("||");
+	else if (type == T_GREAT)
+		return (">");
+	else if (type == T_LESS)
+		return ("<");
+	else if (type == T_DLESS)
+		return ("<<");
+	else if (type == T_DGREAT)
+		return (">>");
+	else if (type == T_LPAREN)
+		return ("(");
+	else if (type == T_RPAREN)
+		return (")");
+	else if (type == T_EOF)
+		return ("(null)");
+	else
+		return ("T_UNKNOWN");
+}
+
 void	debug_token(t_token *token)
 {
-	printf("token->type=%s\n", token_to_str(token->type));
+	printf("token->type=%s\n", token_to_tstr(token->type));
 	printf("token->value=%s\n", token->value);
 	printf("token->len=%lu\n", token->len);
 }

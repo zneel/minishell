@@ -6,13 +6,15 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:36:20 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/05 18:29:22 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/24 12:36:03 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
+# include "ft_printf.h"
+# include <stdio.h>
 # include <stdlib.h>
 
 # define LPAREN '('
@@ -36,7 +38,8 @@
 */
 typedef enum e_type
 {
-	T_WORD = 0,
+	T_START = 0,
+	T_WORD,
 	T_PIPE,
 	T_AND,
 	T_OR,
@@ -46,8 +49,7 @@ typedef enum e_type
 	T_DGREAT,
 	T_LPAREN,
 	T_RPAREN,
-	T_END,
-	T_ERROR,
+	T_EOF,
 }					t_type;
 
 typedef struct s_token
@@ -77,5 +79,6 @@ t_token				*new_token(t_type type, char *value);
 
 void				debug_token(t_token *token);
 void				debug_lexer(t_lexer *lexer);
+char				*token_to_str(t_type type);
 
 #endif

@@ -6,11 +6,10 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 00:42:28 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/05 16:50:23 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:08:46 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
 #include "lexer.h"
 #include "libft.h"
 
@@ -36,19 +35,17 @@ char	*token_to_str(t_type type)
 		return ("T_LPAREN");
 	else if (type == T_RPAREN)
 		return ("T_RPAREN");
-	else if (type == T_END)
-		return ("T_END");
-	else if (type == T_ERROR)
-		return ("T_ERROR");
+	else if (type == T_EOF)
+		return ("T_EOF");
 	else
 		return ("T_UNKNOWN");
 }
 
 void	debug_token(t_token *token)
 {
-	ft_printf("token->type=%s\n", token_to_str(token->type));
-	ft_printf("token->value=%s\n", token->value);
-	ft_printf("token->len=%d\n", token->len);
+	printf("token->type=%s\n", token_to_str(token->type));
+	printf("token->value=%s\n", token->value);
+	printf("token->len=%lu\n", token->len);
 }
 
 void	debug_lexer(t_lexer *lexer)
@@ -56,12 +53,12 @@ void	debug_lexer(t_lexer *lexer)
 	t_token	*curr;
 
 	curr = lexer->token_lst;
-	ft_printf("====================================\n");
+	printf("====================================\n");
 	while (curr)
 	{
 		debug_token(curr);
-		ft_printf("lexer->T_count=%d\n", lexer->token_count);
-		ft_printf("====================================\n");
+		printf("lexer->T_count=%lu\n", lexer->token_count);
+		printf("====================================\n");
 		curr = curr->next;
 	}
 }

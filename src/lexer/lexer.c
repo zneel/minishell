@@ -6,11 +6,10 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:35:58 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/06 10:13:41 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:22:10 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
 #include "lexer.h"
 #include "libft.h"
 #include <stdio.h>
@@ -26,13 +25,21 @@ t_lexer	*init_lexer(char *str)
 	lexer->token_count = 0;
 	lexer->line = str;
 	lexer->line_len = ft_strlen(str);
-	lexer->curr_pos = 0;
 	lexer->read_pos = 0;
-	lexer->curr_char = '\0';
+	lexer->curr_pos = lexer->read_pos;
+	lexer->curr_char = lexer->line[lexer->read_pos];
 	return (lexer);
 }
 
-void	read_char(t_lexer *lexer)
+static char	peek(t_lexer *lexer)
+{
+	if (lexer->read_pos >= lexer->line_len)
+		return ('\0');
+	else
+		return (lexer->line[lexer->read_pos]);
+}
+
+static void	advance(t_lexer *lexer)
 {
 	if (lexer->read_pos >= lexer->line_len)
 		lexer->curr_char = '\0';
@@ -40,6 +47,23 @@ void	read_char(t_lexer *lexer)
 		lexer->curr_char = lexer->line[lexer->read_pos];
 	lexer->curr_pos = lexer->read_pos;
 	lexer->read_pos++;
+}
+
+void	advance_twice(t_lexer *lexer)
+{
+	advance(lexer);
+	advance(lexer);
+}
+
+t_bool	is_special_char(t_lexer *lexer)
+{
+	if (lexer->curr_char == '|' || (lexer->curr_char == '&'
+			&& peek(lexer) == '&') || (lexer->curr_char == '|'
+			&& peek(lexer) == '|') || lexer->curr_char == '('
+		|| lexer->curr_char == ')' || lexer->curr_char == '<'
+		|| lexer->curr_char == '>' || lexer->curr_char == '\0')
+		return (true);
+	return (false);
 }
 
 void	escape_quotes(t_lexer *lexer)
@@ -56,11 +80,12 @@ void	escape_quotes(t_lexer *lexer)
 			else if (quote == lexer->curr_char)
 				quote = 0;
 		}
-		read_char(lexer);
+		if (is_special_char(lexer) && quote == 0)
+			break ;
+		advance(lexer);
 	}
 }
 
-// stop lexing when we encounter a special char
 char	*handle_word(t_lexer *lexer)
 {
 	size_t	start;
@@ -79,28 +104,27 @@ char	*handle_word(t_lexer *lexer)
 
 t_token	*next_token(t_lexer *lexer)
 {
-	if (lexer->curr_char == '|' && lexer->line[lexer->read_pos] == '|')
-		return (read_char(lexer), new_token(T_OR, ft_strdup("||")));
-	else if (lexer->curr_char == '&' && lexer->line[lexer->read_pos] == '&')
-		return (read_char(lexer), new_token(T_AND, ft_strdup("&&")));
+	if (lexer->curr_char == '|' && peek(lexer) == '|')
+		return (advance_twice(lexer), new_token(T_OR, NULL));
+	else if (lexer->curr_char == '&' && peek(lexer) == '&')
+		return (advance_twice(lexer), new_token(T_AND, NULL));
 	else if (lexer->curr_char == '|')
-		return (new_token(T_PIPE, ft_strdup("|")));
+		return (advance(lexer), new_token(T_PIPE, NULL));
 	else if (lexer->curr_char == '(')
-		return (new_token(T_LPAREN, ft_strdup("(")));
+		return (advance(lexer), new_token(T_LPAREN, NULL));
 	else if (lexer->curr_char == ')')
-		return (new_token(T_RPAREN, ft_strdup(")")));
-	else if (lexer->curr_char == '>' && lexer->line[lexer->read_pos] == '>')
-		return (read_char(lexer), new_token(T_DGREAT, ft_strdup(">>")));
-	else if (lexer->curr_char == '<' && lexer->line[lexer->read_pos] == '<')
-		return (read_char(lexer), new_token(T_DLESS, ft_strdup("<<")));
+		return (advance(lexer), new_token(T_RPAREN, NULL));
+	else if (lexer->curr_char == '>' && peek(lexer) == '>')
+		return (advance_twice(lexer), new_token(T_DGREAT, NULL));
+	else if (lexer->curr_char == '<' && peek(lexer) == '<')
+		return (advance_twice(lexer), new_token(T_DLESS, NULL));
 	else if (lexer->curr_char == '>')
-		return (new_token(T_GREAT, ft_strdup(">")));
+		return (advance(lexer), new_token(T_GREAT, NULL));
 	else if (lexer->curr_char == '<')
-		return (new_token(T_LESS, ft_strdup("<")));
-	else if (ft_isascii(lexer->curr_char))
+		return (advance(lexer), new_token(T_LESS, NULL));
+	else if (ft_isascii(lexer->curr_char) && lexer->curr_char != '\0')
 		return (new_token(T_WORD, handle_word(lexer)));
-	else
-		return (new_token(T_ERROR, NULL));
+	return (NULL);
 }
 
 t_lexer	*lexer(char *str)
@@ -110,13 +134,15 @@ t_lexer	*lexer(char *str)
 	lexer = init_lexer(str);
 	if (!lexer)
 		return (NULL);
-	read_char(lexer);
 	while (lexer->curr_char)
 	{
-		if (!ft_isspace(lexer->curr_char))
-			add_token(lexer, next_token(lexer));
-		read_char(lexer);
+		if (ft_isspace(lexer->curr_char))
+		{
+			advance(lexer);
+			continue ;
+		}
+		add_token(lexer, next_token(lexer));
 	}
-	add_token(lexer, new_token(T_END, ft_strdup("(null)")));
+	add_token(lexer, new_token(T_EOF, NULL));
 	return (lexer);
 }

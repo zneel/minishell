@@ -1,6 +1,6 @@
 NAME=minishell
-CC=cc
-CFLAGS=-Wall -Wextra -Werror -MMD
+CC=clang
+CFLAGS=-Wall -Wextra -Werror -O2 -std=c99 -MMD
 
 RESET   = \033[0m
 RED     = \033[31m
@@ -30,6 +30,9 @@ SRC =	src/main.c \
 		src/lexer/delete.c \
 		src/lexer/token.c \
 		src/parser/parser.c \
+		src/parser/grammar.c \
+		src/parser/utils.c \
+		src/parser/ast.c \
 		src/builtin/echo.c \
 		src/builtin/pwd.c \
 		src/builtin/print_env.c \

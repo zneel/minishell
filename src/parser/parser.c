@@ -6,58 +6,66 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:05:49 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/13 09:52:10 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/24 17:06:49 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+#include <stdio.h>
 
-void	set_parser_error(t_parser *parser, t_error error)
-{
-	parser->error |= error;
-}
-
-int	accept(t_parser *parser, t_type type)
+t_bool	accept(t_parser *parser, t_type type)
 {
 	if (type == parser->current_tok->type)
 	{
 		parser->current_tok = parser->current_tok->next;
-		return (1);
+		return (true);
 	}
-	return (0);
+	return (false);
 }
 
-int	peek(t_parser *parser, t_type type)
+t_bool	peek(t_parser *parser, t_type type)
+{
+	if (type == parser->current_tok->type)
+		return (true);
+	return (false);
+}
+
+t_bool	peek_next(t_parser *parser, t_type type)
 {
 	if (type == parser->current_tok->next->type)
-		return (1);
-	return (0);
+		return (true);
+	return (false);
 }
 
-int	expect(t_parser *parser, t_type type)
+t_bool	expect(t_parser *parser, t_type type)
 {
 	if (accept(parser, type))
-		return (1);
-	set_parser_error(parser, SYNTAX_ERROR);
-	return (0);
+		return (true);
+	return (false);
 }
 
-int	init_parser(t_parser *parser)
+int	init_parser(t_parser *parser, t_lexer *lexer)
 {
-	parser->current_tok = NULL;
-	parser->root = NULL;
+	if (lexer->token_lst == NULL)
+		return (false);
+	parser->current_tok = lexer->token_lst;
 	parser->parse_state = 0;
-	parser->error = NO_ERROR;
-	return (1);
+	parser->lexer = lexer;
+	return (true);
 }
 
 t_node	*parse(t_lexer *lexer)
 {
 	t_parser	parser;
+	t_node		*root;
 
 	if (!lexer)
 		return (NULL);
-	init_parser(&parser);
-	parse_group(&parser);
-	return (parser.root);
+	if (!init_parser(&parser, lexer))
+		return (NULL);
+	root = parse_grammar(&parser);
+	if (!root)
+		return (NULL);
+	pretty_print_ast(root, "");
+	return (root);
 }

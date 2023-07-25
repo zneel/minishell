@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:35:58 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/25 10:11:23 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/25 10:42:41 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_lexer	*init_lexer(char *str)
 	lexer->read_pos = 0;
 	lexer->curr_pos = lexer->read_pos;
 	lexer->curr_char = lexer->line[lexer->read_pos];
+	lexer->read_pos++;
 	return (lexer);
 }
 

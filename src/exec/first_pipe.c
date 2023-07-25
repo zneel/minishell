@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:37 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 11:52:13 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 12:40:26 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ int	child_first(t_command *cmd, int pipefd[2][2])
 
 void	builtin_first(t_command *cmd, char **env, t_minishell *minishell)
 {
-	exec_builtin(cmd, minishell, 0);
-	exec_failed(cmd, env, minishell);
+	int status;
+
+	status = exec_builtin(cmd, minishell);
+	exec_failed(cmd, env, minishell, status);
 }
 
 int	execute_first(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
@@ -68,11 +70,11 @@ int	execute_first(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 	{
 		env = convert_env(minishell->env);
 		if (!env)
-			exec_failed(cmd, env, minishell);
+			exec_failed(cmd, env, minishell, 1);
 		if (check_builtin(cmd))
 			builtin_first(cmd, env, minishell);
 		if (execve(cmd->command[0], cmd->command, env) == -1)
-			exec_failed(cmd, env, minishell);
+			exec_failed(cmd, env, minishell, 1);
 	}
 	return (0);
 }

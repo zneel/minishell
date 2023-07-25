@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:39 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 11:35:38 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 12:42:34 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,14 @@ void	child_middle(int pipefd[2][2])
 	close_if(pipefd[1][1]);
 }
 
+void	builtin_middle(t_command *cmd, char **env, t_minishell *minishell)
+{
+	int	status;
+
+	status = exec_builtin(cmd, minishell);
+	exec_failed(cmd, env, minishell, status);
+}
+
 int	execute_middle(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 {
 	pid_t	pid;
@@ -47,14 +55,11 @@ int	execute_middle(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 	{
 		env = convert_env(minishell->env);
 		if (!env)
-			exec_failed(cmd, env, minishell);
+			exec_failed(cmd, env, minishell, 1);
 		if (check_builtin(cmd))
-		{
-			exec_builtin(cmd, minishell, 0);
-			exec_failed(cmd, env, minishell);
-		}
+			builtin_middle(cmd, env, minishell);
 		if (execve(cmd->command[0], cmd->command, env) == -1)
-			exec_failed(cmd, env, minishell);
+			exec_failed(cmd, env, minishell, 1);
 	}
 	return (0);
 }

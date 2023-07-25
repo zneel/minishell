@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:54:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 11:29:20 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 12:48:24 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	wait_all(t_minishell *minishell)
 		waitpid(-1, &minishell->last_status, 0);
 		parc = parc->next;
 	}
+	if (WIFEXITED(minishell->last_status))
+		minishell->last_status = (WEXITSTATUS(minishell->last_status));
 }
 
 t_command	*open_file(t_command *command, t_node *node)

@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:03 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 11:37:44 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 12:33:26 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	exec_cmd(t_node *node, t_minishell *minishell)
 {
 	char		**env;
-	int			std[2];
 	t_command	*command;
 
 	env = convert_env(minishell->env);
@@ -23,17 +22,8 @@ int	exec_cmd(t_node *node, t_minishell *minishell)
 		return (1);
 	command = node_to_command(node, env);
 	free_mat(env);
-	if (command->builtin)
-	{
-		std[0] = dup(STDIN_FILENO);
-		std[1] = dup(STDOUT_FILENO);
-		exec_builtin(command, minishell, 1);
-	}
-	else
-	{
-		execute_command(command, minishell);
-		wait_all(minishell);
-	}
+	execute_command(command, minishell);
+	wait_all(minishell);
 	free_cmd(command);
 	return (0);
 }

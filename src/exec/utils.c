@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:54:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 12:48:24 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 13:30:28 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ t_command	*node_to_command(t_node *node, char **env)
 	if (!command)
 		return (NULL);
 	command->command = get_cmd(node->data, env);
+	if (!command)
+		return (NULL);
 	command->builtin = check_builtin(command);
 	command->file_in = "/dev/stdin";
 	command->file_out = "/dev/stdout";

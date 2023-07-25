@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/26 21:36:25 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/26 23:14:18 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 # include "libft.h"
 # include "lists.h"
+# include "parser.h"
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -32,7 +33,7 @@ typedef struct s_minishell
 {
 	t_kv		*env;
 	t_list		*pids;
-	int			std[2];
+	t_node		*root;
 	int			last_status;
 	int			stdin;
 	int			stdout;

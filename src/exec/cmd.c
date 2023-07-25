@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:52:56 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 12:36:15 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 13:10:41 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	execute_command(t_command *cmd, t_minishell *minishell)
 {
 	pid_t	pid;
 	char	**env;
+	int		status;
 
 	if (cmd->has_heredoc == true)
 		here_doc(cmd->file_in);
@@ -59,14 +60,14 @@ void	execute_command(t_command *cmd, t_minishell *minishell)
 		dup_out(cmd);
 		env = convert_env(minishell->env);
 		if (!env)
-			exec_failed(cmd, env, minishell);
+			exec_failed(cmd, env, minishell, 1);
 		if (cmd->builtin)
 		{
-			exec_builtin(cmd, minishell);
-			exec_failed(cmd, env, minishell);
+			status = exec_builtin(cmd, minishell);
+			exec_failed(cmd, env, minishell, status);
 		}
 		if (execve(cmd->command[0], cmd->command, env) == -1)
-			exec_failed(cmd, env, minishell);
+			exec_failed(cmd, env, minishell, 1);
 	}
 	else
 		ft_lstadd_back(&minishell->pids, ft_lstnew(&pid));

@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:52:56 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 11:52:07 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 12:36:15 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,11 @@ void	execute_command(t_command *cmd, t_minishell *minishell)
 		env = convert_env(minishell->env);
 		if (!env)
 			exec_failed(cmd, env, minishell);
+		if (cmd->builtin)
+		{
+			exec_builtin(cmd, minishell);
+			exec_failed(cmd, env, minishell);
+		}
 		if (execve(cmd->command[0], cmd->command, env) == -1)
 			exec_failed(cmd, env, minishell);
 	}

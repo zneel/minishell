@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/25 12:06:29 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 12:44:16 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	main(int argc, char **argv, char **env)
 		delete_lexer(lexed);
 		prep_exec(root, &minishell);
 		ast_delete(root);
+		printf("last = %d\n", minishell.last_status);
 	}
 	free_minishell(&minishell);
 	return (0);

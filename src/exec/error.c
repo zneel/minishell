@@ -6,20 +6,26 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 11:04:11 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 11:32:21 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 12:39:27 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-void	exec_failed(t_command *cmd, char **env, t_minishell *minishell)
+void	exec_failed(t_command *cmd, char **env, t_minishell *minishell, int status)
 {
 	if (cmd->builtin == false)
 		msg_error("command not found", cmd->command[0]);
 	free_cmd(cmd);
 	free_mat(env);
 	free_minishell(minishell);
-	exit(1);
+	if (cmd->builtin)
+	{
+		if (status == 1)
+			exit(126);
+		exit (0);
+	}	
+	exit(127);
 }
 
 int	msg_error(char *str, char *error)

@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:21 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 11:37:29 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 12:39:41 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char		**get_cmd(char *raw_cmd, char **env);
 int			prep_exec(t_node *node, t_minishell *minishell);
 void		here_doc(char *limiter);
 
-int			exec_builtin(t_command *cmd, t_minishell *minishell, int prep);
+int			exec_builtin(t_command *cmd, t_minishell *minishell);
 int			exec_cmd(t_node *node, t_minishell *minishell);
 int			exec_or(t_node *node, t_minishell *minishell);
 int			exec_and(t_node *node, t_minishell *minishell);
@@ -57,7 +57,7 @@ t_command	*node_to_command(t_node *node, char **env);
 int			msg_error(char *str, char *error);
 void		free_cmd(t_command *cmd);
 void		free_minishell(t_minishell *minishell);
-void		exec_failed(t_command *cmd, char **env, t_minishell *minishell);
+void		exec_failed(t_command *cmd, char **env, t_minishell *minishell, int status);
 void		nothing(void *);
 
 #endif

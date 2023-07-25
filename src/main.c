@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/26 21:36:58 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/26 23:14:14 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	minishell.env = env_cpy(env);
 	minishell.pids = NULL;
-	minishell.std[0] = dup(STDIN_FILENO);
-	minishell.std[1] = dup(STDOUT_FILENO);
+	minishell.root = NULL;
 	while (1)
 	{
 		line = readline("minishell> ");
@@ -44,6 +43,7 @@ int	main(int argc, char **argv, char **env)
 		free(line);
 		debug_lexer(lexed);
 		root = parse(lexed);
+		minishell.root = root;
 		delete_lexer(lexed);
 		prep_exec(root, &minishell);
 		ast_delete(root);

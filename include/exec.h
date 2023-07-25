@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:21 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 12:39:41 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 13:29:22 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,6 @@ int			msg_error(char *str, char *error);
 void		free_cmd(t_command *cmd);
 void		free_minishell(t_minishell *minishell);
 void		exec_failed(t_command *cmd, char **env, t_minishell *minishell, int status);
-void		nothing(void *);
+void		nothing(void *x);
 
 #endif

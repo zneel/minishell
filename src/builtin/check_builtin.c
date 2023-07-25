@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 21:51:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 09:23:20 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 14:01:18 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_strncmp_back(char *str, char *ex, int size)
 		i--;
 		size--;
 	}
-	if (size == -1)
+	if (size == -1 && str[i] == '/')
 		return (0);
 	return (1);
 }

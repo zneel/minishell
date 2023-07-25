@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 09:51:32 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 11:52:17 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 12:06:46 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	here_doc(char *limiter)
 	if (fd == -1)
 		return ;
 	line = readline("here_doc> ");
-	while (str_cmpend(line, limiter) != 0)
+	while (line && str_cmpend(line, limiter) != 0)
 	{
 		ft_putendl_fd(line, fd);
 		free(line);

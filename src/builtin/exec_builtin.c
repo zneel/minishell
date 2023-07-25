@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 22:14:40 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/24 23:16:16 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 11:52:02 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int	prep_exec_builtin(t_command *cmd)
 	if (cmd->has_heredoc == false)
 		fdin = open(cmd->file_in, O_RDONLY, 0644);
 	else
-		fdin = open(file_heredoc, O_RDONLY, 0644);
+		fdin = open(FILE_HEREDOC, O_RDONLY, 0644);
 	if (fdin == -1)
 	{
 		if (cmd->has_heredoc == false)
 			return (msg_error("No such file or directory", cmd->file_in));
 		else
-			return (msg_error("No such file or directory", file_heredoc));
+			return (msg_error("No such file or directory", FILE_HEREDOC));
 	}
 	dup2(fdin, STDIN_FILENO);
 	dup2(fdout, STDOUT_FILENO);
@@ -50,52 +50,56 @@ int	end_builtin(int stdin, int stdout)
 	return (0);
 }
 
-int	search_builtin(t_command *cmd, t_minishell *minishell, int builtin)
+int	annexe_search(t_command *cmd, t_minishell *minishell)
 {
-	if (builtin == ECHO)
-	{
-		if (echo(cmd))
-			return (1);
-	}
-	else if (builtin == PWD)
-	{
-		if (pwd(*minishell))
-			return (1);
-	}
-	else if (builtin == EXPORT)
-	{
-		if (export(cmd, minishell))
-			return (1);
-	}
-	else if (builtin == ENV)
-	{
-		if (print_env(*minishell))
-			return (1);
-	}
-	else if (builtin == UNSET)
+	if (cmd->builtin == UNSET)
 	{
 		if (unset(cmd, minishell))
 			return (1);
 	}
-	else if (builtin == CD)
+	else if (cmd->builtin == CD)
 	{
-		
 	}
 	return (0);
 }
 
-int	exec_builtin(t_command *cmd, t_minishell *minishell)
+int	search_builtin(t_command *cmd, t_minishell *minishell)
 {
-	int stdin;
-	int stdout;
+	if (cmd->builtin == ECHO)
+	{
+		if (echo(cmd))
+			return (1);
+	}
+	else if (cmd->builtin == PWD)
+	{
+		if (pwd(*minishell))
+			return (1);
+	}
+	else if (cmd->builtin == EXPORT)
+	{
+		if (export(cmd, minishell))
+			return (1);
+	}
+	else if (cmd->builtin == ENV)
+	{
+		if (print_env(*minishell))
+			return (1);
+	}
+	return (annexe_search(cmd, minishell));
+}
 
-	stdin = dup(STDIN_FILENO);
-	stdout = dup(STDOUT_FILENO);
-	if (prep_exec_builtin(cmd))
+int	exec_builtin(t_command *cmd, t_minishell *minishell, int prep)
+{
+	int	stdin;
+	int	stdout;
+
+	stdin = minishell->std[0];
+	stdout = minishell->std[1];
+	if (prep && prep_exec_builtin(cmd))
 		return (1);
-	if (search_builtin(cmd, minishell, check_builtin(cmd)))
+	if (search_builtin(cmd, minishell))
 		return (1);
-	if (end_builtin(stdin, stdout))
+	if (prep && end_builtin(stdin, stdout))
 		return (1);
 	return (0);
 }

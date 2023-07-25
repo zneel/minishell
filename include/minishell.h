@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/24 19:08:14 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/25 11:49:40 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <readline/readline.h>
 # include <stdio.h>
 
-# define file_heredoc "/tmp/here_doc.tmp"
+# define FILE_HEREDOC "/tmp/here_doc.tmp"
 
 typedef struct s_kv
 {
@@ -32,7 +32,8 @@ typedef struct s_minishell
 {
 	t_kv		*env;
 	t_list		*pids;
-	int			status;
+	int			std[2];
+	int			last_status;
 	int			stdin;
 	int			stdout;
 }				t_minishell;
@@ -44,6 +45,7 @@ typedef struct s_command
 	char		*file_out;
 	int			has_heredoc;
 	int			has_append;
+	int			builtin;
 }				t_command;
 
 char			**ft_separate(char *str, char sep);

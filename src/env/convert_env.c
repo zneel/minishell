@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:30:28 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/24 18:34:58 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 12:01:47 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	**convert_env(t_kv *lst)
 	char	**mat;
 	char	*tmp;
 	int		i;
-	t_kv *copy;
+	t_kv	*copy;
 
 	i = 0;
 	copy = lst;

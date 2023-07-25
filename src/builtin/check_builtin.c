@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 21:51:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/24 22:57:51 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 09:23:20 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	ft_strncmp_back(char *str, char *ex, int size)
 {
-	int i;
+	int	i;
+
 	i = ft_strlen(str);
 	while (i >= 0 && size >= 0 && str[i] == ex[size])
 	{

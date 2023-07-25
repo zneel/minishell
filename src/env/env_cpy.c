@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:05:32 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/07 11:26:47 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 12:02:15 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_kv	*env_cpy(char **env)
 			return (ft_lstclear_env(&lst_env, free), NULL);
 		new = ft_lstnew_env(tmp[0], tmp[1]);
 		if (!new)
-			return(free_mat(tmp), ft_lstclear_env(&lst_env, free), NULL);
+			return (free_mat(tmp), ft_lstclear_env(&lst_env, free), NULL);
 		free(tmp);
 		ft_lstadd_back_env(&lst_env, new);
 	}

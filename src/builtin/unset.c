@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 07:32:23 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/24 23:15:13 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 09:23:08 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ int	unset(t_command *cmd, t_minishell *minishell)
 		return (1);
 	while (cmd->command[++i])
 	{
-		parc = minishell->env; 
+		parc = minishell->env;
 		while (parc)
 		{
-			if (ft_strncmp(cmd->command[i], parc->key, ft_strlen(cmd->command[i])) == 0)
+			if (ft_strncmp(cmd->command[i], parc->key,
+					ft_strlen(cmd->command[i])) == 0)
 			{
 				ft_lstdelone_env(minishell->env, parc, free);
 				parc = NULL;

@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:52:56 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/24 22:11:30 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 11:52:07 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ void	dup_in(t_command *cmd)
 	if (cmd->has_heredoc == false)
 		fdin = open(cmd->file_in, O_RDONLY, 0644);
 	else
-		fdin = open(file_heredoc, O_RDONLY, 0644);
+		fdin = open(FILE_HEREDOC, O_RDONLY, 0644);
 	if (fdin == -1)
 	{
 		if (cmd->has_heredoc == false)
 			exit(msg_error("No such file or directory", cmd->file_in));
 		else
-			exit(msg_error("No such file or directory", file_heredoc));
+			exit(msg_error("No such file or directory", FILE_HEREDOC));
 	}
 	dup2(fdin, STDIN_FILENO);
 	close(fdin);

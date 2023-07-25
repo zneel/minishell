@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:54:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/24 18:06:27 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 11:29:20 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	wait_all(t_minishell *minishell)
 	parc = minishell->pids;
 	while (parc)
 	{
-		waitpid(-1, &minishell->status, 0);
+		waitpid(-1, &minishell->last_status, 0);
 		parc = parc->next;
 	}
 }
@@ -67,6 +67,7 @@ t_command	*node_to_command(t_node *node, char **env)
 	if (!command)
 		return (NULL);
 	command->command = get_cmd(node->data, env);
+	command->builtin = check_builtin(command);
 	command->file_in = "/dev/stdin";
 	command->file_out = "/dev/stdout";
 	command->has_heredoc = 0;

@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 10:54:01 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/24 23:12:08 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 09:23:54 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	replace_env(t_kv *env, char **tmp)
 
 int	new_env(t_kv **env, char **tmp)
 {
-	t_kv 	*new;
+	t_kv	*new;
 
 	new = ft_lstnew_env(tmp[0], tmp[1]);
 	if (!new)
@@ -100,7 +100,8 @@ int	export(t_command *cmd, t_minishell *minishell)
 			parc = parc->next;
 		}
 	}
-	while (cmd->command && *cmd->command && cmd->command[++i] && cmd->command[i][0] != '=')
+	while (cmd->command && *cmd->command && cmd->command[++i]
+		&& cmd->command[i][0] != '=')
 	{
 		if (export_annexe(i, cmd->command, minishell))
 			return (1);

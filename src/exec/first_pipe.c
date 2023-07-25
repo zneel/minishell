@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:37 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/24 18:01:29 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 11:52:13 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,33 @@ void	parent_first(int pipefd[2][2])
 	close_if(pipefd[1][1]);
 }
 
-void	child_first(t_command *cmd, int pipefd[2][2])
+int	child_first(t_command *cmd, int pipefd[2][2])
 {
 	int	fdin;
 
 	if (cmd->has_heredoc == false)
 		fdin = open(cmd->file_in, O_RDONLY, 0644);
 	else
-		fdin = open(file_heredoc, O_RDONLY, 0644);
+		fdin = open(FILE_HEREDOC, O_RDONLY, 0644);
 	if (fdin == -1)
 	{
 		if (cmd->has_heredoc == false)
 			exit(msg_error("No such file or directory", cmd->file_in));
 		else
-			exit(msg_error("No such file or directory", file_heredoc));
+			exit(msg_error("No such file or directory", FILE_HEREDOC));
 	}
 	dup2(fdin, STDIN_FILENO);
 	close(fdin);
 	close_if(pipefd[1][0]);
 	dup2(pipefd[1][1], STDOUT_FILENO);
 	close_if(pipefd[1][1]);
+	return (0);
+}
+
+void	builtin_first(t_command *cmd, char **env, t_minishell *minishell)
+{
+	exec_builtin(cmd, minishell, 0);
+	exec_failed(cmd, env, minishell);
 }
 
 int	execute_first(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
@@ -61,7 +68,9 @@ int	execute_first(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 	{
 		env = convert_env(minishell->env);
 		if (!env)
-			return (1);
+			exec_failed(cmd, env, minishell);
+		if (check_builtin(cmd))
+			builtin_first(cmd, env, minishell);
 		if (execve(cmd->command[0], cmd->command, env) == -1)
 			exec_failed(cmd, env, minishell);
 	}

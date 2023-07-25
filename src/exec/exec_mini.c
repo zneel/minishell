@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:03 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/24 16:16:22 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 11:37:44 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	exec_cmd(t_node *node, t_minishell *minishell)
 {
 	char		**env;
+	int			std[2];
 	t_command	*command;
 
 	env = convert_env(minishell->env);
@@ -22,9 +23,18 @@ int	exec_cmd(t_node *node, t_minishell *minishell)
 		return (1);
 	command = node_to_command(node, env);
 	free_mat(env);
-	execute_command(command, minishell);
+	if (command->builtin)
+	{
+		std[0] = dup(STDIN_FILENO);
+		std[1] = dup(STDOUT_FILENO);
+		exec_builtin(command, minishell, 1);
+	}
+	else
+	{
+		execute_command(command, minishell);
+		wait_all(minishell);
+	}
 	free_cmd(command);
-	wait_all(minishell);
 	return (0);
 }
 
@@ -32,7 +42,7 @@ int	exec_or(t_node *node, t_minishell *minishell)
 {
 	if (exec(node->left, minishell) == 1)
 		return (1);
-	if (minishell->status != 0)
+	if (minishell->last_status != 0)
 	{
 		if (exec(node->right, minishell) == 1)
 			return (1);
@@ -44,7 +54,7 @@ int	exec_and(t_node *node, t_minishell *minishell)
 {
 	if (exec(node->left, minishell) == 1)
 		return (1);
-	if (minishell->status == 0)
+	if (minishell->last_status == 0)
 	{
 		if (exec(node->right, minishell) == 1)
 			return (1);

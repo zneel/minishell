@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/25 10:37:54 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/25 12:06:29 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	minishell.env = env_cpy(env);
 	minishell.pids = NULL;
+	minishell.std[0] = dup(STDIN_FILENO);
+	minishell.std[1] = dup(STDOUT_FILENO);
 	while (1)
 	{
 		line = readline("minishell> ");

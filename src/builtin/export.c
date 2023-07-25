@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 10:54:01 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/11 11:45:37 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 09:23:54 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	replace_env(t_kv *env, char **tmp)
 
 int	new_env(t_kv **env, char **tmp)
 {
-	t_kv 	*new;
+	t_kv	*new;
 
 	new = ft_lstnew_env(tmp[0], tmp[1]);
 	if (!new)
@@ -62,12 +62,12 @@ int	new_env(t_kv **env, char **tmp)
 	return (0);
 }
 
-int	export_annexe(int i, char **argv, t_minishell *minishell)
+int	export_annexe(int i, char **cmd, t_minishell *minishell)
 {
 	char	**tmp;
 	int		error;
 
-	tmp = ft_separate(argv[i], '=');
+	tmp = ft_separate(cmd[i], '=');
 	if (!tmp || !tmp[0] || !tmp[1])
 		return (1);
 	if (check_disp(minishell->env, tmp[0]) == 1)
@@ -85,14 +85,13 @@ int	export_annexe(int i, char **argv, t_minishell *minishell)
 	return (error);
 }
 
-int	export(int argc, char **argv, t_minishell *minishell)
+int	export(t_command *cmd, t_minishell *minishell)
 {
 	int		i;
 	t_kv	*parc;
 
 	i = 0;
-	(void)argc;
-	if (argv && *argv && argv[1] == NULL)
+	if (cmd->command && *cmd->command && cmd->command[1] == NULL)
 	{
 		parc = minishell->env;
 		while (parc)
@@ -101,9 +100,10 @@ int	export(int argc, char **argv, t_minishell *minishell)
 			parc = parc->next;
 		}
 	}
-	while (argv && *argv && argv[++i] && argv[i][0] != '=')
+	while (cmd->command && *cmd->command && cmd->command[++i]
+		&& cmd->command[i][0] != '=')
 	{
-		if (export_annexe(i, argv, minishell))
+		if (export_annexe(i, cmd->command, minishell))
 			return (1);
 	}
 	return (0);

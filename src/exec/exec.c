@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:55 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/24 16:33:59 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/25 11:52:09 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,6 @@ int	prep_exec(t_node *node, t_minishell *minishell)
 	if (exec(node, minishell) == 1)
 		return (1);
 	ft_lstclear(&minishell->pids, nothing);
-	unlink(file_heredoc);
+	unlink(FILE_HEREDOC);
 	return (0);
 }

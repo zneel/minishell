@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 07:32:23 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 09:23:08 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/26 22:09:22 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ int	unset(t_command *cmd, t_minishell *minishell)
 		parc = minishell->env;
 		while (parc)
 		{
-			if (ft_strncmp(cmd->command[i], parc->key,
-					ft_strlen(cmd->command[i])) == 0)
+			if (get_env(*minishell, cmd->command[i]))
 			{
 				ft_lstdelone_env(minishell->env, parc, free);
 				parc = NULL;

@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/26 23:14:14 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/26 23:15:57 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(int argc, char **argv, char **env)
 		line = readline("minishell> ");
 		if (!line)
 		{
-			free_minishell(&minishell);
+			free_minishell(&minishell, false);
 			return (0);
 		}
 		if (line && *line && !ft_isspace(*line))
@@ -49,6 +49,5 @@ int	main(int argc, char **argv, char **env)
 		ast_delete(root);
 		printf("last = %d\n", minishell.last_status);
 	}
-	free_minishell(&minishell);
 	return (0);
 }

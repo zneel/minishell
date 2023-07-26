@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:41 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 12:43:26 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/26 14:34:53 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	execute_last(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 		env = convert_env(minishell->env);
 		if (!env)
 			exec_failed(cmd, env, minishell, 1);
-		if (check_builtin(cmd))
+		if (cmd->builtin)
 			builtin_last(cmd, env, minishell);
 		if (execve(cmd->command[0], cmd->command, env) == -1)
 			exec_failed(cmd, env, minishell, 1);

@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/26 23:14:18 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/26 23:15:10 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_command
 	char		*file_out;
 	int			has_heredoc;
 	int			has_append;
+	int			has_path;
 	int			builtin;
 }				t_command;
 

@@ -6,16 +6,22 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 11:04:11 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 13:39:09 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/26 21:21:43 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-void	exec_failed(t_command *cmd, char **env, t_minishell *minishell, int status)
+void	exec_failed(t_command *cmd, char **env, t_minishell *minishell,
+		int status)
 {
-	if (cmd->builtin == false)
-		msg_error("command not found", cmd->command[0]);
+	if ((cmd->builtin && cmd->has_path == true) || cmd->builtin == NONE)
+	{
+		if (cmd->has_path == false)
+			msg_error("command not found", cmd->command[0]);
+		else
+			msg_error("No such file or directory", cmd->command[0]);
+	}
 	free_mat(env);
 	free_minishell(minishell);
 	if (cmd->builtin)
@@ -23,7 +29,7 @@ void	exec_failed(t_command *cmd, char **env, t_minishell *minishell, int status)
 		free_cmd(cmd);
 		if (status == 1)
 			exit(126);
-		exit (0);
+		exit(0);
 	}
 	free_cmd(cmd);
 	exit(127);

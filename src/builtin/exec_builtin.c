@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 22:14:40 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 12:36:29 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/26 14:13:24 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int	search_builtin(t_command *cmd, t_minishell *minishell)
 
 int	exec_builtin(t_command *cmd, t_minishell *minishell)
 {
+	if (cmd->has_path)
+		return (1);
 	if (search_builtin(cmd, minishell))
 		return (1);
 	return (0);

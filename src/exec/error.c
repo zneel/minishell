@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 11:04:11 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/26 22:30:03 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/26 22:47:29 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	exec_failed(t_command *cmd, char **env, t_minishell *minishell,
 			msg_error("No such file or directory", cmd->command[0]);
 	}
 	free_mat(env);
-	free_minishell(minishell, true);
+	free_minishell(minishell);
 	if (cmd->builtin)
 	{
 		free_cmd(cmd);
@@ -52,11 +52,10 @@ void	nothing(void *x)
 	(void)x;
 }
 
-void	free_minishell(t_minishell *minishell, int has_ast)
+void	free_minishell(t_minishell *minishell)
 {
 	rl_clear_history();
-	if (has_ast)
-		ast_delete(minishell->root);
+	ast_delete(minishell->root);
 	ft_lstclear(&minishell->pids, nothing);
 	ft_lstclear_env(&minishell->env, free);
 }

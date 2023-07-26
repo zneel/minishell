@@ -48,6 +48,8 @@ SRC =	src/main.c \
 		src/env/ft_lstnew_env.c \
 		src/env/ft_lstsize_env.c \
 		src/env/free_mat.c \
+		src/env/ft_lstsort_env.c \
+		src/env/ft_lstcpy_env.c \
 		src/exec/exec.c \
 		src/exec/path.c \
 		src/exec/cmd.c \
@@ -59,9 +61,6 @@ SRC =	src/main.c \
 		src/exec/here_doc.c \
 		src/exec/error.c \
 		src/exec/exec_mini.c
-		src/env/ft_lstsort_env.c \
-		src/env/ft_lstcpy_env.c \
-		src/env/free_mat.c
 
 OBJ=$(SRC:.c=.o)
 MMD=$(SRC:.c=.d)

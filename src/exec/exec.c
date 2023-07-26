@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:55 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/26 22:17:24 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/26 22:43:50 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ int	exec(t_node *node, t_minishell *minishell)
 	return (0);
 }
 
-int	prep_exec(t_node *node, t_minishell *minishell)
+int	prep_exec(t_minishell *minishell)
 {
-	if (exec(node, minishell) == 1)
+	if (exec(minishell->root, minishell) == 1)
 		return (1);
 	ft_lstclear(&minishell->pids, nothing);
 	unlink(FILE_HEREDOC);

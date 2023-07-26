@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:21 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/26 22:31:49 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/26 22:47:12 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 int			test_cmd(char *cmd);
 char		**get_cmd(char *raw_cmd, char **env);
-int			prep_exec(t_node *node, t_minishell *minishell);
+int			prep_exec(t_minishell *minishell);
 void		here_doc(char *limiter);
 
 int			exec_builtin(t_command *cmd, t_minishell *minishell);
@@ -51,8 +51,9 @@ void		wait_all(t_minishell *minishell);
 t_command	*node_to_command(t_node *node, char **env);
 int			msg_error(char *str, char *error);
 void		free_cmd(t_command *cmd);
-void		free_minishell(t_minishell *minishell, int has_ast);
-void		exec_failed(t_command *cmd, char **env, t_minishell *minishell, int status);
+void		free_minishell(t_minishell *minishell);
+void		exec_failed(t_command *cmd, char **env, t_minishell *minishell,
+				int status);
 void		nothing(void *x);
 
 #endif

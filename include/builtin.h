@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 08:01:45 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/26 23:15:04 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/27 11:01:17 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ int	pwd(t_minishell minishell);
 int	print_env(t_minishell minishell);
 int	export(t_command *cmd, t_minishell *minishell);
 int	unset(t_command *cmd, t_minishell *minishell);
+int	cd(t_command *cmd, t_minishell *minishell);
 
 #endif

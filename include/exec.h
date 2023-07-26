@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:21 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 13:29:22 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/26 21:15:49 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+int			test_cmd(char *cmd);
 char		**get_cmd(char *raw_cmd, char **env);
 int			prep_exec(t_node *node, t_minishell *minishell);
 void		here_doc(char *limiter);

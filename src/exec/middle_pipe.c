@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:39 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 12:42:34 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/26 14:34:37 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	execute_middle(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 		env = convert_env(minishell->env);
 		if (!env)
 			exec_failed(cmd, env, minishell, 1);
-		if (check_builtin(cmd))
+		if (cmd->builtin)
 			builtin_middle(cmd, env, minishell);
 		if (execve(cmd->command[0], cmd->command, env) == -1)
 			exec_failed(cmd, env, minishell, 1);

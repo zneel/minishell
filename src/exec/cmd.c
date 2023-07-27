@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:52:56 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/26 22:15:14 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/27 11:03:03 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,11 @@ void	execute_command(t_command *cmd, t_minishell *minishell)
 
 	if (cmd->has_heredoc == true)
 		here_doc(cmd->file_in);
+	if (cmd->builtin)
+	{
+		minishell->last_status = exec_builtin(cmd, minishell, true);
+		return ;
+	}
 	pid = fork();
 	if (pid == -1)
 		exit(1);
@@ -71,8 +76,6 @@ void	execute_command(t_command *cmd, t_minishell *minishell)
 		env = convert_env(minishell->env);
 		if (!env)
 			exec_failed(cmd, env, minishell, 1);
-		if (cmd->builtin)
-			exec_annexe_builtin(cmd, env, minishell);
 		if (execve(cmd->command[0], cmd->command, env) == -1)
 			exec_failed(cmd, env, minishell, 1);
 	}

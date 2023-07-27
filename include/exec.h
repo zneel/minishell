@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:21 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/26 22:47:12 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/27 11:01:47 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char		**get_cmd(char *raw_cmd, char **env);
 int			prep_exec(t_minishell *minishell);
 void		here_doc(char *limiter);
 
-int			exec_builtin(t_command *cmd, t_minishell *minishell);
+int			exec_builtin(t_command *cmd, t_minishell *minishell, int prep);
 int			exec_cmd(t_node *node, t_minishell *minishell);
 int			exec_or(t_node *node, t_minishell *minishell);
 int			exec_and(t_node *node, t_minishell *minishell);

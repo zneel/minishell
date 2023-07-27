@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:52:56 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/27 11:08:29 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/27 11:48:50 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,6 @@ void	execute_command(t_command *cmd, t_minishell *minishell)
 
 	if (cmd->has_heredoc == true)
 		here_doc(cmd->file_in);
-	if (cmd->builtin)
-	{
-		minishell->last_status = exec_builtin(cmd, minishell, true);
-		return ;
-	}
 	pid = fork();
 	if (pid == -1)
 		exit(1);

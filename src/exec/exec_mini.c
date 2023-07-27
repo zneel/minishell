@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:03 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/26 14:03:03 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/27 11:49:18 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,13 @@ int	exec_cmd(t_node *node, t_minishell *minishell)
 		return (1);
 	command = node_to_command(node, env);
 	free_mat(env);
-	execute_command(command, minishell);
-	wait_all(minishell);
+	if (command->builtin)
+		minishell->last_status = exec_builtin(command, minishell, true);
+	else
+	{
+		execute_command(command, minishell);
+		wait_all(minishell);
+	}
 	free_cmd(command);
 	return (0);
 }

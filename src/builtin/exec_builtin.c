@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 22:14:40 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/27 11:02:41 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/27 11:51:02 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,6 @@ int	end_builtin(int stdin, int stdout)
 {
 	dup2(stdin, STDIN_FILENO);
 	dup2(stdout, STDOUT_FILENO);
-	close(stdin);
-	close(stdout);
 	return (0);
 }
 

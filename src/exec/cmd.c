@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:52:56 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/27 11:03:03 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/27 11:08:29 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	exec_annexe_builtin(t_command *cmd, char **env, t_minishell *minishell)
 	int	status;
 
 	if (cmd->builtin != W_PATH)
-		status = exec_builtin(cmd, minishell);
+		status = exec_builtin(cmd, minishell, true);
 	else
 		status = 1;
 	exec_failed(cmd, env, minishell, status);

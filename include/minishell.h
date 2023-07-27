@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/26 23:15:53 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/27 11:07:01 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_minishell
 	int			last_status;
 	int			stdin;
 	int			stdout;
+	int			std[2];
 }				t_minishell;
 
 typedef struct s_command

@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:54:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/26 22:18:16 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/27 16:49:28 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ t_command	*init_file(t_command *command)
 {
 	command->file_in = "/dev/stdin";
 	command->file_out = "/dev/stdout";
-	command->has_heredoc = 0;
-	command->has_append = 0;
+	command->has_heredoc = false;
+	command->has_append = false;
+	command->has_infile = false;
+	command->has_outfile = false;
 	return (command);
 }
 
@@ -40,18 +42,24 @@ t_command	*open_file(t_command *command, t_node *node)
 	int	fd;
 
 	if (node->left && node->left->type == LESS)
+	{
 		command->file_in = node->left->data;
+		command->has_infile = true;
+	}
 	else if (node->left && node->left->type == HERE_DOC)
 	{
 		command->file_in = node->left->data;
-		command->has_heredoc = 1;
+		command->has_heredoc = true;
 	}
 	if (node->right && node->right->type == GREAT)
+	{
 		command->file_out = node->right->data;
+		command->has_outfile = true;
+	}
 	else if (node->right && node->right->type == DGREAT)
 	{
 		command->file_out = node->right->data;
-		command->has_append = 1;
+		command->has_append = true;
 	}
 	if (access(command->file_out, F_OK | R_OK) == -1)
 	{

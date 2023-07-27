@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:37 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/27 11:03:07 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/27 14:27:21 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	parent_first(int pipefd[2][2])
 	close_if(pipefd[1][1]);
 }
 
-int	child_first(t_command *cmd, int pipefd[2][2])
+void	child_first(t_command *cmd, int pipefd[2][2])
 {
 	int	fdin;
 
@@ -40,7 +40,6 @@ int	child_first(t_command *cmd, int pipefd[2][2])
 	close_if(pipefd[1][0]);
 	dup2(pipefd[1][1], STDOUT_FILENO);
 	close_if(pipefd[1][1]);
-	return (0);
 }
 
 void	builtin_first(t_command *cmd, char **env, t_minishell *minishell)

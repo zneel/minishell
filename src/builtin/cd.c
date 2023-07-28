@@ -6,13 +6,25 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 09:23:02 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/17 11:06:33 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/28 15:59:35 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-int go_home(t_minishell *minishell)
+int	arg_len(char **arg)
+{
+	int	i;
+
+	i = 0;
+	if (!arg)
+		return (0);
+	while (arg[i])
+		i++;
+	return (i);
+}
+
+int	go_home(t_minishell *minishell)
 {
 	char	*home;
 	char	*old_pwd;
@@ -44,26 +56,46 @@ char	*alloc_pwd(char *argv)
 	return (pwd);
 }
 
-int	cd(int argc, char **argv, t_minishell *minishell)
+int	do_cd(t_command *cmd, t_minishell *minishell)
+{
+	char	*path_to_go;
+
+	if (ft_strncmp(cmd->command[1], "-", ft_strlen(cmd->command[1])) == 0)
+	{
+		path_to_go = get_env(*minishell, "OLDPWD");
+		if (!path_to_go)
+			return (1);
+		if (chdir(path_to_go))
+			return (1);
+	}
+	else
+	{
+		if (chdir(cmd->command[1]))
+			return (1);
+	}
+	return (1);
+}
+
+int	cd(t_command *cmd, t_minishell *minishell)
 {
 	char	*old_pwd;
 	char	*pwd;
 
-	if (argc > 2)
+	if (arg_len(cmd->command) > 2)
 		return (1);
-	if (argc == 1)
+	if (arg_len(cmd->command) == 1)
 		return (go_home(minishell));
-	if (access(argv[1], F_OK) == -1)
-		return (1);
+	if (ft_strncmp(cmd->command[1], "-", ft_strlen(cmd->command[1])) == 1 && access(cmd->command[1], F_OK) == -1)
+		return (msg_error("No such file or directory", cmd->command[1]));
 	old_pwd = ft_strdup(get_env(*minishell, "PWD"));
 	if (!old_pwd)
 		return (1);
-	if (chdir(argv[1]))
-		return (1);
-	pwd = alloc_pwd(argv[1]);
+	do_cd(cmd, minishell);
+	pwd = alloc_pwd(cmd->command[1]);
 	if (!pwd)
 		return (free(old_pwd), 1);
-	if (modif_env(minishell, "PWD", pwd) || modif_env(minishell, "OLDPWD", old_pwd))
+	if (modif_env(minishell, "PWD", pwd) || modif_env(minishell, "OLDPWD",
+			old_pwd))
 		return (free(pwd), free(old_pwd), 1);
 	free(pwd);
 	free(old_pwd);

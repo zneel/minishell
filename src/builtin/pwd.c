@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 07:41:40 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/26 22:03:31 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/27 11:01:36 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	pwd(t_minishell minishell)
 
 	while (minishell.env)
 	{
-		if (strncmp(minishell.env->key, "PWD", ft_strlen("PWD")) == 0)
+		if (get_env(minishell, "PWD="))
 			return (printf("%s\n", minishell.env->value), 0);
 		minishell.env = minishell.env->next;
 	}

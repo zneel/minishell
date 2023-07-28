@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   last_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:41 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/26 14:34:53 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/07/27 11:03:12 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	builtin_last(t_command *cmd, char **env, t_minishell *minishell)
 {
 	int	status;
 
-	status = exec_builtin(cmd, minishell);
+	status = exec_builtin(cmd, minishell, false);
 	exec_failed(cmd, env, minishell, status);
 }
 

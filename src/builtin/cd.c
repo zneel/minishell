@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 09:23:02 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/26 21:50:00 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/28 15:59:35 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,26 @@ char	*alloc_pwd(char *argv)
 	return (pwd);
 }
 
+int	do_cd(t_command *cmd, t_minishell *minishell)
+{
+	char	*path_to_go;
+
+	if (ft_strncmp(cmd->command[1], "-", ft_strlen(cmd->command[1])) == 0)
+	{
+		path_to_go = get_env(*minishell, "OLDPWD");
+		if (!path_to_go)
+			return (1);
+		if (chdir(path_to_go))
+			return (1);
+	}
+	else
+	{
+		if (chdir(cmd->command[1]))
+			return (1);
+	}
+	return (1);
+}
+
 int	cd(t_command *cmd, t_minishell *minishell)
 {
 	char	*old_pwd;
@@ -65,13 +85,12 @@ int	cd(t_command *cmd, t_minishell *minishell)
 		return (1);
 	if (arg_len(cmd->command) == 1)
 		return (go_home(minishell));
-	if (access(cmd->command[1], F_OK) == -1)
-		return (1);
+	if (ft_strncmp(cmd->command[1], "-", ft_strlen(cmd->command[1])) == 1 && access(cmd->command[1], F_OK) == -1)
+		return (msg_error("No such file or directory", cmd->command[1]));
 	old_pwd = ft_strdup(get_env(*minishell, "PWD"));
 	if (!old_pwd)
 		return (1);
-	if (chdir(cmd->command[1]))
-		return (1);
+	do_cd(cmd, minishell);
 	pwd = alloc_pwd(cmd->command[1]);
 	if (!pwd)
 		return (free(old_pwd), 1);

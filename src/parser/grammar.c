@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 13:17:18 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/24 17:06:30 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/28 11:12:39 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,10 @@ t_node	*command(t_parser *parser)
 	if (!cmd)
 		return (NULL);
 	output = io_redirect(parser);
-	if (input)
-		ast_attach_binary(cmd, input, NULL);
-	else if (input && output)
+	if (input && output)
 		ast_attach_binary(cmd, input, output);
+	else if (input)
+		ast_attach_binary(cmd, input, NULL);
 	else if (output)
 		ast_attach_binary(cmd, NULL, output);
 	return (cmd);

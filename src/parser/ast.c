@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 11:33:20 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/26 22:32:00 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/28 15:58:29 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ void	ast_attach_binary(t_node *root, t_node *left, t_node *right)
 {
 	if (!root)
 		return ;
-	root->left = left;
-	root->right = right;
+	if (left)
+		root->left = left;
+	if (right)
+		root->right = right;
 	if (left)
 		left->parent = root;
 	if (right)

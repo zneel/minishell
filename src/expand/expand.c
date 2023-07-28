@@ -6,44 +6,147 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:20:09 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/25 15:04:01 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/27 17:02:22 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "expand.h"
+#include <string.h>
 
-void expand_quotes(t_node *node)
+char	*expand(const char *input)
 {
-    int i;
-    int j;
-    char *new;
-    char first_quote;
-    
-    i = 0;
-    if (node->type == PIPE || node->type == AND || node->type == OR || !node->data)
-        return ;
-    j = ft_strlen(node->data);
-    new = ft_calloc(sizeof(char), j);
-    if (!new)
-        return ;
-    first_quote = -1;
-    while (node->data[i])
-    {
-           if (first_quote == -1 && node->data[i] == '\'' || node->data[i] == '\"')
-            first_quote = node->data[i];
-        i++;
-    }
-    free(node->data);
-    node->data = new;
-    ft_printf("expand>node->data:%s\n", node->data);
+	char			*result;
+	size_t			result_size;
+	char			*r;
+	unsigned int	state;
+	const char		*var_end;
+	char			*var_name;
+	const char		*var_value;
+	size_t			new_size;
+	size_t			r_offset;
+
+	result = malloc(strlen(input) * 2 + 1);
+	result_size = strlen(input) * 2 + 1;
+	r = result;
+	state = NONE;
+	while (*input != '\0')
+	{
+		switch (*input)
+		{
+		case '\'':
+			if (state & DOUBLE_QUOTE)
+			{
+				*r++ = *input++;
+			}
+			else
+			{
+				state ^= SINGLE_QUOTE;
+				input++;
+			}
+			break ;
+		case '\"':
+			if (state & SINGLE_QUOTE)
+			{
+				*r++ = *input++;
+			}
+			else
+			{
+				state ^= DOUBLE_QUOTE;
+				input++;
+			}
+			break ;
+		case '$':
+			if (state & SINGLE_QUOTE)
+			{
+				*r++ = *input++;
+			}
+			else
+			{
+				input++;
+				var_end = strchr(input, ' ');
+				if (!var_end)
+					var_end = strchr(input, '\'');
+				if (!var_end)
+					var_end = strchr(input, '\"');
+				if (!var_end)
+					var_end = input + strlen(input);
+				var_name = malloc(var_end - input + 1);
+				strncpy(var_name, input, var_end - input);
+				var_name[var_end - input] = '\0';
+				var_value = getenv(var_name);
+				if (var_value)
+				{
+					new_size = r - result + strlen(var_value) + strlen(input)
+						+ 1;
+					if (new_size > result_size)
+					{
+						result_size = new_size;
+						r_offset = r - result;
+						result = realloc(result, result_size);
+						r = result + r_offset;
+					}
+					strcpy(r, var_value);
+					r += strlen(var_value);
+				}
+				else
+				{
+					*r++ = '$';
+					strcpy(r, var_name);
+					r += strlen(var_name);
+				}
+				free(var_name);
+				input = var_end;
+			}
+			break ;
+		default:
+			*r++ = *input++;
+		}
+	}
+	*r = '\0';
+	return (result);
 }
 
-
-void expand_tree(t_node *root)
+char	*expand_quotes(const char *input)
 {
-    if (!root)
-        return ;
-    expand_tree(root->left);
-    expand_quotes(root);
-    expand_tree(root->right);
+	unsigned int	state;
+	char			*result;
+	char			*curr;
+
+	state = NONE;
+	result = malloc(sizeof(char) * (ft_strlen(input) + 1));
+	if (!result)
+		return (NULL);
+	curr = result;
+	while (*input)
+	{
+		if (*input == '\'')
+		{
+			if (state & DOUBLE_QUOTE)
+				*curr++ = *input;
+			else
+				state ^= SINGLE_QUOTE;
+		}
+		else if (*input == '\"')
+		{
+			if (state & SINGLE_QUOTE)
+				*curr++ = *input;
+			else
+				state ^= DOUBLE_QUOTE;
+		}
+		else
+			*curr++ = *input;
+		input++;
+	}
+	*curr = '\0';
+	return (result);
+}
+
+void	expand_tree(t_node *root)
+{
+	if (!root)
+		return ;
+	expand_tree(root->left);
+	if (root->type == COMMAND)
+		root->data = expand(root->data);
+	expand_tree(root->right);
 }

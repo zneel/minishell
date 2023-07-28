@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 13:17:18 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/28 11:12:39 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/28 16:03:01 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,19 +104,36 @@ t_node	*command(t_parser *parser)
 {
 	t_node	*input;
 	t_node	*cmd;
+	t_node	*last_input;
 	t_node	*output;
+	t_node	*last_output;
 
-	input = io_redirect(parser);
+	last_input = NULL;
+	last_output = NULL;
+	while (peek(parser, T_LESS) || peek(parser, T_DLESS))
+	{
+		input = io_redirect(parser);
+		if (last_input)
+			last_input->left = input;
+		else
+			last_input = input;
+	}
 	cmd = simple_command(parser);
 	if (!cmd)
 		return (NULL);
-	output = io_redirect(parser);
-	if (input && output)
-		ast_attach_binary(cmd, input, output);
-	else if (input)
-		ast_attach_binary(cmd, input, NULL);
-	else if (output)
-		ast_attach_binary(cmd, NULL, output);
+	if (last_input)
+		ast_attach_binary(cmd, last_input, NULL);
+	while (peek(parser, T_GREAT) || peek(parser, T_DGREAT))
+	{
+		output = io_redirect(parser);
+		if (last_output)
+			last_output->right = output;
+		else
+		{
+			ast_attach_binary(cmd, NULL, output);
+			last_output = output;
+		}
+	}
 	return (cmd);
 }
 

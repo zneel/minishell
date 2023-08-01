@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 22:14:40 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/27 16:58:27 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/01 10:50:20 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	search_builtin(t_command *cmd, t_minishell *minishell)
 	}
 	else if (cmd->builtin == PWD)
 	{
-		if (pwd(*minishell))
+		if (pwd(minishell))
 			return (1);
 	}
 	else if (cmd->builtin == EXPORT)
@@ -46,7 +46,7 @@ int	search_builtin(t_command *cmd, t_minishell *minishell)
 	}
 	else if (cmd->builtin == ENV)
 	{
-		if (print_env(*minishell))
+		if (print_env(minishell))
 			return (1);
 	}
 	return (annexe_search(cmd, minishell));

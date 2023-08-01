@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/29 08:48:24 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/01 10:25:38 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,23 @@ void	init_minishell(t_minishell *minishell, char **env)
 	minishell->std[1] = dup(STDOUT_FILENO);
 }
 
+void	execute(t_minishell *minishell, char *line)
+{
+	t_lexer	*lex;
+
+	lex = lexer(line);
+	free(line);
+	minishell->root = parse(lex);
+	delete_lexer(lex);
+	prep_exec(minishell);
+	ast_delete(minishell->root);
+	minishell->root = NULL;
+	prep_exec(minishell);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	minishell;
-	t_lexer		*lexed;
 	char		*line;
 
 	(void)argc;
@@ -43,22 +56,10 @@ int	main(int argc, char **argv, char **env)
 	{
 		line = readline("minishell> ");
 		if (!line)
-		{
-			free_minishell(&minishell);
-			return (0);
-		}
+			return (free_minishell(&minishell), 0);
 		if (line && *line && !ft_isspace(*line))
 			add_history(line);
-		if (line == NULL)
-			return (ft_lstclear_env(&minishell.env, free), 0);
-		lexed = lexer(line);
-		free(line);
-		debug_lexer(lexed);
-		minishell.root = parse(lexed);
-		delete_lexer(lexed);
-		prep_exec(&minishell);
-		ast_delete(minishell.root);
-		minishell.root = NULL;
+		execute(&minishell, line);
 		printf("last = %d\n", minishell.last_status);
 	}
 	return (0);

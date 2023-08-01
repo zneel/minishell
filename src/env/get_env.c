@@ -6,19 +6,22 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 09:34:27 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/26 21:50:07 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/01 10:54:49 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_env(t_minishell minishell, char *to_search)
+char	*get_env(t_minishell *minishell, char *to_search)
 {
-	while (minishell.env)
+	t_kv	*env;
+
+	env = minishell->env;
+	while (env)
 	{
-		if (strncmp(minishell.env->key, to_search, ft_strlen(to_search)) == 0)
-			return (minishell.env->value);
-		minishell.env = minishell.env->next;
+		if (strncmp(env->key, to_search, ft_strlen(to_search)) == 0)
+			return (env->value);
+		env = env->next;
 	}
 	return (NULL);
 }

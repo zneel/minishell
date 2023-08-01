@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 09:23:02 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/01 12:18:03 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/01 17:56:25 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	go_home(t_minishell *minishell)
 	old_pwd = get_env(minishell, "PWD");
 	if (old_pwd)
 		modif_env(minishell, "OLDPWD", old_pwd);
-	chdir(home);
+	if (chdir(home) == -1)
+		return (1);
 	if (get_env(minishell, "PWD"))
 		modif_env(minishell, "PWD", home);
 	return (0);

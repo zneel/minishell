@@ -1,6 +1,6 @@
 NAME=minishell
 CC=clang
-CFLAGS=-Wall -Wextra -Werror -O2 -gdwarf-4 -MMD
+CFLAGS=-Wall -Wextra -Werror -MMD
 
 RESET   = \033[0m
 RED     = \033[31m
@@ -10,15 +10,15 @@ YELLOW  = \033[33m
 BLUE    = \033[34m
 
 ifeq ($(DEBUG), 1)
-	CFLAGS+=-g3
+	CFLAGS+=-g3 -gdwarf-4
 endif
 
 ifeq ($(SAN), 1)
-	CFLAGS+=-fsanitize=address
+	CFLAGS+=-fsanitize=address -gdwarf-4
 endif
 
 ifeq ($(DEV), 1)
-	CFLAGS+=-fsanitize=address -g3
+	CFLAGS+=-fsanitize=address -g3 -gdwarf-4
 endif
 
 INCLUDES = -Iinclude -Ilibft/includes
@@ -69,8 +69,7 @@ SRC =	src/main.c \
 		src/exec/here_doc.c \
 		src/exec/error.c \
 		src/exec/exec_mini.c \
-		src/signaux/ctrl_c.c \
-		src/signaux/ctrl_backslash.c
+		src/signals/signals.c
 
 OBJ=$(SRC:.c=.o)
 MMD=$(SRC:.c=.d)

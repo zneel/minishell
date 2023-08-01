@@ -6,12 +6,48 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:20:09 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/27 17:02:22 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/07/28 16:10:09 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expand.h"
 #include <string.h>
+
+char	*expand_variable(char *input)
+{
+	var_end = strchr(input, ' ');
+	if (!var_end)
+		var_end = strchr(input, '\'');
+	if (!var_end)
+		var_end = strchr(input, '\"');
+	if (!var_end)
+		var_end = input + strlen(input);
+	var_name = malloc(var_end - input + 1);
+	strncpy(var_name, input, var_end - input);
+	var_name[var_end - input] = '\0';
+	var_value = getenv(var_name);
+	if (var_value)
+	{
+		new_size = r - result + strlen(var_value) + strlen(input) + 1;
+		if (new_size > result_size)
+		{
+			result_size = new_size;
+			r_offset = r - result;
+			result = realloc(result, result_size);
+			r = result + r_offset;
+		}
+		strcpy(r, var_value);
+		r += strlen(var_value);
+	}
+	else
+	{
+		*r++ = '$';
+		strcpy(r, var_name);
+		r += strlen(var_name);
+	}
+	free(var_name);
+	input = var_end;
+}
 
 char	*expand(const char *input)
 {
@@ -61,42 +97,7 @@ char	*expand(const char *input)
 				*r++ = *input++;
 			}
 			else
-			{
-				input++;
-				var_end = strchr(input, ' ');
-				if (!var_end)
-					var_end = strchr(input, '\'');
-				if (!var_end)
-					var_end = strchr(input, '\"');
-				if (!var_end)
-					var_end = input + strlen(input);
-				var_name = malloc(var_end - input + 1);
-				strncpy(var_name, input, var_end - input);
-				var_name[var_end - input] = '\0';
-				var_value = getenv(var_name);
-				if (var_value)
-				{
-					new_size = r - result + strlen(var_value) + strlen(input)
-						+ 1;
-					if (new_size > result_size)
-					{
-						result_size = new_size;
-						r_offset = r - result;
-						result = realloc(result, result_size);
-						r = result + r_offset;
-					}
-					strcpy(r, var_value);
-					r += strlen(var_value);
-				}
-				else
-				{
-					*r++ = '$';
-					strcpy(r, var_name);
-					r += strlen(var_name);
-				}
-				free(var_name);
-				input = var_end;
-			}
+				expand_variable(++input);
 			break ;
 		default:
 			*r++ = *input++;

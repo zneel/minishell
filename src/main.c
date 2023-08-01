@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/14 13:04:22 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/18 13:25:42 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,16 @@
 #include "lists.h"
 #include "minishell.h"
 #include "parser.h"
-#include "signaux.h"
+#include "signals.h"
 
 void	init_minishell(t_minishell *minishell, char **env)
 {
+	signal(SIGINT, sig_handler_minishell);
+	signal(SIGQUIT, sig_handler_minishell);
 	minishell->env = env_cpy(env);
 	minishell->pids = NULL;
 	minishell->root = NULL;
-	minishell->last_status = -1;
+	minishell->last_status = 0;
 	minishell->std[0] = dup(STDIN_FILENO);
 	minishell->std[1] = dup(STDOUT_FILENO);
 }
@@ -62,8 +64,6 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	signal(SIGINT, sigint);
-	signal(SIGQUIT, SIG_IGN);
 	init_minishell(&minishell, env);
 	while (1)
 	{

@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ctrl_backslash.c                                   :+:      :+:    :+:   */
+/*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/15 10:09:27 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/15 10:23:05 by mhoyer           ###   ########.fr       */
+/*   Created: 2023/07/15 10:05:07 by mhoyer            #+#    #+#             */
+/*   Updated: 2023/08/01 18:37:44 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "signaux.h"
+#ifndef SIGNALS_H
+# define SIGNALS_H
 
-void	sigquit()
-{
-	
-}
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdio.h>
+
+void	sig_handler_minishell(int sig);
+void	sig_handler_job(int sig);
+#endif

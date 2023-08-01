@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/01 10:51:01 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/01 18:40:51 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 
 # define FILE_HEREDOC "/tmp/here_doc.tmp"

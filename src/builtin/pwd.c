@@ -6,21 +6,23 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 07:41:40 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/27 11:01:36 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/01 10:50:53 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-int	pwd(t_minishell minishell)
+int	pwd(t_minishell *minishell)
 {
 	char	*dir;
+	t_kv	*env;
 
-	while (minishell.env)
+	env = minishell->env;
+	while (env)
 	{
 		if (get_env(minishell, "PWD="))
-			return (printf("%s\n", minishell.env->value), 0);
-		minishell.env = minishell.env->next;
+			return (printf("%s\n", env->value), 0);
+		env = env->next;
 	}
 	dir = getcwd(NULL, 0);
 	if (dir == NULL)

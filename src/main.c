@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/18 13:25:42 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/18 13:26:47 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 
 void	init_minishell(t_minishell *minishell, char **env)
 {
-	signal(SIGINT, sig_handler_minishell);
-	signal(SIGQUIT, sig_handler_minishell);
 	minishell->env = env_cpy(env);
 	minishell->pids = NULL;
 	minishell->root = NULL;
@@ -67,6 +65,8 @@ int	main(int argc, char **argv, char **env)
 	init_minishell(&minishell, env);
 	while (1)
 	{
+		signal(SIGINT, sig_handler_minishell);
+		signal(SIGQUIT, sig_handler_minishell);
 		line = readline("minishell> ");
 		if (!line)
 			return (free_minishell(&minishell), 0);

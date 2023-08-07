@@ -6,12 +6,14 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 13:31:06 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/01 19:35:56 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/02 12:05:34 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "signals.h"
+
+int		g_sigint = 0;
 
 void	sig_handler_minishell(int sig)
 {
@@ -32,4 +34,10 @@ void	sig_handler_minishell(int sig)
 void	sig_handler_job(int sig)
 {
 	(void)sig;
+}
+
+void	sig_handler_here_doc(int sig)
+{
+	if (sig == SIGINT)
+		g_sigint = 1;
 }

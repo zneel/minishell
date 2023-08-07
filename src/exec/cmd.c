@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:52:56 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/27 11:48:50 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/02 11:46:10 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
+#include "signals.h"
 
 void	dup_in(t_command *cmd)
 {
@@ -61,6 +62,8 @@ void	execute_command(t_command *cmd, t_minishell *minishell)
 
 	if (cmd->has_heredoc == true)
 		here_doc(cmd->file_in);
+	if (g_sigint == 1)
+		return ;
 	pid = fork();
 	if (pid == -1)
 		exit(1);
@@ -75,5 +78,9 @@ void	execute_command(t_command *cmd, t_minishell *minishell)
 			exec_failed(cmd, env, minishell, 1);
 	}
 	else
+	{
+		signal(SIGINT, sig_handler_job);
+		signal(SIGQUIT, sig_handler_job);
 		ft_lstadd_back(&minishell->pids, ft_lstnew(&pid));
+	}
 }

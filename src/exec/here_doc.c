@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 09:51:32 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 12:06:46 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/02 15:31:23 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
+#include "signals.h"
 
 int	str_cmpend(char *line, char *limiter)
 {
@@ -32,12 +33,21 @@ void	here_doc(char *limiter)
 	fd = open(FILE_HEREDOC, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (fd == -1)
 		return ;
-	line = readline("here_doc> ");
-	while (line && str_cmpend(line, limiter) != 0)
+	while (1)
 	{
+		signal(SIGINT, sig_handler_here_doc);
+		line = readline("> ");
+		if (!line || str_cmpend(line, limiter) != 0)
+			break ;
 		ft_putendl_fd(line, fd);
 		free(line);
-		line = readline("here_doc> ");
+		if (g_sigint == 1)
+		{
+			free(line);
+			close(fd);
+			unlink(FILE_HEREDOC);
+			return ;
+		}
 	}
 	close(fd);
 }

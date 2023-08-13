@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:03 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/27 12:53:32 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/13 15:15:39 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	exec_cmd(t_node *node, t_minishell *minishell)
 		if (command->builtin != W_PATH)
 			minishell->last_status = exec_builtin(command, minishell, true);
 		else
-			return(msg_error("No such file or directory", command->command[0]));
+			return (msg_error("No such file or directory",
+					command->command[0]));
 	}
 	else
 	{

@@ -60,6 +60,7 @@ SRC =	src/main.c \
 		src/exec/middle_pipe.c \
 		src/exec/last_pipe.c \
 		src/exec/pipeline.c \
+		src/exec/open_file_cmd.c \
 		src/exec/utils.c \
 		src/exec/here_doc.c \
 		src/exec/error.c \

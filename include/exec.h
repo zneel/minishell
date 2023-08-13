@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:21 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/13 15:06:14 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/13 17:01:27 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int			execute_pipeline(t_node *root, t_node *node, t_minishell *minishell,
 void		init_pipes(int pipefd[2][2]);
 void		close_if(int fd);
 void		wait_all(t_minishell *minishell);
+void		dup_for_out(t_command *cmd);
+void		dup_for_in(t_command *cmd);
 t_command	*open_file(t_command *command, t_node *node);
 t_command	*node_to_command(t_node *node, char **env);
 int			msg_error(char *str, char *error);

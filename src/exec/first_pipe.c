@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:37 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/27 14:27:21 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/13 16:56:01 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,14 @@ void	child_first(t_command *cmd, int pipefd[2][2])
 	}
 	dup2(fdin, STDIN_FILENO);
 	close(fdin);
-	close_if(pipefd[1][0]);
-	dup2(pipefd[1][1], STDOUT_FILENO);
-	close_if(pipefd[1][1]);
+	if (cmd->has_append == false && cmd->has_outfile == false)
+	{
+		close_if(pipefd[1][0]);
+		dup2(pipefd[1][1], STDOUT_FILENO);
+		close_if(pipefd[1][1]);
+	}
+	else
+		dup_for_out(cmd);
 }
 
 void	builtin_first(t_command *cmd, char **env, t_minishell *minishell)

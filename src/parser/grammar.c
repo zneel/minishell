@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 13:17:18 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/14 11:47:37 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/14 14:45:28 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,9 @@ t_node	*simple_command(t_parser *parser)
 	return (node);
 }
 
-t_node *append_node_left(t_node *head, t_node *append)
+t_node	*append_node_left(t_node *head, t_node *append)
 {
-	t_node *tmp;
+	t_node	*tmp;
 
 	tmp = head;
 	if (!head)
@@ -113,9 +113,9 @@ t_node *append_node_left(t_node *head, t_node *append)
 	return (head);
 }
 
-t_node *append_node_right(t_node *head, t_node *append)
+t_node	*append_node_right(t_node *head, t_node *append)
 {
-	t_node *tmp;
+	t_node	*tmp;
 
 	tmp = head;
 	if (!head)
@@ -148,15 +148,25 @@ t_node	*command(t_parser *parser)
 	return (cmd);
 }
 
+void	free_stack(t_stack *stack)
+{
+	free(stack->content);
+	free(stack);
+}
+
 t_node	*group(t_parser *parser)
 {
 	t_node	*node;
+	char	*top;
 
 	node = command_line(parser);
 	if (!node)
 		return (NULL);
+	top = stack_peek(parser->parse_stack);
 	if (!accept(parser, T_RPAREN))
 		return (ast_delete(node), NULL);
+	if (top && *top == '(')
+		stack_pop(&parser->parse_stack, (void *)free_stack);
 	return (node);
 }
 
@@ -193,7 +203,7 @@ t_node	*expr(t_parser *parser)
 	node = NULL;
 	if (accept(parser, T_LPAREN))
 	{
-		stack_push(&parser->parse_stack, (void *)LPAREN);
+		stack_push(&parser->parse_stack, ft_strdup("("));
 		node = group(parser);
 		if (!node)
 			return (NULL);
@@ -233,6 +243,12 @@ t_node	*command_line(t_parser *parser)
 	return (left_node);
 }
 
+void	delete_parse(t_node *root, t_parser *parser)
+{
+	ast_delete(root);
+	stack_delete(&parser->parse_stack, (void *)free_stack);
+}
+
 t_node	*parse_grammar(t_parser *parser)
 {
 	t_node	*root;
@@ -245,7 +261,13 @@ t_node	*parse_grammar(t_parser *parser)
 	{
 		ft_dprintf(2, "minishell: syntax error near unexpected token `%s'\n",
 				token_to_str(parser->current_tok->type));
-		ast_delete(root);
+		delete_parse(root, parser);
+		return (NULL);
+	}
+	if (!stack_is_empty(parser->parse_stack))
+	{
+		ft_dprintf(2, "minishell: unclosed parenthesis\n");
+		delete_parse(root, parser);
 		return (NULL);
 	}
 	if (!root)

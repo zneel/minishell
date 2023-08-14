@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/01 10:25:38 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/14 13:04:22 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,19 @@ void	execute(t_minishell *minishell, char *line)
 	prep_exec(minishell);
 }
 
+int	str_all_space(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (!ft_isspace(str[i]))
+			return (0);
+	}
+	return (1);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	minishell;
@@ -57,7 +70,7 @@ int	main(int argc, char **argv, char **env)
 		line = readline("minishell> ");
 		if (!line)
 			return (free_minishell(&minishell), 0);
-		if (line && *line && !ft_isspace(*line))
+		if (line && *line && !str_all_space(line))
 			add_history(line);
 		execute(&minishell, line);
 		printf("last = %d\n", minishell.last_status);

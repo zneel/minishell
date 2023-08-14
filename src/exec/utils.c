@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:54:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/27 16:49:28 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/14 11:07:57 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_command	*node_to_command(t_node *node, char **env)
 	splited = ft_split(node->data, " ");
 	if (!splited)
 		return (NULL);
-	if (!strrchr(splited[0], '/'))
+	if (!ft_strrchr(splited[0], '/'))
 		command->has_path = false;
 	else
 		command->has_path = true;

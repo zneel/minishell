@@ -1,6 +1,6 @@
 NAME=minishell
 CC=clang
-CFLAGS=-Wall -Wextra -Werror -O2 -gdwarf-4 -std=c99 -MMD
+CFLAGS=-Wall -Wextra -Werror -O2 -gdwarf-4 -MMD
 
 RESET   = \033[0m
 RED     = \033[31m

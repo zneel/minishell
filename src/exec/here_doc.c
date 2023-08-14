@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 09:51:32 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/02 15:31:23 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/14 14:15:31 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,21 @@ void	here_doc(char *limiter)
 	fd = open(FILE_HEREDOC, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (fd == -1)
 		return ;
+	line = NULL;
 	while (1)
 	{
 		signal(SIGINT, sig_handler_here_doc);
-		line = readline("> ");
-		if (!line || str_cmpend(line, limiter) != 0)
-			break ;
-		ft_putendl_fd(line, fd);
-		free(line);
 		if (g_sigint == 1)
 		{
-			free(line);
 			close(fd);
 			unlink(FILE_HEREDOC);
 			return ;
 		}
+		line = readline("> ");
+		if (!line || str_cmpend(line, limiter) == 0)
+			break ;
+		ft_putendl_fd(line, fd);
+		free(line);
 	}
 	close(fd);
 }

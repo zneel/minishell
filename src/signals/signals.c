@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 13:31:06 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/02 12:05:34 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/14 14:25:41 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	sig_handler_job(int sig)
 
 void	sig_handler_here_doc(int sig)
 {
+	close(0);
 	if (sig == SIGINT)
 		g_sigint = 1;
 }

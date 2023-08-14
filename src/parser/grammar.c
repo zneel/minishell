@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 13:17:18 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/28 16:03:01 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/14 11:47:37 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,40 +100,51 @@ t_node	*simple_command(t_parser *parser)
 	return (node);
 }
 
+t_node *append_node_left(t_node *head, t_node *append)
+{
+	t_node *tmp;
+
+	tmp = head;
+	if (!head)
+		return (append);
+	while (tmp->left)
+		tmp = tmp->left;
+	tmp->left = append;
+	return (head);
+}
+
+t_node *append_node_right(t_node *head, t_node *append)
+{
+	t_node *tmp;
+
+	tmp = head;
+	if (!head)
+		return (append);
+	while (tmp->right)
+		tmp = tmp->right;
+	tmp->right = append;
+	return (head);
+}
+
 t_node	*command(t_parser *parser)
 {
-	t_node	*input;
 	t_node	*cmd;
-	t_node	*last_input;
+	t_node	*input;
 	t_node	*output;
-	t_node	*last_output;
 
-	last_input = NULL;
-	last_output = NULL;
+	input = NULL;
+	output = NULL;
 	while (peek(parser, T_LESS) || peek(parser, T_DLESS))
-	{
-		input = io_redirect(parser);
-		if (last_input)
-			last_input->left = input;
-		else
-			last_input = input;
-	}
+		input = append_node_left(input, io_redirect(parser));
 	cmd = simple_command(parser);
 	if (!cmd)
 		return (NULL);
-	if (last_input)
-		ast_attach_binary(cmd, last_input, NULL);
+	if (input)
+		ast_attach_binary(cmd, input, NULL);
 	while (peek(parser, T_GREAT) || peek(parser, T_DGREAT))
-	{
-		output = io_redirect(parser);
-		if (last_output)
-			last_output->right = output;
-		else
-		{
-			ast_attach_binary(cmd, NULL, output);
-			last_output = output;
-		}
-	}
+		output = append_node_right(output, io_redirect(parser));
+	if (output)
+		ast_attach_binary(cmd, NULL, output);
 	return (cmd);
 }
 

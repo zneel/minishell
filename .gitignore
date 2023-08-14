@@ -16,3 +16,4 @@ minishell
 .vscode
 compile_commands.json
 .cache
+.nfs*

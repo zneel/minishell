@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 12:57:05 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/26 21:15:25 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/14 10:28:15 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*join_cmd(char *cmd, char **env)
 	{
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
 		{
-			paths = split_paths(env[i]);
+			paths = split_paths(&env[i][5]);
 			if (!paths)
 				return (NULL);
 			good_cmd = get_good_cmd(paths, cmd);

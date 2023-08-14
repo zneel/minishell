@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:47:47 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/21 16:03:01 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/24 15:58:52 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ t_command	*prep_cmd_pipe(t_node *node, t_minishell *minishell)
 	char		**env;
 
 	env = convert_env(minishell->env);
-	if (!env)
-		return (NULL);
 	command = node_to_command(node, env);
 	free_mat(env);
 	return (command);

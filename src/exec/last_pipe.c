@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   last_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:41 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/13 17:03:22 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/24 15:58:45 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	execute_last(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 	if (pid == 0)
 	{
 		env = convert_env(minishell->env);
-		if (!env)
+		if (!env && !cmd->has_path && !cmd->builtin)
 			exec_failed(cmd, env, minishell, 1);
 		if (cmd->builtin)
 			builtin_last(cmd, env, minishell);

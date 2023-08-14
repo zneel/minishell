@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   middle_pipe.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:39 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/13 17:04:45 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/24 15:58:49 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	execute_middle(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 	if (pid == 0)
 	{
 		env = convert_env(minishell->env);
-		if (!env)
+		if (!env && !cmd->has_path && !cmd->builtin)
 			exec_failed(cmd, env, minishell, 1);
 		if (cmd->builtin)
 			builtin_middle(cmd, env, minishell);

@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:39 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/13 17:04:45 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/15 16:22:41 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	parent_middle(int pipefd[2][2])
 	close_if(pipefd[1][1]);
 }
 
-void	child_middle(int pipefd[2][2], t_command *cmd)
+void	child_middle(int pipefd[2][2], t_command *cmd, t_minishell *minishell)
 {
 	if (cmd->has_heredoc == false && cmd->has_infile == false)
 	{
@@ -29,7 +29,7 @@ void	child_middle(int pipefd[2][2], t_command *cmd)
 		close_if(pipefd[0][0]);
 	}
 	else
-		dup_for_in(cmd);
+		dup_for_in(cmd, minishell);
 	if (cmd->has_append == false && cmd->has_outfile == false)
 	{
 		close_if(pipefd[1][0]);
@@ -37,7 +37,7 @@ void	child_middle(int pipefd[2][2], t_command *cmd)
 		close_if(pipefd[1][1]);
 	}
 	else
-		dup_for_out(cmd);
+		dup_for_out(cmd, minishell);
 }
 
 void	builtin_middle(t_command *cmd, char **env, t_minishell *minishell)
@@ -58,7 +58,7 @@ int	execute_middle(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 		return (1);
 	ft_lstadd_back(&minishell->pids, ft_lstnew(&pid));
 	if (pid == 0)
-		child_middle(pipefd, cmd);
+		child_middle(pipefd, cmd, minishell);
 	else
 		parent_middle(pipefd);
 	if (pid == 0)

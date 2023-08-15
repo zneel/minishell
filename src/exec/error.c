@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 11:04:11 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/27 11:28:44 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/15 14:36:08 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,14 @@ int	msg_error(char *str, char *error)
 	return (1);
 }
 
+int	free_and_msg(char *str, char *error, t_minishell *minishell, t_command *cmd)
+{
+	ft_dprintf(2, "minishell: %s: %s\n", error, str);
+	free_minishell(minishell);
+	free_cmd(cmd);
+	return (1);
+}
+
 void	free_cmd(t_command *cmd)
 {
 	free_mat(cmd->command);
@@ -50,14 +58,4 @@ void	free_cmd(t_command *cmd)
 void	nothing(void *x)
 {
 	(void)x;
-}
-
-void	free_minishell(t_minishell *minishell)
-{
-	rl_clear_history();
-	ast_delete(minishell->root);
-	ft_lstclear(&minishell->pids, nothing);
-	ft_lstclear_env(&minishell->env, free);
-	close(minishell->std[0]);
-	close(minishell->std[1]);
 }

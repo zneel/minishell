@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:37 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/13 16:56:01 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/15 16:20:17 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	parent_first(int pipefd[2][2])
 	close_if(pipefd[1][1]);
 }
 
-void	child_first(t_command *cmd, int pipefd[2][2])
+void	child_first(t_command *cmd, int pipefd[2][2], t_minishell *minishell)
 {
 	int	fdin;
 
@@ -31,9 +31,11 @@ void	child_first(t_command *cmd, int pipefd[2][2])
 	if (fdin == -1)
 	{
 		if (cmd->has_heredoc == false)
-			exit(msg_error("No such file or directory", cmd->file_in));
+			exit(free_and_msg("No such file or directory", cmd->file_in,
+					minishell, cmd));
 		else
-			exit(msg_error("No such file or directory", FILE_HEREDOC));
+			exit(free_and_msg("No such file or directory", FILE_HEREDOC,
+					minishell, cmd));
 	}
 	dup2(fdin, STDIN_FILENO);
 	close(fdin);
@@ -44,7 +46,7 @@ void	child_first(t_command *cmd, int pipefd[2][2])
 		close_if(pipefd[1][1]);
 	}
 	else
-		dup_for_out(cmd);
+		dup_for_out(cmd, minishell);
 }
 
 void	builtin_first(t_command *cmd, char **env, t_minishell *minishell)
@@ -67,7 +69,7 @@ int	execute_first(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 		return (1);
 	ft_lstadd_back(&minishell->pids, ft_lstnew(&pid));
 	if (pid == 0)
-		child_first(cmd, pipefd);
+		child_first(cmd, pipefd, minishell);
 	else
 		parent_first(pipefd);
 	if (pid == 0)

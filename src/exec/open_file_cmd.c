@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 15:04:59 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/13 15:15:13 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/15 10:59:00 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,9 @@ t_node	*try_access_out(t_node	*parc_outfile, int *next_out)
 {
 	int		fd;
 
-	if (access(parc_outfile->data, F_OK | R_OK) == -1)
+	if (access(parc_outfile->data, F_OK) == -1)
 	{
 		fd = open(parc_outfile->data, O_CREAT, 0644);
-		if (fd == -1)
-			return (NULL);
 		close(fd);
 	}
 	if (parc_outfile->right)

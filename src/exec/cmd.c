@@ -6,13 +6,13 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:52:56 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/27 11:48:50 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/15 16:13:21 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-void	dup_in(t_command *cmd)
+void	dup_in(t_command *cmd, t_minishell *minishell)
 {
 	int	fdin;
 
@@ -23,22 +23,27 @@ void	dup_in(t_command *cmd)
 	if (fdin == -1)
 	{
 		if (cmd->has_heredoc == false)
-			exit(msg_error("No such file or directory", cmd->file_in));
+			exit(free_and_msg("No such file or directory", cmd->file_in,
+					minishell, cmd));
 		else
-			exit(msg_error("No such file or directory", FILE_HEREDOC));
+			exit(free_and_msg("No such file or directory", FILE_HEREDOC,
+					minishell, cmd));
 	}
 	dup2(fdin, STDIN_FILENO);
 	close(fdin);
 }
 
-void	dup_out(t_command *cmd)
+void	dup_out(t_command *cmd, t_minishell *minishell)
 {
 	int	fdout;
 
 	if (cmd->has_append == false)
-		fdout = open(cmd->file_out, O_WRONLY | O_TRUNC);
+		fdout = open(cmd->file_out, O_WRONLY | O_TRUNC, 0644);
 	else
-		fdout = open(cmd->file_out, O_WRONLY | O_APPEND);
+		fdout = open(cmd->file_out, O_WRONLY | O_APPEND, 0644);
+	if (fdout == -1)
+		exit(free_and_msg("No such file or directory", cmd->file_out, minishell,
+				cmd));
 	dup2(fdout, STDOUT_FILENO);
 	close(fdout);
 }
@@ -66,8 +71,8 @@ void	execute_command(t_command *cmd, t_minishell *minishell)
 		exit(1);
 	if (pid == 0)
 	{
-		dup_in(cmd);
-		dup_out(cmd);
+		dup_in(cmd, minishell);
+		dup_out(cmd, minishell);
 		env = convert_env(minishell->env);
 		if (!env)
 			exec_failed(cmd, env, minishell, 1);

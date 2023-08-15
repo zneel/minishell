@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 22:14:40 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/01 10:50:20 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/15 11:58:24 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int	prep_exec_builtin(t_command *cmd)
 		else
 			return (msg_error("No such file or directory", FILE_HEREDOC));
 	}
+	if (fdout == -1)
+		return (msg_error("No such file or directory", cmd->file_out));
 	dup2(fdin, STDIN_FILENO);
 	dup2(fdout, STDOUT_FILENO);
 	close(fdin);

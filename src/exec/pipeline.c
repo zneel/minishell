@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:47:47 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/24 16:33:12 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/18 15:01:11 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,21 @@ int	exec_cmd_pipe(t_node *root, t_node *node, t_minishell *minishell,
 	{
 		if (pipe(pipefd[1]) == -1 || execute_first(command, minishell,
 				pipefd) == 1)
-			return (free_cmd(command), 1);
+			return (free(command), 1);
 	}
 	else if (check_middle(root, node))
 	{
 		if (pipe(pipefd[1]) == -1 || execute_middle(command, minishell,
 				pipefd) == 1)
-			return (free_cmd(command), 1);
+			return (free(command), 1);
 	}
 	else if (node->parent && node->parent == root
-		&& node->parent->right == node)
+			&& node->parent->right == node)
 	{
 		if (execute_last(command, minishell, pipefd) == 1)
-			return (free_cmd(command), 1);
+			return (free(command), 1);
 	}
-	return (free_cmd(command), 0);
+	return (free(command), 0);
 }
 
 int	execute_pipeline(t_node *root, t_node *node, t_minishell *minishell,

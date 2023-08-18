@@ -6,10 +6,11 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 11:33:20 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/18 14:34:58 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:57:18 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "parser.h"
 
 t_node	*new_node(t_node_type type)
@@ -75,7 +76,7 @@ void	ast_delete(t_node *node)
 	ast_delete(node->right);
 	if (node->data)
 	{
-		free(node->data);
+		free_mat(node->data);
 		node->data = NULL;
 	}
 	free(node);

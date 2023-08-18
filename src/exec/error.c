@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 11:04:11 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/27 11:28:44 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/18 15:00:20 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ void	exec_failed(t_command *cmd, char **env, t_minishell *minishell,
 	free_minishell(minishell);
 	if (cmd->builtin)
 	{
-		free_cmd(cmd);
+		free(cmd);
 		if (status == 1)
 			exit(126);
 		exit(0);
 	}
-	free_cmd(cmd);
+	free(cmd);
 	exit(127);
 }
 
@@ -39,12 +39,6 @@ int	msg_error(char *str, char *error)
 {
 	ft_dprintf(2, "minishell: %s: %s\n", error, str);
 	return (1);
-}
-
-void	free_cmd(t_command *cmd)
-{
-	free_mat(cmd->command);
-	free(cmd);
 }
 
 void	nothing(void *x)

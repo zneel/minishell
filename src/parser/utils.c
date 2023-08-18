@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:00:29 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/18 14:39:42 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:53:04 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	pretty_print_ast(t_node *node, char *prefix)
 {
 	int		len;
 	char	*new_prefix;
+	int		i;
 
 	if (node == NULL)
 		return ;
@@ -74,12 +75,12 @@ void	pretty_print_ast(t_node *node, char *prefix)
 	if (node->data != NULL)
 	{
 		printf("%s|   ├── Data: ", prefix);
-		while (node->data != NULL)
+		i = 0;
+		while (node->data[i] != NULL)
 		{
-			printf("%s", *node->data);
-			if (*(node->data + 1) != NULL)
+			printf("%s", node->data[i++]);
+			if (node->data[i] != NULL)
 				printf(" ");
-			node->data++;
 		}
 		printf("\n");
 	}

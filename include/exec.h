@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:21 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/13 17:01:27 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/18 14:51:10 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <unistd.h>
 
 int			test_cmd(char *cmd);
-char		**get_cmd(char *raw_cmd, char **env);
+char		**get_cmd(char **cmd, char **env);
 int			prep_exec(t_minishell *minishell);
 void		here_doc(char *limiter);
 

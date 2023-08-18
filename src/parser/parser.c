@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:05:49 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/24 17:06:49 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/18 13:19:27 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,6 @@ t_bool	accept(t_parser *parser, t_type type)
 t_bool	peek(t_parser *parser, t_type type)
 {
 	if (type == parser->current_tok->type)
-		return (true);
-	return (false);
-}
-
-t_bool	peek_next(t_parser *parser, t_type type)
-{
-	if (type == parser->current_tok->next->type)
 		return (true);
 	return (false);
 }

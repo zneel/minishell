@@ -33,6 +33,9 @@ SRC =	src/main.c \
 		src/parser/grammar.c \
 		src/parser/utils.c \
 		src/parser/ast.c \
+		src/parser/command.c \
+		src/parser/group.c \
+		src/parser/io.c \
 		src/builtin/check_builtin.c \
 		src/builtin/exec_builtin.c \
 		src/builtin/echo.c \

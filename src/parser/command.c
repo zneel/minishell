@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 13:11:07 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/18 14:37:20 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/18 21:40:37 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,19 @@ t_node	*simple_command(t_parser *parser)
 	t_node	*node;
 	int		i;
 
-	if (!peek(parser, T_WORD))
-		return (NULL);
 	node = new_node(COMMAND);
 	if (!node)
 		return (NULL);
+	if (!peek(parser, T_WORD))
+		return (node);
 	node->data = malloc(sizeof(char *) * (count_args(parser) + 1));
 	if (!node->data)
 		return (NULL);
 	i = 0;
 	while (peek(parser, T_WORD))
 	{
-		node->data[i++] = ft_strdup(parser->current_tok->value);
+		node->data[i] = ft_strdup(parser->current_tok->value);
+		i++;
 		accept(parser, T_WORD);
 	}
 	node->data[i] = NULL;

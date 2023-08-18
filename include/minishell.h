@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/14 14:29:33 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/18 21:51:27 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,13 @@ typedef struct s_command
 	char		**command;
 	char		*file_in;
 	char		*file_out;
-	int			has_heredoc;
-	int			has_append;
-	int			has_infile;
-	int			has_outfile;
-	int			has_path;
+	t_bool		has_heredoc;
+	t_bool		has_append;
+	t_bool		has_infile;
+	t_bool		has_outfile;
+	t_bool		has_path;
 	int			builtin;
+	t_bool		can_exec;
 }				t_command;
 
 char			**ft_separate(char *str, char sep);

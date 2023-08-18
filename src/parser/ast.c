@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 11:33:20 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/18 14:57:18 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/18 15:54:25 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,8 @@ void	ast_delete(t_node *node)
 		return ;
 	ast_delete(node->left);
 	ast_delete(node->right);
-	if (node->data)
-	{
-		free_mat(node->data);
-		node->data = NULL;
-	}
+	free_mat(node->data);
+	node->data = NULL;
 	free(node);
 	node = NULL;
 }

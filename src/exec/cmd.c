@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:52:56 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/02 11:46:10 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/18 21:57:37 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,29 @@ void	exec_annexe_builtin(t_command *cmd, char **env, t_minishell *minishell)
 	exec_failed(cmd, env, minishell, status);
 }
 
+void	sub_execute(t_command *cmd, t_minishell *minishell)
+{
+	char	**env;
+
+	env = convert_env(minishell->env);
+	dup_in(cmd);
+	dup_out(cmd);
+	if (!cmd->can_exec)
+	{
+		free(cmd);
+		free_mat(env);
+		free_minishell(minishell);
+		exit(0);
+	}
+	if (!env)
+		exec_failed(cmd, env, minishell, 1);
+	if (execve(cmd->command[0], cmd->command, env) == -1)
+		exec_failed(cmd, env, minishell, 1);
+}
+
 void	execute_command(t_command *cmd, t_minishell *minishell)
 {
 	pid_t	pid;
-	char	**env;
 
 	if (cmd->has_heredoc == true)
 		here_doc(cmd->file_in);
@@ -68,15 +87,7 @@ void	execute_command(t_command *cmd, t_minishell *minishell)
 	if (pid == -1)
 		exit(1);
 	if (pid == 0)
-	{
-		dup_in(cmd);
-		dup_out(cmd);
-		env = convert_env(minishell->env);
-		if (!env)
-			exec_failed(cmd, env, minishell, 1);
-		if (execve(cmd->command[0], cmd->command, env) == -1)
-			exec_failed(cmd, env, minishell, 1);
-	}
+		sub_execute(cmd, minishell);
 	else
 	{
 		signal(SIGINT, sig_handler_job);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 21:51:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/26 21:19:48 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/18 21:49:19 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_strncmp_back(char *str, char *ex, int size)
 	return (1);
 }
 
-int	check_npath(char *cmd)
+t_builtin_type	check_npath(char *cmd)
 {
 	if (!cmd)
 		return (NONE);
@@ -46,7 +46,7 @@ int	check_npath(char *cmd)
 	return (0);
 }
 
-int	check_wpath(char *cmd)
+t_builtin_type	check_wpath(char *cmd)
 {
 	if (!cmd)
 		return (NONE);
@@ -65,7 +65,7 @@ int	check_wpath(char *cmd)
 	return (0);
 }
 
-int	check_builtin(char *str)
+t_builtin_type	check_builtin(char *str)
 {
 	int	builtin;
 

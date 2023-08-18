@@ -6,11 +6,52 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 11:33:20 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/28 15:58:29 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/18 13:15:54 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+
+t_node	*new_node(t_node_type type, char *data)
+{
+	t_node	*node;
+
+	node = malloc(sizeof(t_node));
+	if (!node)
+		return (NULL);
+	node->type = type;
+	node->data = data;
+	node->left = NULL;
+	node->right = NULL;
+	node->parent = NULL;
+	return (node);
+}
+
+t_node	*append_node_left(t_node *head, t_node *append)
+{
+	t_node	*tmp;
+
+	tmp = head;
+	if (!head)
+		return (append);
+	while (tmp->left)
+		tmp = tmp->left;
+	tmp->left = append;
+	return (head);
+}
+
+t_node	*append_node_right(t_node *head, t_node *append)
+{
+	t_node	*tmp;
+
+	tmp = head;
+	if (!head)
+		return (append);
+	while (tmp->right)
+		tmp = tmp->right;
+	tmp->right = append;
+	return (head);
+}
 
 void	ast_attach_binary(t_node *root, t_node *left, t_node *right)
 {

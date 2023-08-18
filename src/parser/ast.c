@@ -6,13 +6,13 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 11:33:20 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/18 13:15:54 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:34:58 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-t_node	*new_node(t_node_type type, char *data)
+t_node	*new_node(t_node_type type)
 {
 	t_node	*node;
 
@@ -20,7 +20,7 @@ t_node	*new_node(t_node_type type, char *data)
 	if (!node)
 		return (NULL);
 	node->type = type;
-	node->data = data;
+	node->data = NULL;
 	node->left = NULL;
 	node->right = NULL;
 	node->parent = NULL;

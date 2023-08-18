@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 13:17:18 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/18 13:20:26 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:37:57 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_node	*pipeline(t_parser *parser)
 		return (NULL);
 	while (accept(parser, T_PIPE))
 	{
-		pipe_node = new_node(PIPE, NULL);
+		pipe_node = new_node(PIPE);
 		if (!pipe_node)
 			return (ast_delete(left_node), NULL);
 		right_node = command(parser);
@@ -71,7 +71,7 @@ t_node	*command_line(t_parser *parser)
 		return (NULL);
 	while (peek(parser, T_AND) || peek(parser, T_OR))
 	{
-		logical_node = new_node(lexer_to_node(parser->current_tok->type), NULL);
+		logical_node = new_node(lexer_to_node(parser->current_tok->type));
 		accept(parser, parser->current_tok->type);
 		if (!logical_node)
 			return (ast_delete(left_node), NULL);
@@ -97,7 +97,7 @@ t_node	*parse_grammar(t_parser *parser)
 	if (parser->current_tok->type != T_EOF)
 	{
 		ft_dprintf(2, "minishell: syntax error near unexpected token `%s'\n",
-			token_to_str(parser->current_tok->type));
+				token_to_str(parser->current_tok->type));
 		ast_delete(root);
 		return (NULL);
 	}

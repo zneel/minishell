@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:00:29 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/18 13:20:52 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:39:42 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,17 @@ void	pretty_print_ast(t_node *node, char *prefix)
 		return ;
 	printf("%s├── Type: %s\n", prefix, node_type_to_str(node->type));
 	if (node->data != NULL)
-		printf("%s|   ├── Data: %s\n", prefix, node->data);
+	{
+		printf("%s|   ├── Data: ", prefix);
+		while (node->data != NULL)
+		{
+			printf("%s", *node->data);
+			if (*(node->data + 1) != NULL)
+				printf(" ");
+			node->data++;
+		}
+		printf("\n");
+	}
 	len = strlen(prefix);
 	new_prefix = malloc(len + 5);
 	strcpy(new_prefix, prefix);

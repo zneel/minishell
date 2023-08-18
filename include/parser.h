@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:25:00 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/18 13:19:32 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:35:11 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef enum e_node_type
 struct					s_node
 {
 	t_node_type			type;
-	char				*data;
+	char				**data;
 	t_node				*left;
 	t_node				*right;
 	t_node				*parent;
@@ -74,7 +74,7 @@ AST
 void					ast_delete(t_node *node);
 void					ast_attach_binary(t_node *root, t_node *left,
 							t_node *right);
-t_node					*new_node(t_node_type type, char *data);
+t_node					*new_node(t_node_type type);
 t_node					*append_node_left(t_node *head, t_node *append);
 t_node					*append_node_right(t_node *head, t_node *append);
 

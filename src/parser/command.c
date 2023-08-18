@@ -6,35 +6,47 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 13:11:07 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/18 13:16:02 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:37:20 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
+int	count_args(t_parser *parser)
+{
+	int		count;
+	t_token	*curr;
+
+	count = 0;
+	curr = parser->current_tok;
+	while (curr && curr->type == T_WORD)
+	{
+		count++;
+		curr = curr->next;
+	}
+	return (count);
+}
+
 t_node	*simple_command(t_parser *parser)
 {
 	t_node	*node;
-	char	*tmp;
-	char	*new_word;
-	char	*joined;
+	int		i;
 
 	if (!peek(parser, T_WORD))
 		return (NULL);
-	node = new_node(COMMAND, ft_strdup(parser->current_tok->value));
+	node = new_node(COMMAND);
 	if (!node)
 		return (NULL);
-	accept(parser, T_WORD);
+	node->data = malloc(sizeof(char *) * (count_args(parser) + 1));
+	if (!node->data)
+		return (NULL);
+	i = 0;
 	while (peek(parser, T_WORD))
 	{
-		tmp = node->data;
-		new_word = ft_strjoin(" ", parser->current_tok->value);
-		joined = ft_strjoin(tmp, new_word);
-		free(tmp);
-		free(new_word);
-		node->data = joined;
+		node->data[i++] = ft_strdup(parser->current_tok->value);
 		accept(parser, T_WORD);
 	}
+	node->data[i] = NULL;
 	return (node);
 }
 

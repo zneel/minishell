@@ -6,13 +6,13 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 15:04:59 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/18 14:48:27 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/19 13:48:44 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-t_command	*open_infile(t_command *command, t_node *node)
+void	open_infile(t_command *command, t_node *node)
 {
 	t_node	*parc_infile;
 
@@ -33,7 +33,6 @@ t_command	*open_infile(t_command *command, t_node *node)
 		command->file_in = parc_infile->data[0];
 		command->has_heredoc = true;
 	}
-	return (command);
 }
 
 t_node	*try_access_out(t_node *parc_outfile, int *next_out)
@@ -54,7 +53,7 @@ t_node	*try_access_out(t_node *parc_outfile, int *next_out)
 	return (parc_outfile);
 }
 
-t_command	*open_outfile(t_command *command, t_node *node)
+void	open_outfile(t_command *command, t_node *node)
 {
 	int		next_out;
 	t_node	*parc_outfile;
@@ -62,9 +61,7 @@ t_command	*open_outfile(t_command *command, t_node *node)
 	parc_outfile = node->right;
 	next_out = 1;
 	while (next_out && parc_outfile)
-	{
 		parc_outfile = try_access_out(parc_outfile, &next_out);
-	}
 	if (parc_outfile && parc_outfile->type == GREAT)
 	{
 		command->file_out = parc_outfile->data[0];
@@ -75,12 +72,10 @@ t_command	*open_outfile(t_command *command, t_node *node)
 		command->file_out = parc_outfile->data[0];
 		command->has_append = true;
 	}
-	return (command);
 }
 
-t_command	*open_file(t_command *command, t_node *node)
+void	open_file(t_command *command, t_node *node)
 {
-	command = open_infile(command, node);
-	command = open_outfile(command, node);
-	return (command);
+	open_infile(command, node);
+	open_outfile(command, node);
 }

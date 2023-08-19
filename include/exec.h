@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:21 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/18 14:51:10 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/19 13:47:02 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,9 @@ void		close_if(int fd);
 void		wait_all(t_minishell *minishell);
 void		dup_for_out(t_command *cmd);
 void		dup_for_in(t_command *cmd);
-t_command	*open_file(t_command *command, t_node *node);
+void		open_file(t_command *command, t_node *node);
 t_command	*node_to_command(t_node *node, char **env);
 int			msg_error(char *str, char *error);
-void		free_cmd(t_command *cmd);
 void		free_minishell(t_minishell *minishell);
 void		exec_failed(t_command *cmd, char **env, t_minishell *minishell,
 				int status);

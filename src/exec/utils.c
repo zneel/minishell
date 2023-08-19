@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:54:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/21 15:49:54 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:50:24 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ t_command	*init_command(t_node *node)
 	command->builtin = NONE;
 	command->file_in = "/dev/stdin";
 	command->file_out = "/dev/stdout";
-	command->has_path = false;
 	command->has_heredoc = false;
 	command->has_append = false;
 	command->has_infile = false;
@@ -43,6 +42,7 @@ t_command	*init_command(t_node *node)
 	command->has_path = false;
 	command->command = node->data;
 	command->can_exec = node->data != NULL;
+	command->has_path = command->can_exec && ft_strrchr(node->data[0], '/');
 	return (command);
 }
 
@@ -51,18 +51,12 @@ t_command	*node_to_command(t_node *node, char **env)
 	t_command	*command;
 
 	command = init_command(node);
-	ft_printf("can exec: %d\n", command->can_exec);
 	if (!command)
 		return (NULL);
-	if (command->can_exec && !ft_strrchr(node->data[0], '/'))
-		command->has_path = false;
-	else
-		command->has_path = true;
 	if (command->can_exec)
 		command->builtin = check_builtin(node->data[0]);
-	if (command->can_exec && command->builtin == NONE
-		&& command->has_path == false)
+	if (command->can_exec && command->builtin == NONE && !command->has_path)
 		command->command = get_cmd(node->data, env);
-	command = open_file(command, node);
+	open_file(command, node);
 	return (command);
 }

@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 13:11:07 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/18 21:40:37 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/19 14:40:02 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,18 @@ t_node	*command(t_parser *parser)
 	t_node	*cmd;
 	t_node	*input;
 	t_node	*output;
+	t_bool	has_input;
 
 	input = NULL;
 	output = NULL;
+	has_input = false;
 	while (peek(parser, T_LESS) || peek(parser, T_DLESS))
+	{
+		has_input = true;
 		input = append_node_left(input, io_redirect(parser));
+	}
+	if (has_input && !input)
+		return (NULL);
 	cmd = simple_command(parser);
 	if (!cmd)
 		return (NULL);

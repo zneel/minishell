@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/18 13:27:07 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/19 14:31:13 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	execute(t_minishell *minishell, char *line)
 
 	lex = lexer(line);
 	free(line);
+	debug_lexer(lex);
 	minishell->root = parse(lex);
 	delete_lexer(lex);
 	prep_exec(minishell);

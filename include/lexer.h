@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:36:20 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/21 15:42:30 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:51:13 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@
  *  T_DGREAT = >> (append)
  *  T_LPAREN = ( (parenthesis open)
  *  T_RPAREN = ) (parenthesis close)
- *  T_END = \0	(end of line)
+ *  T_NEWLINE = \n (newline)
+ *  T_EOF = \0	(end of line)
  *  T_ERROR = error (error)
  */
 typedef enum e_type
@@ -50,6 +51,7 @@ typedef enum e_type
 	T_DGREAT,
 	T_LPAREN,
 	T_RPAREN,
+	T_NEWLINE,
 	T_EOF,
 }					t_type;
 

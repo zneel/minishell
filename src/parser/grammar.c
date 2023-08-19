@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 13:17:18 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/18 15:49:33 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/19 14:51:16 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,9 @@ t_node	*command_line(t_parser *parser)
 		ast_attach_binary(logical_node, left_node, right_node);
 		left_node = logical_node;
 	}
-	if (logical_node)
+	if (logical_node && accept(parser, T_NEWLINE))
 		return (logical_node);
+	accept(parser, T_NEWLINE);
 	return (left_node);
 }
 

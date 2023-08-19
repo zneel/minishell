@@ -6,23 +6,37 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 15:04:59 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/19 13:48:44 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:54:19 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-void	open_infile(t_command *command, t_node *node)
+int	try_can_excec(t_command *command, t_node **parc_infile)
+{
+	while ((command->can_exec && (*parc_infile) && (*parc_infile)->left)
+		|| (!command->can_exec && (*parc_infile)))
+	{
+		if ((*parc_infile)->type == HERE_DOC)
+			here_doc((*parc_infile)->data[0]);
+		if ((*parc_infile)->type == LESS)
+		{
+			if (access((*parc_infile)->data[0], F_OK | R_OK) == -1)
+				return (msg_error("No such file or directory",
+						(*parc_infile)->data[0]));
+		}
+		(*parc_infile) = (*parc_infile)->left;
+	}
+	return (0);
+}
+
+int	open_infile(t_command *command, t_node *node)
 {
 	t_node	*parc_infile;
 
 	parc_infile = node->left;
-	while (parc_infile && parc_infile->left)
-	{
-		if (parc_infile->type == HERE_DOC)
-			here_doc(parc_infile->data[0]);
-		parc_infile = parc_infile->left;
-	}
+	if (try_can_excec(command, &parc_infile))
+		return (1);
 	if (parc_infile && parc_infile->type == LESS)
 	{
 		command->file_in = parc_infile->data[0];
@@ -33,6 +47,7 @@ void	open_infile(t_command *command, t_node *node)
 		command->file_in = parc_infile->data[0];
 		command->has_heredoc = true;
 	}
+	return (0);
 }
 
 t_node	*try_access_out(t_node *parc_outfile, int *next_out)
@@ -76,6 +91,10 @@ void	open_outfile(t_command *command, t_node *node)
 
 void	open_file(t_command *command, t_node *node)
 {
-	open_infile(command, node);
+	if (open_infile(command, node))
+	{
+		command->can_exec = false;
+		return ;
+	}
 	open_outfile(command, node);
 }

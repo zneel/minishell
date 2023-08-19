@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:03 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/18 21:42:26 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:51:51 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	exec_cmd(t_node *node, t_minishell *minishell)
 			minishell->last_status = exec_builtin(command, minishell, true);
 		else
 			return (msg_error("No such file or directory",
-								command->command[0]));
+					command->command[0]));
 	}
 	else
 	{

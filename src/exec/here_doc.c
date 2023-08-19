@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 09:51:32 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/19 14:30:52 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/19 15:52:33 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@ int	str_cmpend(char *line, char *limiter)
 	if (line[i] == '\0' && limiter[i] == '\0')
 		return (0);
 	return (1);
+}
+
+int	check_limiter(char *line, char *limiter)
+{
+	if (!line)
+    	return (1);
+    if (str_cmpend(line, limiter) == 0)
+    {
+    	free(line);
+        return (1);
+    }
+	return (0);
 }
 
 void	here_doc(char *limiter)
@@ -44,8 +56,8 @@ void	here_doc(char *limiter)
 			return ;
 		}
 		line = readline("> ");
-		if (!line || str_cmpend(line, limiter) == 0)
-			break ;
+		if (check_limiter(line, limiter))
+			break;
 		ft_putendl_fd(line, fd);
 		free(line);
 	}

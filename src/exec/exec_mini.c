@@ -6,34 +6,36 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:03 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/21 15:52:03 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:55:47 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-int	exec_cmd(t_node *node, t_minishell *minishell)
+int	exec_cmd(t_node *node, t_minishell *ms)
 {
 	char		**env;
 	t_command	*command;
 
-	env = convert_env(minishell->env);
+	env = convert_env(ms->env);
 	if (!env)
 		return (1);
 	command = node_to_command(node, env);
 	free_mat(env);
+	if (command->can_exec == false)
+		return (free(command), close(ms->std[0]), close(ms->std[1]), 1);
 	if (command->builtin != NONE)
 	{
 		if (command->builtin != W_PATH)
-			minishell->last_status = exec_builtin(command, minishell, true);
+			ms->last_status = exec_builtin(command, ms, true);
 		else
 			return (msg_error("No such file or directory",
 					command->command[0]));
 	}
 	else
 	{
-		execute_command(command, minishell);
-		wait_all(minishell);
+		execute_command(command, ms);
+		wait_all(ms);
 	}
 	free(command);
 	return (0);

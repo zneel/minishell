@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:52:56 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/18 21:57:37 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/19 21:04:38 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "signals.h"
 
-void	dup_in(t_command *cmd)
+int	dup_in(t_command *cmd)
 {
 	int	fdin;
 
@@ -24,12 +24,13 @@ void	dup_in(t_command *cmd)
 	if (fdin == -1)
 	{
 		if (cmd->has_heredoc == false)
-			exit(msg_error("No such file or directory", cmd->file_in));
+			return (msg_error("No such file or directory", cmd->file_in));
 		else
-			exit(msg_error("No such file or directory", FILE_HEREDOC));
+			return (msg_error("No such file or directory", FILE_HEREDOC));
 	}
 	dup2(fdin, STDIN_FILENO);
 	close(fdin);
+	return (0);
 }
 
 void	dup_out(t_command *cmd)
@@ -58,16 +59,18 @@ void	exec_annexe_builtin(t_command *cmd, char **env, t_minishell *minishell)
 void	sub_execute(t_command *cmd, t_minishell *minishell)
 {
 	char	**env;
+	int		status;
 
+	status = 0;
 	env = convert_env(minishell->env);
-	dup_in(cmd);
+	status = dup_in(cmd);
 	dup_out(cmd);
-	if (!cmd->can_exec)
+	if (!cmd->can_exec || status)
 	{
 		free(cmd);
 		free_mat(env);
 		free_minishell(minishell);
-		exit(0);
+		exit(1);
 	}
 	if (!env)
 		exec_failed(cmd, env, minishell, 1);

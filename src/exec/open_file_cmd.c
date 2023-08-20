@@ -6,13 +6,13 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 15:04:59 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/21 15:56:01 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:56:59 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-int	try_can_excec(t_command *command, t_node **parc_infile)
+int	try_can_exec(t_command *command, t_node **parc_infile)
 {
 	while ((command->can_exec && (*parc_infile) && (*parc_infile)->left)
 		|| (!command->can_exec && (*parc_infile)))
@@ -35,7 +35,7 @@ int	open_infile(t_command *command, t_node *node)
 	t_node	*parc_infile;
 
 	parc_infile = node->left;
-	if (try_can_excec(command, &parc_infile))
+	if (try_can_exec(command, &parc_infile))
 		return (1);
 	if (parc_infile && parc_infile->type == LESS)
 	{
@@ -93,7 +93,7 @@ void	open_file(t_command *command, t_node *node)
 {
 	if (open_infile(command, node))
 	{
-		command->can_exec = false;
+		command->has_good_infile = false;
 		return ;
 	}
 	open_outfile(command, node);

@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:52:56 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/19 21:04:38 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/20 11:11:28 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	dup_in(t_command *cmd)
 	}
 	dup2(fdin, STDIN_FILENO);
 	close(fdin);
-	return (0);
+	return (false);
 }
 
 void	dup_out(t_command *cmd)
@@ -59,13 +59,12 @@ void	exec_annexe_builtin(t_command *cmd, char **env, t_minishell *minishell)
 void	sub_execute(t_command *cmd, t_minishell *minishell)
 {
 	char	**env;
-	int		status;
+	t_bool	ok;
 
-	status = 0;
 	env = convert_env(minishell->env);
-	status = dup_in(cmd);
+	ok = dup_in(cmd);
 	dup_out(cmd);
-	if (!cmd->can_exec || status)
+	if (!cmd->can_exec || ok)
 	{
 		free(cmd);
 		free_mat(env);
@@ -83,7 +82,7 @@ void	execute_command(t_command *cmd, t_minishell *minishell)
 	pid_t	pid;
 
 	if (cmd->has_heredoc == true)
-		here_doc(cmd->file_in);
+			here_doc(cmd->file_in);
 	if (g_sigint == 1)
 		return ;
 	pid = fork();

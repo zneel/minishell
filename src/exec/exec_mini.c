@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:03 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/21 15:55:47 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:56:43 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,14 @@ int	exec_cmd(t_node *node, t_minishell *ms)
 	if (!env)
 		return (1);
 	command = node_to_command(node, env);
+	if (!command)
+	{
+		free_mat(env);
+		free_minishell(ms);
+		exit(msg_error("malloc", "Error"));
+	}
 	free_mat(env);
-	if (command->can_exec == false)
+	if (!command->has_good_infile)
 		return (free(command), close(ms->std[0]), close(ms->std[1]), 1);
 	if (command->builtin != NONE)
 	{

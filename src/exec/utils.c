@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:54:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/21 15:50:24 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:57:03 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_command	*init_command(t_node *node)
 	command->has_heredoc = false;
 	command->has_append = false;
 	command->has_infile = false;
+	command->has_good_infile = true;
 	command->has_outfile = false;
 	command->has_path = false;
 	command->command = node->data;

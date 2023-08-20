@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 09:51:32 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/19 15:52:33 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/20 10:48:07 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@ int	str_cmpend(char *line, char *limiter)
 	return (1);
 }
 
-int	check_limiter(char *line, char *limiter)
+t_bool	check_limiter(char *line, char *limiter)
 {
 	if (!line)
-    	return (1);
-    if (str_cmpend(line, limiter) == 0)
+		return (true);
+	if (str_cmpend(line, limiter) == 0)
     {
     	free(line);
-        return (1);
+        return (true);
     }
-	return (0);
+	return (false);
 }
 
 void	here_doc(char *limiter)

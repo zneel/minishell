@@ -29,6 +29,8 @@ SRC =	src/main.c \
 		src/lexer/debug.c \
 		src/lexer/delete.c \
 		src/lexer/token.c \
+		src/lexer/checker.c \
+		src/lexer/words.c \
 		src/parser/parser.c \
 		src/parser/grammar.c \
 		src/parser/utils.c \

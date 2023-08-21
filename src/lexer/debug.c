@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 00:42:28 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/21 15:51:25 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:00:43 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	debug_lexer(t_lexer *lexer)
 {
 	t_token	*curr;
 
+	if (!lexer)
+		return ;
 	curr = lexer->token_lst;
 	printf("====================================\n");
 	while (curr)

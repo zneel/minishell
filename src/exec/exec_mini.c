@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:03 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/21 15:57:41 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:59:20 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	exec_cmd(t_node *node, t_minishell *ms)
 	if (!command)
 	{
 		free_mat(env);
-		free_ms(ms);
+		free_minishell(ms);
 		exit(msg_error("malloc", "Error"));
 	}
 	free_mat(env);

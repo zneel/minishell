@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:21 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/19 13:47:02 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:57:50 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int			exec_cmd(t_node *node, t_minishell *minishell);
 int			exec_or(t_node *node, t_minishell *minishell);
 int			exec_and(t_node *node, t_minishell *minishell);
 int			exec_pipe(t_node *node, t_minishell *minishell, int pipefd[2][2]);
-int			init_exec(t_node *node, int pipefd[2][2]);
 int			exec(t_node *node, t_minishell *minishell);
 void		execute_command(t_command *cmd, t_minishell *minishell);
 int			execute_first(t_command *cmd, t_minishell *minishell,

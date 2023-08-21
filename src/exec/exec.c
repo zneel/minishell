@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:55 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/26 22:43:50 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/21 14:59:39 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,14 @@ void	wait_all(t_minishell *minishell)
 	}
 	if (WIFEXITED(minishell->last_status))
 		minishell->last_status = (WEXITSTATUS(minishell->last_status));
+}
+
+int	init_exec(t_node *node, int pipefd[2][2])
+{
+	init_pipes(pipefd);
+	if (!node)
+		return (0);
+	return (1);
 }
 
 int	exec(t_node *node, t_minishell *minishell)

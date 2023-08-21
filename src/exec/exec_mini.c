@@ -6,11 +6,30 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:03 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/21 15:56:43 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:57:41 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
+
+int	do_exec(t_command *command, t_minishell *minishell)
+{
+	if (command->builtin != NONE)
+	{
+		if (command->builtin != W_PATH)
+			minishell->last_status = exec_builtin(command, minishell, true);
+		else
+			return (msg_error("No such file or directory",
+					command->command[0]));
+	}
+	else
+	{
+		execute_command(command, minishell);
+		wait_all(minishell);
+	}
+	free(command);
+	return (0);
+}
 
 int	exec_cmd(t_node *node, t_minishell *ms)
 {
@@ -24,27 +43,13 @@ int	exec_cmd(t_node *node, t_minishell *ms)
 	if (!command)
 	{
 		free_mat(env);
-		free_minishell(ms);
+		free_ms(ms);
 		exit(msg_error("malloc", "Error"));
 	}
 	free_mat(env);
 	if (!command->has_good_infile)
 		return (free(command), close(ms->std[0]), close(ms->std[1]), 1);
-	if (command->builtin != NONE)
-	{
-		if (command->builtin != W_PATH)
-			ms->last_status = exec_builtin(command, ms, true);
-		else
-			return (msg_error("No such file or directory",
-					command->command[0]));
-	}
-	else
-	{
-		execute_command(command, ms);
-		wait_all(ms);
-	}
-	free(command);
-	return (0);
+	return (do_exec(command, ms));
 }
 
 int	exec_or(t_node *node, t_minishell *minishell)
@@ -77,12 +82,4 @@ int	exec_pipe(t_node *node, t_minishell *minishell, int pipefd[2][2])
 		return (1);
 	wait_all(minishell);
 	return (0);
-}
-
-int	init_exec(t_node *node, int pipefd[2][2])
-{
-	init_pipes(pipefd);
-	if (!node)
-		return (0);
-	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:47:47 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/18 15:01:11 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:03:01 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	exec_cmd_pipe(t_node *root, t_node *node, t_minishell *minishell,
 			return (free(command), 1);
 	}
 	else if (node->parent && node->parent == root
-			&& node->parent->right == node)
+		&& node->parent->right == node)
 	{
 		if (execute_last(command, minishell, pipefd) == 1)
 			return (free(command), 1);

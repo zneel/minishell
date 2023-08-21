@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:52:56 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/20 11:11:28 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/21 16:02:43 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	execute_command(t_command *cmd, t_minishell *minishell)
 	pid_t	pid;
 
 	if (cmd->has_heredoc == true)
-			here_doc(cmd->file_in);
+		here_doc(cmd->file_in);
 	if (g_sigint == 1)
 		return ;
 	pid = fork();

@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:54:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/21 15:57:03 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:02:52 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	close_if(int fd)
 	if (fd >= 0)
 		close(fd);
 }
+
 t_command	*init_command(t_node *node)
 {
 	t_command	*command;

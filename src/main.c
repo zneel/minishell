@@ -6,12 +6,13 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/21 16:00:23 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/23 14:45:16 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "exec.h"
+#include "expand.h"
 #include "lexer.h"
 #include "lists.h"
 #include "minishell.h"
@@ -28,7 +29,7 @@ void	init_minishell(t_minishell *minishell, char **env)
 	minishell->std[1] = dup(STDOUT_FILENO);
 }
 
-void	execute(t_minishell *minishell, char *line)
+static void	execute(t_minishell *minishell, char *line)
 {
 	t_lexer	*lex;
 
@@ -36,6 +37,8 @@ void	execute(t_minishell *minishell, char *line)
 	free(line);
 	minishell->root = parse(lex);
 	debug_lexer(lex);
+	expand_tree(minishell->root, minishell);
+	pretty_print_ast(minishell->root, "");
 	delete_lexer(lex);
 	prep_exec(minishell);
 	ast_delete(minishell->root);

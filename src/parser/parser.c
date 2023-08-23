@@ -6,13 +6,12 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:05:49 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/21 16:09:36 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/22 19:48:24 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expand.h"
 #include "parser.h"
-#include <stdio.h>
 
 t_bool	accept(t_parser *parser, t_type type)
 {
@@ -60,7 +59,5 @@ t_node	*parse(t_lexer *lexer)
 	root = parse_grammar(&parser);
 	if (!root)
 		return (NULL);
-	expand_tree(root);
-	pretty_print_ast(root, "");
 	return (root);
 }

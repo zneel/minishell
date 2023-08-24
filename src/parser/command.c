@@ -6,11 +6,17 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 13:11:07 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/19 14:40:02 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/24 19:06:11 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+
+static t_bool	is_redirect_token(t_parser *parser)
+{
+	return (peek(parser, T_DLESS) || peek(parser, T_DGREAT) || peek(parser,
+			T_LESS) || peek(parser, T_GREAT));
+}
 
 int	count_args(t_parser *parser)
 {
@@ -61,7 +67,7 @@ t_node	*command(t_parser *parser)
 	input = NULL;
 	output = NULL;
 	has_input = false;
-	while (peek(parser, T_LESS) || peek(parser, T_DLESS))
+	while (is_redirect_token(parser))
 	{
 		has_input = true;
 		input = append_node_left(input, io_redirect(parser));
@@ -73,7 +79,7 @@ t_node	*command(t_parser *parser)
 		return (NULL);
 	if (input)
 		ast_attach_binary(cmd, input, NULL);
-	while (peek(parser, T_GREAT) || peek(parser, T_DGREAT))
+	while (is_redirect_token(parser))
 		output = append_node_right(output, io_redirect(parser));
 	if (output)
 		ast_attach_binary(cmd, NULL, output);

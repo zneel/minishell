@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:52:56 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/24 15:58:20 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/24 16:52:41 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ void	sub_execute(t_command *cmd, t_minishell *minishell)
 		free_minishell(minishell);
 		exit(1);
 	}
-	if (!env)
-		exec_failed(cmd, env, minishell, 1);
 	if (execve(cmd->command[0], cmd->command, env) == -1)
 		exec_failed(cmd, env, minishell, 1);
 }

@@ -22,8 +22,23 @@ void	free_expand_var(t_expand_var *var)
 	free(var);
 }
 
+t_bool	valid_expand_char(char c)
+{
+	return (ft_isalnum(c) || c == '_');
+}
+
 char	*get_end_variable(char *input)
 {
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] && !valid_expand_char(input[i]))
+			break ;
+		i++;
+	}
+	return (input + i);
 }
 
 t_expand_var	*get_variable(t_minishell *minishell, char *input)
@@ -33,15 +48,7 @@ t_expand_var	*get_variable(t_minishell *minishell, char *input)
 	var = malloc(sizeof(t_expand_var));
 	if (!var)
 		return (NULL);
-	var->end = ft_strchr(input, '$');
-	if (!var->end)
-		var->end = ft_strchr(input, ' ');
-	if (!var->end)
-		var->end = ft_strchr(input, '\'');
-	if (!var->end)
-		var->end = ft_strchr(input, '\"');
-	if (!var->end)
-		var->end = input + ft_strlen(input);
+	var->end = get_end_variable(input);
 	var->name = ft_substr(input, 0, var->end - input);
 	var->value = get_env(minishell, var->name);
 	return (var);
@@ -80,12 +87,15 @@ void	handle_dollar(t_expand_str *expand, t_minishell *minishell)
 	{
 		if (*expand->input == '?')
 			expand_last_status(expand, minishell);
+		else
+			expand->input = var->end;
 	}
 	free_expand_var(var);
 }
 
 static void	copy_and_increment(t_expand_str *expand)
 {
+	expand->result = ft_realloc(expand->result, expand->result_size + 1);
 	*(expand->result + expand->i++) = *expand->input;
 	expand->result_size++;
 	expand->input++;

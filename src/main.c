@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/23 14:45:16 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/24 14:51:32 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ static void	execute(t_minishell *minishell, char *line)
 	lex = lexer(line);
 	free(line);
 	minishell->root = parse(lex);
-	debug_lexer(lex);
+	// debug_lexer(lex);
 	expand_tree(minishell->root, minishell);
-	pretty_print_ast(minishell->root, "");
+	// pretty_print_ast(minishell->root, "");
 	delete_lexer(lex);
 	prep_exec(minishell);
 	ast_delete(minishell->root);
@@ -59,14 +59,24 @@ int	str_all_space(char *str)
 	return (1);
 }
 
+int	execute_inline(char **argv, t_minishell *minishell)
+{
+	char	*line;
+
+	line = ft_strdup(argv[2]);
+	execute(minishell, line);
+	return (free_minishell(minishell), 0);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	minishell;
 	char		*line;
 
-	(void)argc;
 	(void)argv;
 	init_minishell(&minishell, env);
+	if (argc > 1 && ft_strncmp(argv[1], "-c", 2) == 0)
+		return (execute_inline(argv, &minishell));
 	while (1)
 	{
 		signal(SIGINT, sig_handler_minishell);
@@ -78,9 +88,10 @@ int	main(int argc, char **argv, char **env)
 		if (!line)
 			return (free_minishell(&minishell), 0);
 		if (line && *line && !str_all_space(line))
+		{
 			add_history(line);
-		execute(&minishell, line);
-		printf("last = %d\n", minishell.last_status);
+			execute(&minishell, line);
+		}
 	}
 	return (0);
 }

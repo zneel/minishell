@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 10:54:01 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/26 21:31:38 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/24 15:29:41 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,15 @@ int	export_annexe(int i, char **cmd, t_minishell *minishell)
 	tmp = ft_separate(cmd[i], '=');
 	if (!tmp || !tmp[0] || !tmp[1])
 		return (1);
+	if (tmp && (!tmp[0] || !tmp[1]))
+		return(free(tmp), free(tmp[0]), free(tmp[1]), 1);
 	if (check_disp(minishell->env, tmp[0]) == 1)
 		error = replace_env(minishell->env, tmp);
 	else if (check_disp(minishell->env, tmp[0]) == 0)
 		error = new_env(&minishell->env, tmp);
 	else
-		error = 1;
-	if (error)
+		error = 2;
+	if (error == 2)
 	{
 		free(tmp[0]);
 		free(tmp[1]);
@@ -85,13 +87,30 @@ int	export_annexe(int i, char **cmd, t_minishell *minishell)
 	return (error);
 }
 
+int	test_export(t_command *cmd, t_minishell *minishell)
+{
+	int	i;
+	
+	i = 0;
+	while (cmd->command && *cmd->command && cmd->command[++i]
+		&& cmd->command[i][0] != '=')
+	{
+		if (export_annexe(i, cmd->command, minishell) == 2)
+		{
+			printf("minishell: ");
+			printf("\"%s\": ", cmd->command[i]);
+			printf("not a valid identifier\n");
+			return (1);
+		}
+	}
+	return (0);
+}
+
 int	export(t_command *cmd, t_minishell *minishell)
 {
-	int		i;
 	t_kv	*parc;
 	t_kv	*mem_parc;
 
-	i = 0;
 	if (cmd->command && *cmd->command && cmd->command[1] == NULL)
 	{
 		parc = ft_lstcpy_env(minishell->env);
@@ -106,11 +125,5 @@ int	export(t_command *cmd, t_minishell *minishell)
 		}
 		return (ft_lstclear_env(&mem_parc, free), 0);
 	}
-	while (cmd->command && *cmd->command && cmd->command[++i]
-		&& cmd->command[i][0] != '=')
-	{
-		if (export_annexe(i, cmd->command, minishell))
-			return (1);
-	}
-	return (0);
+	return (test_export(cmd, minishell));
 }

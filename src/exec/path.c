@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 12:57:05 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/18 14:50:58 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/24 16:49:47 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*join_cmd(char *cmd, char **env)
 	char	*good_cmd;
 
 	i = 0;
-	while (env[i])
+	while (env && env[i])
 	{
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
 		{
@@ -80,8 +80,6 @@ char	**get_cmd(char **cmd, char **env)
 		return (NULL);
 	if (test_cmd(cmd[0]))
 		return (cmd);
-	if (!env || !*env)
-		return (free_mat(cmd), NULL);
 	pathed_cmd = join_cmd(cmd[0], env);
 	if (!pathed_cmd)
 		return (cmd);

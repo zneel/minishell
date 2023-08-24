@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_mini.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:03 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/24 15:58:34 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/24 16:52:48 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ int	exec_cmd(t_node *node, t_minishell *ms)
 	t_command	*command;
 
 	env = convert_env(ms->env);
-	if (!env)
-		return (1);
 	command = node_to_command(node, env);
 	if (!command)
 	{

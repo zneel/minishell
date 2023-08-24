@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 00:42:28 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/07/24 15:58:42 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:00:43 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char	*token_to_tstr(t_type type)
 		return ("T_LPAREN");
 	else if (type == T_RPAREN)
 		return ("T_RPAREN");
+	else if (type == T_NEWLINE)
+		return ("T_NEWLINE");
 	else if (type == T_EOF)
 		return ("T_EOF");
 	else
@@ -63,6 +65,8 @@ char	*token_to_str(t_type type)
 		return ("(");
 	else if (type == T_RPAREN)
 		return (")");
+	else if (type == T_NEWLINE)
+		return ("newline");
 	else if (type == T_EOF)
 		return ("(null)");
 	else
@@ -80,6 +84,8 @@ void	debug_lexer(t_lexer *lexer)
 {
 	t_token	*curr;
 
+	if (!lexer)
+		return ;
 	curr = lexer->token_lst;
 	printf("====================================\n");
 	while (curr)

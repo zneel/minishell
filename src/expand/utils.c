@@ -1,45 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   delete.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/14 12:00:41 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/21 14:15:11 by ebouvier         ###   ########.fr       */
+/*   Created: 2023/08/24 14:03:38 by ebouvier          #+#    #+#             */
+/*   Updated: 2023/08/24 14:05:22 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "expand.h"
 
-void	delete_token(t_token *token)
+void	free_expand_var(t_expand_var *var)
 {
-	if (!token)
-		return ;
-	free(token->value);
-	free(token);
+	free(var->name);
+	free(var);
 }
 
-void	delete_tokens(t_token *token)
+void	copy_and_increment(t_expand_str *expand)
 {
-	t_token	*curr;
-	t_token	*tail;
-
-	if (!token)
-		return ;
-	curr = token;
-	while (curr)
-	{
-		tail = curr->next;
-		delete_token(curr);
-		curr = tail;
-	}
+	expand->result = ft_realloc(expand->result, expand->result_size + 1);
+	*(expand->result + expand->i++) = *expand->input;
+	expand->result_size++;
+	expand->input++;
 }
 
-void	delete_lexer(t_lexer *lexer)
+void	change_state(unsigned int new_state, t_expand_str *expand)
 {
-	if (!lexer)
-		return ;
-	delete_tokens(lexer->token_lst);
-	free(lexer);
+	expand->state ^= new_state;
+	expand->input++;
 }

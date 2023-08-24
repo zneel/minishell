@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/01 10:51:01 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/20 11:05:01 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 
 # define FILE_HEREDOC "/tmp/here_doc.tmp"
@@ -35,8 +36,6 @@ typedef struct s_minishell
 	t_list		*pids;
 	t_node		*root;
 	int			last_status;
-	int			stdin;
-	int			stdout;
 	int			std[2];
 }				t_minishell;
 
@@ -45,12 +44,14 @@ typedef struct s_command
 	char		**command;
 	char		*file_in;
 	char		*file_out;
-	int			has_heredoc;
-	int			has_append;
-	int			has_infile;
-	int			has_outfile;
-	int			has_path;
+	t_bool		has_good_infile;
+	t_bool		has_heredoc;
+	t_bool		has_append;
+	t_bool		has_infile;
+	t_bool		has_outfile;
+	t_bool		has_path;
 	int			builtin;
+	t_bool		can_exec;
 }				t_command;
 
 char			**ft_separate(char *str, char sep);

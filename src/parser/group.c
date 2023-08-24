@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ctrl_backslash.c                                   :+:      :+:    :+:   */
+/*   group.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/15 10:09:27 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/15 10:23:05 by mhoyer           ###   ########.fr       */
+/*   Created: 2023/08/18 13:14:19 by ebouvier          #+#    #+#             */
+/*   Updated: 2023/08/18 13:16:08 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "signaux.h"
+#include "parser.h"
 
-void	sigquit()
+t_node	*group(t_parser *parser)
 {
-	
+	t_node	*node;
+
+	node = command_line(parser);
+	if (!node)
+		return (NULL);
+	if (!accept(parser, T_RPAREN))
+		return (ast_delete(node), NULL);
+	return (node);
 }

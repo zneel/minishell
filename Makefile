@@ -1,6 +1,6 @@
 NAME=minishell
 CC=clang
-CFLAGS=-Wall -Wextra -Werror -O2 -gdwarf-4 -MMD
+CFLAGS=-Wall -Wextra -Werror -MMD
 
 RESET   = \033[0m
 RED     = \033[31m
@@ -10,15 +10,15 @@ YELLOW  = \033[33m
 BLUE    = \033[34m
 
 ifeq ($(DEBUG), 1)
-	CFLAGS+=-g3
+	CFLAGS+=-g3 -gdwarf-4
 endif
 
 ifeq ($(SAN), 1)
-	CFLAGS+=-fsanitize=address
+	CFLAGS+=-fsanitize=address -gdwarf-4
 endif
 
 ifeq ($(DEV), 1)
-	CFLAGS+=-fsanitize=address -g3
+	CFLAGS+=-fsanitize=address -g3 -gdwarf-4
 endif
 
 INCLUDES = -Iinclude -Ilibft/includes
@@ -29,10 +29,18 @@ SRC =	src/main.c \
 		src/lexer/debug.c \
 		src/lexer/delete.c \
 		src/lexer/token.c \
+		src/lexer/checker.c \
+		src/lexer/words.c \
 		src/parser/parser.c \
 		src/parser/grammar.c \
 		src/parser/utils.c \
 		src/parser/ast.c \
+		src/parser/command.c \
+		src/parser/group.c \
+		src/parser/io.c \
+		src/expand/expand.c \
+		src/expand/variables.c \
+		src/expand/utils.c \
 		src/builtin/check_builtin.c \
 		src/builtin/exec_builtin.c \
 		src/builtin/echo.c \
@@ -67,8 +75,7 @@ SRC =	src/main.c \
 		src/exec/error.c \
 		src/exec/free_minishell.c \
 		src/exec/exec_mini.c \
-		src/signaux/ctrl_c.c \
-		src/signaux/ctrl_backslash.c
+		src/signals/signals.c
 
 OBJ=$(SRC:.c=.o)
 MMD=$(SRC:.c=.d)

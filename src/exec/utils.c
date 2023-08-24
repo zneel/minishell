@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:54:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/14 12:07:19 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/24 15:58:56 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,41 +26,39 @@ void	close_if(int fd)
 		close(fd);
 }
 
-t_command	*init_file(t_command *command)
+t_command	*init_command(t_node *node)
 {
+	t_command	*command;
+
+	command = malloc(sizeof(t_command));
+	if (!command)
+		return (NULL);
+	command->builtin = NONE;
 	command->file_in = "/dev/stdin";
 	command->file_out = "/dev/stdout";
 	command->has_heredoc = false;
 	command->has_append = false;
 	command->has_infile = false;
+	command->has_good_infile = true;
 	command->has_outfile = false;
+	command->has_path = false;
+	command->command = node->data;
+	command->can_exec = node->data != NULL;
+	command->has_path = command->can_exec && ft_strrchr(node->data[0], '/');
 	return (command);
 }
 
 t_command	*node_to_command(t_node *node, char **env)
 {
 	t_command	*command;
-	char		**splited;
 
-	command = malloc(sizeof(t_command));
+	command = init_command(node);
 	if (!command)
 		return (NULL);
-	splited = ft_split(node->data, " ");
-	if (!splited)
-		return (NULL);
-	if (!ft_strrchr(splited[0], '/'))
-		command->has_path = false;
-	else
-		command->has_path = true;
-	command->builtin = check_builtin(splited[0]);
-	if (command->builtin == NONE && command->has_path == false)
-	{
-		free_mat(splited);
+	if (command->can_exec)
+		command->builtin = check_builtin(node->data[0]);
+	if (command->can_exec && command->builtin == NONE && !command->has_path)
 		command->command = get_cmd(node->data, env);
-	}
-	else
-		command->command = splited;
-	command = init_file(command);
-	command = open_file(command, node);
+	open_file(command, node);
 	return (command);
 }

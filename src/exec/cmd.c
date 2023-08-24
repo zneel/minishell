@@ -6,13 +6,14 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:52:56 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/15 16:13:21 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/24 18:08:22 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
+#include "signals.h"
 
-void	dup_in(t_command *cmd, t_minishell *minishell)
+int	dup_in(t_command *cmd)
 {
 	int	fdin;
 
@@ -23,14 +24,13 @@ void	dup_in(t_command *cmd, t_minishell *minishell)
 	if (fdin == -1)
 	{
 		if (cmd->has_heredoc == false)
-			exit(free_and_msg("No such file or directory", cmd->file_in,
-					minishell, cmd));
+			return (msg_error("No such file or directory", cmd->file_in));
 		else
-			exit(free_and_msg("No such file or directory", FILE_HEREDOC,
-					minishell, cmd));
+			return (msg_error("No such file or directory", FILE_HEREDOC));
 	}
 	dup2(fdin, STDIN_FILENO);
 	close(fdin);
+	return (false);
 }
 
 void	dup_out(t_command *cmd, t_minishell *minishell)
@@ -59,26 +59,42 @@ void	exec_annexe_builtin(t_command *cmd, char **env, t_minishell *minishell)
 	exec_failed(cmd, env, minishell, status);
 }
 
+void	sub_execute(t_command *cmd, t_minishell *minishell)
+{
+	char	**env;
+	t_bool	ok;
+
+	env = convert_env(minishell->env);
+	ok = dup_in(cmd);
+	dup_out(cmd);
+	if (!cmd->can_exec || ok)
+	{
+		free(cmd);
+		free_mat(env);
+		free_minishell(minishell);
+		exit(1);
+	}
+	if (execve(cmd->command[0], cmd->command, env) == -1)
+		exec_failed(cmd, env, minishell, 1);
+}
+
 void	execute_command(t_command *cmd, t_minishell *minishell)
 {
 	pid_t	pid;
-	char	**env;
 
 	if (cmd->has_heredoc == true)
 		here_doc(cmd->file_in);
+	if (g_sigint == 1)
+		return ;
 	pid = fork();
 	if (pid == -1)
 		exit(1);
 	if (pid == 0)
-	{
-		dup_in(cmd, minishell);
-		dup_out(cmd, minishell);
-		env = convert_env(minishell->env);
-		if (!env)
-			exec_failed(cmd, env, minishell, 1);
-		if (execve(cmd->command[0], cmd->command, env) == -1)
-			exec_failed(cmd, env, minishell, 1);
-	}
+		sub_execute(cmd, minishell);
 	else
+	{
+		signal(SIGINT, sig_handler_job);
+		signal(SIGQUIT, sig_handler_job);
 		ft_lstadd_back(&minishell->pids, ft_lstnew(&pid));
+	}
 }

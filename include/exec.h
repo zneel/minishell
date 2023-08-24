@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:21 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/15 16:21:27 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/24 18:09:51 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <unistd.h>
 
 int			test_cmd(char *cmd);
-char		**get_cmd(char *raw_cmd, char **env);
+char		**get_cmd(char **cmd, char **env);
 int			prep_exec(t_minishell *minishell);
 void		here_doc(char *limiter);
 
@@ -33,7 +33,6 @@ int			exec_cmd(t_node *node, t_minishell *minishell);
 int			exec_or(t_node *node, t_minishell *minishell);
 int			exec_and(t_node *node, t_minishell *minishell);
 int			exec_pipe(t_node *node, t_minishell *minishell, int pipefd[2][2]);
-int			init_exec(t_node *node, int pipefd[2][2]);
 int			exec(t_node *node, t_minishell *minishell);
 void		execute_command(t_command *cmd, t_minishell *minishell);
 int			execute_first(t_command *cmd, t_minishell *minishell,
@@ -48,14 +47,11 @@ int			execute_pipeline(t_node *root, t_node *node, t_minishell *minishell,
 void		init_pipes(int pipefd[2][2]);
 void		close_if(int fd);
 void		wait_all(t_minishell *minishell);
-void		dup_for_out(t_command *cmd, t_minishell *minishell);
-void		dup_for_in(t_command *cmd, t_minishell *minishell);
-t_command	*open_file(t_command *command, t_node *node);
+void		dup_for_out(t_command *cmd);
+void		dup_for_in(t_command *cmd);
+void		open_file(t_command *command, t_node *node);
 t_command	*node_to_command(t_node *node, char **env);
 int			msg_error(char *str, char *error);
-int			free_and_msg(char *str, char *error, t_minishell *minishell,
-				t_command *cmd);
-void		free_cmd(t_command *cmd);
 void		free_minishell(t_minishell *minishell);
 void		exec_failed(t_command *cmd, char **env, t_minishell *minishell,
 				int status);

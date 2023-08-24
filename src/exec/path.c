@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 12:57:05 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/14 10:28:15 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/24 16:49:47 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*join_cmd(char *cmd, char **env)
 	char	*good_cmd;
 
 	i = 0;
-	while (env[i])
+	while (env && env[i])
 	{
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
 		{
@@ -72,23 +72,17 @@ char	*join_cmd(char *cmd, char **env)
 	return (NULL);
 }
 
-char	**get_cmd(char *raw_cmd, char **env)
+char	**get_cmd(char **cmd, char **env)
 {
-	char	**cmd;
 	char	*pathed_cmd;
 
-	cmd = ft_split(raw_cmd, " ");
 	if (!cmd || !*cmd)
 		return (NULL);
 	if (test_cmd(cmd[0]))
 		return (cmd);
-	if (!env || !*env)
-		return (free_mat(cmd), NULL);
 	pathed_cmd = join_cmd(cmd[0], env);
 	if (!pathed_cmd)
-	{
 		return (cmd);
-	}
 	free(cmd[0]);
 	cmd[0] = pathed_cmd;
 	return (cmd);

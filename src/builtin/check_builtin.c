@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 21:51:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/18 21:49:19 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/25 12:21:20 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ t_builtin_type	check_npath(char *cmd)
 		return (UNSET);
 	if (ft_strncmp(cmd, "cd", ft_strlen(cmd)) == 0)
 		return (CD);
+	if (ft_strncmp(cmd, "exit", ft_strlen(cmd)) == 0)
+		return (EXIT);
 	return (0);
 }
 
@@ -61,6 +63,8 @@ t_builtin_type	check_wpath(char *cmd)
 	if (ft_strncmp_back(cmd, "unset", ft_strlen("unset")) == 0)
 		return (W_PATH);
 	if (ft_strncmp_back(cmd, "cd", ft_strlen("cd")) == 0)
+		return (W_PATH);
+	if (ft_strncmp_back(cmd, "exit", ft_strlen("exit")) == 0)
 		return (W_PATH);
 	return (0);
 }

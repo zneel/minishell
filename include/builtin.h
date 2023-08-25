@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 08:01:45 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/18 21:49:04 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/25 12:14:36 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef enum s_builtin_type
 	PWD,
 	UNSET,
 	CD,
+	EXIT,
 	W_PATH,
 }				t_builtin_type;
 
@@ -40,5 +41,5 @@ int				print_env(t_minishell *minishell);
 int				export(t_command *cmd, t_minishell *minishell);
 int				unset(t_command *cmd, t_minishell *minishell);
 int				cd(t_command *cmd, t_minishell *minishell);
-
+int				ft_exit(t_command *cmd, t_minishell *minishell);
 #endif

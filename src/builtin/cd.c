@@ -6,13 +6,13 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 09:23:02 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/01 17:56:25 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/25 12:18:08 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-int	arg_len(char **arg)
+static int	arg_len(char **arg)
 {
 	int	i;
 

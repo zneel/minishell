@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 22:14:40 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/20 11:12:04 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/25 12:14:04 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ int	annexe_search(t_command *cmd, t_minishell *minishell)
 	else if (cmd->builtin == CD)
 	{
 		if (cd(cmd, minishell))
+			return (1);
+	}
+	else if (cmd->builtin == EXIT)
+	{
+		if (ft_exit(cmd, minishell))
 			return (1);
 	}
 	return (0);

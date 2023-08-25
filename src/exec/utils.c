@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:54:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/24 15:58:56 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/25 17:06:54 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_command	*init_command(t_node *node)
 	command->has_append = false;
 	command->has_infile = false;
 	command->has_good_infile = true;
+	command->has_good_outfile = true;
 	command->has_outfile = false;
 	command->has_path = false;
 	command->command = node->data;
@@ -61,4 +62,18 @@ t_command	*node_to_command(t_node *node, char **env)
 		command->command = get_cmd(node->data, env);
 	open_file(command, node);
 	return (command);
+}
+
+void	open_file(t_command *command, t_node *node)
+{
+	if (open_infile(command, node))
+	{
+		command->has_good_infile = false;
+		return ;
+	}
+	if (open_outfile(command, node))
+	{
+		command->has_good_outfile = false;
+		return ;
+	}
 }

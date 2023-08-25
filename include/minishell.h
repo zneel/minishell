@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/20 11:05:01 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/25 13:12:45 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_command
 	char		*file_in;
 	char		*file_out;
 	t_bool		has_good_infile;
+	t_bool		has_good_outfile;
 	t_bool		has_heredoc;
 	t_bool		has_append;
 	t_bool		has_infile;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_file_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 15:04:59 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/21 15:56:59 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/25 17:06:48 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,15 @@ int	open_infile(t_command *command, t_node *node)
 	return (0);
 }
 
-t_node	*try_access_out(t_node *parc_outfile, int *next_out)
+t_node	*try_access_out(t_node *parc_outfile, int *next_out, t_bool creat)
 {
 	int	fd;
 
 	if (access(parc_outfile->data[0], F_OK | R_OK) == -1)
 	{
 		fd = open(parc_outfile->data[0], O_CREAT, 0644);
-		if (fd == -1)
-			return (NULL);
+		if (fd == -1 && creat == false)
+			return (msg_error("No such file or directory", parc_outfile->data[0]), NULL);
 		close(fd);
 	}
 	if (parc_outfile->right)
@@ -68,15 +68,26 @@ t_node	*try_access_out(t_node *parc_outfile, int *next_out)
 	return (parc_outfile);
 }
 
-void	open_outfile(t_command *command, t_node *node)
+void	creat_outfile(int next_out, t_node *parc_outfile)
+{
+	while (next_out && parc_outfile)
+		parc_outfile = try_access_out(parc_outfile, &next_out, true);
+}
+
+int	open_outfile(t_command *command, t_node *node)
 {
 	int		next_out;
 	t_node	*parc_outfile;
 
 	parc_outfile = node->right;
 	next_out = 1;
+	creat_outfile(next_out, parc_outfile);
 	while (next_out && parc_outfile)
-		parc_outfile = try_access_out(parc_outfile, &next_out);
+	{
+		parc_outfile = try_access_out(parc_outfile, &next_out, false);
+		if (!parc_outfile)
+			return (1);
+	}
 	if (parc_outfile && parc_outfile->type == GREAT)
 	{
 		command->file_out = parc_outfile->data[0];
@@ -87,14 +98,5 @@ void	open_outfile(t_command *command, t_node *node)
 		command->file_out = parc_outfile->data[0];
 		command->has_append = true;
 	}
-}
-
-void	open_file(t_command *command, t_node *node)
-{
-	if (open_infile(command, node))
-	{
-		command->has_good_infile = false;
-		return ;
-	}
-	open_outfile(command, node);
+	return (0);
 }

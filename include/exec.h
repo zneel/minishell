@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:21 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/21 15:57:50 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/25 17:08:21 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,11 @@ int			execute_pipeline(t_node *root, t_node *node, t_minishell *minishell,
 				int pipefd[2][2]);
 
 void		init_pipes(int pipefd[2][2]);
+int			try_can_exec(t_command *command, t_node **parc_infile);
+int			open_infile(t_command *command, t_node *node);
+t_node		*try_access_out(t_node *parc_outfile, int *next_out, t_bool creat);
+void		creat_outfile(int next_out, t_node *parc_outfile);
+int			open_outfile(t_command *command, t_node *node);
 void		close_if(int fd);
 void		wait_all(t_minishell *minishell);
 void		dup_for_out(t_command *cmd);

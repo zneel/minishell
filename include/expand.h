@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:43:24 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/24 14:05:52 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:06:13 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_expand_var
 	char			*end;
 }					t_expand_var;
 
-void				expand_tree(t_node *root, t_minishell *minishell);
+void				expand_str(char **str, t_minishell *minishell);
 void				free_expand_var(t_expand_var *var);
 void				copy_and_increment(t_expand_str *expand);
 void				change_state(unsigned int new_state, t_expand_str *expand);

@@ -37,6 +37,7 @@ SRC =	src/main.c \
 		src/parser/ast.c \
 		src/parser/command.c \
 		src/parser/group.c \
+		src/parser/actions.c \
 		src/parser/io.c \
 		src/expand/expand.c \
 		src/expand/variables.c \

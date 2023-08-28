@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 14:04:12 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/24 14:42:41 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:05:57 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,25 +67,15 @@ t_bool	should_expand(t_node_type type)
 	return (type == COMMAND || type == GREAT || type == LESS || type == DGREAT);
 }
 
-void	expand_tree(t_node *root, t_minishell *minishell)
+void	expand_str(char **str, t_minishell *minishell)
 {
 	char			*tmp;
-	int				i;
 	t_expand_str	exp_struct;
 
-	i = -1;
-	if (!root)
+	if (!str)
 		return ;
-	expand_tree(root->left, minishell);
-	if (should_expand(root->type))
-	{
-		while (root->data[++i])
-		{
-			init_expand(&exp_struct, root->data[i]);
-			tmp = root->data[i];
-			root->data[i] = expand(minishell, &exp_struct);
-			free(tmp);
-		}
-	}
-	expand_tree(root->right, minishell);
+	init_expand(&exp_struct, *str);
+	tmp = *str;
+	*str = expand(minishell, &exp_struct);
+	free(tmp);
 }

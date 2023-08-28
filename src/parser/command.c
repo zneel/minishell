@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 13:11:07 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/28 14:54:08 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:50:10 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_node	*command(t_parser *parser)
 	cmd = new_node(COMMAND);
 	if (!cmd)
 		return (NULL);
-	while (peek(parser, T_WORD))
+	while (peek(parser, T_WORD) || is_redirect_token(parser))
 	{
 		simple_command(parser, cmd);
 		while (is_redirect_token(parser))

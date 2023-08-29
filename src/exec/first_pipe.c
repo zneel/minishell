@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:37 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/29 13:23:07 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/29 15:06:48 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@ void	parent_first(int pipefd[2][2])
 void	child_first(t_command *cmd, int pipefd[2][2])
 {
 	if (dup_in(cmd))
-		exit (1);
-	if (cmd->mode & M_NO_MODE)
+		exit(1);
+	if (cmd->mode & (M_APPEND | M_OUT))
+	{
+		if (dup_out(cmd))
+			exit(1);
+	}
+	else
 	{
 		close_if(pipefd[1][0]);
 		dup2(pipefd[1][1], STDOUT_FILENO);
 		close_if(pipefd[1][1]);
-	}
-	else
-	{
-		if (dup_out(cmd))
-			exit (1);
 	}
 }
 

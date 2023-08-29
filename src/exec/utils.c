@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:54:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/29 13:58:17 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/29 22:13:18 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static t_command	*init_command(t_node *node, t_minishell *minishell)
 	cmd->has_path = false;
 	if (node->args)
 		expand_args(node->args, minishell);
+	ft_lstprint_str(node->args);
 	if (node->redirs)
 		expand_redirs(node->redirs, minishell);
 	cmd->command = convert_arg(node->args);

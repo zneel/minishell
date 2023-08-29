@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 14:02:49 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/24 14:53:27 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/29 22:09:40 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ void	handle_dollar(t_expand_str *expand, t_minishell *minishell)
 {
 	t_expand_var	*var;
 
-	expand->input++;
-	var = get_variable(minishell, expand->input);
+	var = get_variable(minishell, ++expand->input);
 	if (var->value)
 	{
 		expand->result_size += ft_strlen(var->value);
@@ -77,12 +76,13 @@ void	handle_dollar(t_expand_str *expand, t_minishell *minishell)
 	{
 		if (*expand->input == '?')
 			expand_last_status(expand, minishell);
-		else
+		else if (ft_strlen(var->name) == 0)
 		{
 			expand->result = ft_realloc(expand->result, ++expand->result_size);
 			expand->result[expand->i++] = '$';
-			expand->input = var->end;
 		}
+		else
+			expand->input = var->end;
 	}
 	free_expand_var(var);
 }

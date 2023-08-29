@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:00:29 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/28 14:44:26 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/29 14:16:51 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,10 @@ void	pretty_print_ast(t_node *node, char *prefix)
 		ft_lstiter(node->args, print_arg);
 		printf("\n");
 	}
-	if (node->redir != NULL)
+	if (node->redirs != NULL)
 	{
 		printf("%s|   ├── Redir: ", prefix);
-		ft_lstiter(node->redir, print_redir);
+		ft_lstiter(node->redirs, print_redir);
 		printf("\n");
 	}
 	len = strlen(prefix);

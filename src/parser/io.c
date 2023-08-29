@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 13:14:34 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/28 14:45:10 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/29 14:17:26 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,6 @@ void	io_redirect(t_parser *parser, t_node *cmd)
 		return ;
 	}
 	redir->file = ft_strdup(parser->current_tok->value);
-	ft_lstadd_back(&cmd->redir, ft_lstnew(redir));
+	ft_lstadd_back(&cmd->redirs, ft_lstnew(redir));
 	accept(parser, T_WORD);
 }

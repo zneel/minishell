@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 11:33:20 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/28 14:54:22 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/29 14:17:18 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_node	*new_node(t_node_type type)
 		return (NULL);
 	node->type = type;
 	node->args = NULL;
-	node->redir = NULL;
+	node->redirs = NULL;
 	node->left = NULL;
 	node->right = NULL;
 	node->parent = NULL;
@@ -48,6 +48,8 @@ void	delete_redir(void *arg)
 	t_redirect	*redir;
 
 	redir = (t_redirect *)arg;
+	if (!redir)
+		return ;
 	free(redir->file);
 	free(redir);
 }
@@ -58,10 +60,10 @@ void	ast_delete(t_node *node)
 		return ;
 	ast_delete(node->left);
 	ast_delete(node->right);
-	ft_lstclear(&node->redir, delete_redir);
+	ft_lstclear(&node->redirs, delete_redir);
 	ft_lstclear(&node->args, free);
 	node->args = NULL;
-	node->redir = NULL;
+	node->redirs = NULL;
 	free(node);
 	node = NULL;
 }

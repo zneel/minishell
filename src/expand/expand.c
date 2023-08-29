@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 14:04:12 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/28 15:05:57 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/29 13:59:52 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,47 @@ t_bool	should_expand(t_node_type type)
 	return (type == COMMAND || type == GREAT || type == LESS || type == DGREAT);
 }
 
-void	expand_str(char **str, t_minishell *minishell)
+void	expand_args(t_list *lst, t_minishell *minishell)
 {
 	char			*tmp;
 	t_expand_str	exp_struct;
 
-	if (!str)
+	if (!lst)
 		return ;
-	init_expand(&exp_struct, *str);
-	tmp = *str;
-	*str = expand(minishell, &exp_struct);
-	free(tmp);
+	while (lst)
+	{
+		if (lst->content)
+		{
+			init_expand(&exp_struct, lst->content);
+			tmp = lst->content;
+			lst->content = expand(minishell, &exp_struct);
+			free(tmp);
+		}
+		lst = lst->next;
+	}
+}
+
+void	expand_redirs(t_list *lst, t_minishell *minishell)
+{
+	char			*tmp;
+	t_expand_str	exp_struct;
+	t_redirect		*redirect;
+
+	if (!lst && !lst->content)
+		return ;
+	redirect = (t_redirect *)lst->content;
+	while (lst)
+	{
+		if (redirect)
+		{
+			init_expand(&exp_struct, redirect->file);
+			tmp = redirect->file;
+			redirect->file = expand(minishell, &exp_struct);
+			free(tmp);
+		}
+		lst = lst->next;
+		if (!lst)
+			break ;
+		redirect = (t_redirect *)lst->content;
+	}
 }

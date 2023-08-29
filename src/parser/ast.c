@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 11:33:20 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/23 17:24:45 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/29 14:17:18 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,37 +21,12 @@ t_node	*new_node(t_node_type type)
 	if (!node)
 		return (NULL);
 	node->type = type;
-	node->data = NULL;
+	node->args = NULL;
+	node->redirs = NULL;
 	node->left = NULL;
 	node->right = NULL;
 	node->parent = NULL;
 	return (node);
-}
-
-t_node	*append_node_left(t_node *head, t_node *append)
-{
-	t_node	*tmp;
-
-	tmp = head;
-	if (!head)
-		return (append);
-	while (tmp->left)
-		tmp = tmp->left;
-	tmp->left = append;
-	return (head);
-}
-
-t_node	*append_node_right(t_node *head, t_node *append)
-{
-	t_node	*tmp;
-
-	tmp = head;
-	if (!head)
-		return (append);
-	while (tmp->right)
-		tmp = tmp->right;
-	tmp->right = append;
-	return (head);
 }
 
 void	ast_attach_binary(t_node *root, t_node *left, t_node *right)
@@ -68,14 +43,27 @@ void	ast_attach_binary(t_node *root, t_node *left, t_node *right)
 		right->parent = root;
 }
 
+void	delete_redir(void *arg)
+{
+	t_redirect	*redir;
+
+	redir = (t_redirect *)arg;
+	if (!redir)
+		return ;
+	free(redir->file);
+	free(redir);
+}
+
 void	ast_delete(t_node *node)
 {
 	if (!node)
 		return ;
 	ast_delete(node->left);
 	ast_delete(node->right);
-	free_mat(node->data);
-	node->data = NULL;
+	ft_lstclear(&node->redirs, delete_redir);
+	ft_lstclear(&node->args, free);
+	node->args = NULL;
+	node->redirs = NULL;
 	free(node);
 	node = NULL;
 }

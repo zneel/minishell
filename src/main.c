@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/24 14:51:32 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/29 13:37:02 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,12 @@ static void	execute(t_minishell *minishell, char *line)
 	free(line);
 	minishell->root = parse(lex);
 	// debug_lexer(lex);
-	expand_tree(minishell->root, minishell);
+	//expand_tree(minishell->root, minishell);
 	// pretty_print_ast(minishell->root, "");
 	delete_lexer(lex);
 	prep_exec(minishell);
 	ast_delete(minishell->root);
 	minishell->root = NULL;
-	prep_exec(minishell);
 }
 
 int	str_all_space(char *str)

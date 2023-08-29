@@ -6,11 +6,22 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 13:11:07 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/19 14:40:02 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:50:10 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+
+static t_bool	is_redirect_token(t_parser *parser)
+{
+	t_bool	has_redirect;
+	t_bool	has_word_next;
+
+	has_redirect = peek(parser, T_DLESS) || peek(parser, T_DGREAT)
+		|| peek(parser, T_LESS) || peek(parser, T_GREAT);
+	has_word_next = peek_next(parser, T_WORD);
+	return (has_redirect && has_word_next);
+}
 
 int	count_args(t_parser *parser)
 {
@@ -27,55 +38,28 @@ int	count_args(t_parser *parser)
 	return (count);
 }
 
-t_node	*simple_command(t_parser *parser)
+void	simple_command(t_parser *parser, t_node *cmd)
 {
-	t_node	*node;
-	int		i;
-
-	node = new_node(COMMAND);
-	if (!node)
-		return (NULL);
-	if (!peek(parser, T_WORD))
-		return (node);
-	node->data = malloc(sizeof(char *) * (count_args(parser) + 1));
-	if (!node->data)
-		return (NULL);
-	i = 0;
 	while (peek(parser, T_WORD))
 	{
-		node->data[i] = ft_strdup(parser->current_tok->value);
-		i++;
+		ft_lstadd_back(&cmd->args,
+			ft_lstnew(ft_strdup(parser->current_tok->value)));
 		accept(parser, T_WORD);
 	}
-	node->data[i] = NULL;
-	return (node);
 }
 
 t_node	*command(t_parser *parser)
 {
 	t_node	*cmd;
-	t_node	*input;
-	t_node	*output;
-	t_bool	has_input;
 
-	input = NULL;
-	output = NULL;
-	has_input = false;
-	while (peek(parser, T_LESS) || peek(parser, T_DLESS))
-	{
-		has_input = true;
-		input = append_node_left(input, io_redirect(parser));
-	}
-	if (has_input && !input)
-		return (NULL);
-	cmd = simple_command(parser);
+	cmd = new_node(COMMAND);
 	if (!cmd)
 		return (NULL);
-	if (input)
-		ast_attach_binary(cmd, input, NULL);
-	while (peek(parser, T_GREAT) || peek(parser, T_DGREAT))
-		output = append_node_right(output, io_redirect(parser));
-	if (output)
-		ast_attach_binary(cmd, NULL, output);
+	while (peek(parser, T_WORD) || is_redirect_token(parser))
+	{
+		simple_command(parser, cmd);
+		while (is_redirect_token(parser))
+			io_redirect(parser, cmd);
+	}
 	return (cmd);
 }

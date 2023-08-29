@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 13:17:18 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/19 14:51:16 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/28 14:38:01 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ t_node	*parse_grammar(t_parser *parser)
 	if (parser->current_tok->type != T_EOF)
 	{
 		ft_dprintf(2, "minishell: syntax error near unexpected token `%s'\n",
-				token_to_str(parser->current_tok->type));
+			token_to_str(parser->current_tok->type));
 		ast_delete(root);
 		return (NULL);
 	}

@@ -37,6 +37,7 @@ SRC =	src/main.c \
 		src/parser/ast.c \
 		src/parser/command.c \
 		src/parser/group.c \
+		src/parser/actions.c \
 		src/parser/io.c \
 		src/expand/expand.c \
 		src/expand/variables.c \
@@ -71,9 +72,10 @@ SRC =	src/main.c \
 		src/exec/pipeline.c \
 		src/exec/open_file_cmd.c \
 		src/exec/utils.c \
-		src/exec/dup_for_pipe.c \
+		src/exec/dup.c \
 		src/exec/here_doc.c \
 		src/exec/error.c \
+		src/exec/convert_arg.c \
 		src/exec/exec_mini.c \
 		src/signals/signals.c
 

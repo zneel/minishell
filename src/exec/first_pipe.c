@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:37 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/24 15:58:41 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/29 13:23:07 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,19 @@ void	parent_first(int pipefd[2][2])
 
 void	child_first(t_command *cmd, int pipefd[2][2])
 {
-	int	fdin;
-
-	if (cmd->has_heredoc == false)
-		fdin = open(cmd->file_in, O_RDONLY, 0644);
-	else
-		fdin = open(FILE_HEREDOC, O_RDONLY, 0644);
-	if (fdin == -1)
-	{
-		if (cmd->has_heredoc == false)
-			exit(msg_error("No such file or directory", cmd->file_in));
-		else
-			exit(msg_error("No such file or directory", FILE_HEREDOC));
-	}
-	dup2(fdin, STDIN_FILENO);
-	close(fdin);
-	if (cmd->has_append == false && cmd->has_outfile == false)
+	if (dup_in(cmd))
+		exit (1);
+	if (cmd->mode & M_NO_MODE)
 	{
 		close_if(pipefd[1][0]);
 		dup2(pipefd[1][1], STDOUT_FILENO);
 		close_if(pipefd[1][1]);
 	}
 	else
-		dup_for_out(cmd);
+	{
+		if (dup_out(cmd))
+			exit (1);
+	}
 }
 
 void	builtin_first(t_command *cmd, char **env, t_minishell *minishell)
@@ -60,8 +50,6 @@ int	execute_first(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 	pid_t	pid;
 	char	**env;
 
-	if (cmd->has_heredoc)
-		here_doc(cmd->file_in);
 	pid = fork();
 	if (pid == -1)
 		return (1);

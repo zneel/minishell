@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 14:09:36 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/29 21:28:56 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/29 21:36:03 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ t_bool	quotes_valid(char *line)
 	{
 		if (line[i] == '\'' && stack_peek(stack)
 			&& *(char *)stack_peek(stack) == '\'')
-			stack_pop(&stack, free);
+			stack_pop(&stack, NULL);
 		else if (line[i] == '\"' && stack_peek(stack)
 			&& *(char *)stack_peek(stack) == '\"')
-			stack_pop(&stack, free);
+			stack_pop(&stack, NULL);
 		else if (is_quote(line[i]) && stack_is_empty(stack))
 			stack_push(&stack, &line[i]);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 22:14:40 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/25 12:14:04 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/29 11:39:05 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,19 +62,17 @@ int	prep_exec_builtin(t_command *cmd)
 	int	fdin;
 	int	fdout;
 
-	if (cmd->has_heredoc == true)
-		here_doc(cmd->file_in);
-	if (cmd->has_append == false)
+	if (cmd->mode & ~M_APPEND)
 		fdout = open(cmd->file_out, O_WRONLY | O_TRUNC, 0644);
 	else
 		fdout = open(cmd->file_out, O_WRONLY | O_APPEND, 0644);
-	if (cmd->has_heredoc == false)
+	if (cmd->mode & ~M_HERE_DOC)
 		fdin = open(cmd->file_in, O_RDONLY, 0644);
 	else
 		fdin = open(FILE_HEREDOC, O_RDONLY, 0644);
 	if (fdin == -1)
 	{
-		if (cmd->has_heredoc == false)
+		if (cmd->mode & ~M_HERE_DOC)
 			return (msg_error("No such file or directory", cmd->file_in));
 		else
 			return (msg_error("No such file or directory", FILE_HEREDOC));

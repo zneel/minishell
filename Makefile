@@ -75,6 +75,7 @@ SRC =	src/main.c \
 		src/exec/dup_for_pipe.c \
 		src/exec/here_doc.c \
 		src/exec/error.c \
+		src/exec/convert_arg.c \
 		src/exec/exec_mini.c \
 		src/signals/signals.c
 

@@ -1,49 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert_env.c                                      :+:      :+:    :+:   */
+/*   convert_arg.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/06 09:30:28 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/29 11:46:14 by mhoyer           ###   ########.fr       */
+/*   Created: 2023/08/29 12:56:22 by mhoyer            #+#    #+#             */
+/*   Updated: 2023/08/29 12:56:31 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "exec.h"
 
-void	free_before_return(char **mat, int i)
-{
-	while (--i >= 0)
-		free(mat[i]);
-	free(mat);
-}
-
-char	**convert_env(t_kv *lst)
+char	**convert_arg(t_list *lst)
 {
 	char	**mat;
-	char	*tmp;
 	int		i;
-	t_kv	*copy;
 
 	i = 0;
-	copy = lst;
 	if (!lst)
 		return (NULL);
-	mat = ft_calloc(sizeof(char *), ft_lstsize_env(copy) + 1);
+	mat = ft_calloc(sizeof(char *), ft_lstsize(lst) + 1);
 	if (!mat)
 		return (NULL);
-	while (copy)
+	while (lst)
 	{
-		tmp = ft_strjoin(copy->key, "=");
-		if (!tmp)
-			return (free_before_return(mat, i), NULL);
-		mat[i] = ft_strjoin(tmp, copy->value);
-		free(tmp);
+		mat[i] = ft_strdup(lst->content);
 		if (!mat[i])
 			return (free_before_return(mat, i), NULL);
 		i++;
-		copy = copy->next;
+		lst = lst->next;
 	}
 	mat[i] = NULL;
 	return (mat);

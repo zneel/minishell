@@ -6,11 +6,17 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 11:04:11 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/24 16:47:36 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/29 12:46:49 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
+
+void	free_command(t_command *cmd)
+{
+	free_mat(cmd->command);
+	free(cmd);
+}
 
 void	exec_failed(t_command *cmd, char **env, t_minishell *minishell,
 		int status)
@@ -26,12 +32,12 @@ void	exec_failed(t_command *cmd, char **env, t_minishell *minishell,
 	free_minishell(minishell);
 	if (cmd->builtin)
 	{
-		free(cmd);
+		free_command(cmd);
 		if (status == 1)
 			exit(126);
 		exit(0);
 	}
-	free(cmd);
+	free_command(cmd);
 	exit(127);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 16:56:23 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/19 21:02:00 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/29 13:08:36 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	dup_for_out(t_command *cmd)
 {
 	int	fdout;
 
-	if (cmd->has_append == false)
+	if (cmd->mode & ~M_APPEND)
 		fdout = open(cmd->file_out, O_WRONLY | O_TRUNC);
 	else
 		fdout = open(cmd->file_out, O_WRONLY | O_APPEND);
@@ -30,13 +30,13 @@ void	dup_for_in(t_command *cmd)
 {
 	int	fdin;
 
-	if (cmd->has_heredoc == false)
+	if (cmd->mode & ~M_HERE_DOC)
 		fdin = open(cmd->file_in, O_RDONLY, 0644);
 	else
 		fdin = open(FILE_HEREDOC, O_RDONLY, 0644);
 	if (fdin == -1)
 	{
-		if (cmd->has_heredoc == false)
+		if (cmd->mode & ~M_HERE_DOC)
 			exit(msg_error("No such file or directory", cmd->file_in));
 		else
 			exit(msg_error("No such file or directory", FILE_HEREDOC));

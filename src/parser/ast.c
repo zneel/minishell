@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 11:33:20 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/28 14:54:22 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/29 12:36:20 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	delete_redir(void *arg)
 	t_redirect	*redir;
 
 	redir = (t_redirect *)arg;
+	if (!redir)
+		return ;
 	free(redir->file);
 	free(redir);
 }

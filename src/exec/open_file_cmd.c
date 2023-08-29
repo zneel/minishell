@@ -6,97 +6,52 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 15:04:59 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/25 17:06:48 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/29 13:01:02 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-int	try_can_exec(t_command *command, t_node **parc_infile)
+t_bool	check_in(t_redirect *red, t_command *cmd)
 {
-	while ((command->can_exec && (*parc_infile) && (*parc_infile)->left)
-		|| (!command->can_exec && (*parc_infile)))
+	if (red->type == LESS)
 	{
-		if ((*parc_infile)->type == HERE_DOC)
-			here_doc((*parc_infile)->data[0]);
-		if ((*parc_infile)->type == LESS)
-		{
-			if (access((*parc_infile)->data[0], F_OK | R_OK) == -1)
-				return (msg_error("No such file or directory",
-						(*parc_infile)->data[0]));
-		}
-		(*parc_infile) = (*parc_infile)->left;
+		if (access(red->file, F_OK | R_OK) == -1)
+			return (false);
+		cmd->file_in = red->file;
+		cmd->mode &= ~M_HERE_DOC;
 	}
-	return (0);
+	else if (red->type == HERE_DOC)
+	{
+		here_doc(red->file);
+		cmd->mode &= ~M_NO_MODE;
+		cmd->mode |= M_HERE_DOC;
+	}
+	return (true);
 }
 
-int	open_infile(t_command *command, t_node *node)
-{
-	t_node	*parc_infile;
-
-	parc_infile = node->left;
-	if (try_can_exec(command, &parc_infile))
-		return (1);
-	if (parc_infile && parc_infile->type == LESS)
-	{
-		command->file_in = parc_infile->data[0];
-		command->has_infile = true;
-	}
-	else if (parc_infile && parc_infile->type == HERE_DOC)
-	{
-		command->file_in = parc_infile->data[0];
-		command->has_heredoc = true;
-	}
-	return (0);
-}
-
-t_node	*try_access_out(t_node *parc_outfile, int *next_out, t_bool creat)
+t_bool	check_out(t_redirect *red, t_command *cmd)
 {
 	int	fd;
 
-	if (access(parc_outfile->data[0], F_OK | R_OK) == -1)
+	if (red->type == GREAT)
 	{
-		fd = open(parc_outfile->data[0], O_CREAT, 0644);
-		if (fd == -1 && creat == false)
-			return (msg_error("No such file or directory", parc_outfile->data[0]), NULL);
+		fd = open(red->file, O_CREAT | O_WRONLY, 0644);
+		if (fd == -1)
+			return (false);
 		close(fd);
+		cmd->file_out = red->file;
+		cmd->mode &= ~M_APPEND;
 	}
-	if (parc_outfile->right)
-		parc_outfile = parc_outfile->right;
-	else
-		*next_out = 0;
-	return (parc_outfile);
-}
-
-void	creat_outfile(int next_out, t_node *parc_outfile)
-{
-	while (next_out && parc_outfile)
-		parc_outfile = try_access_out(parc_outfile, &next_out, true);
-}
-
-int	open_outfile(t_command *command, t_node *node)
-{
-	int		next_out;
-	t_node	*parc_outfile;
-
-	parc_outfile = node->right;
-	next_out = 1;
-	creat_outfile(next_out, parc_outfile);
-	while (next_out && parc_outfile)
+	else if (red->type == DGREAT)
 	{
-		parc_outfile = try_access_out(parc_outfile, &next_out, false);
-		if (!parc_outfile)
-			return (1);
+		fd = open(red->file, O_CREAT | O_WRONLY, 0644);
+		if (fd == -1)
+			return (false);
+		close(fd);
+		cmd->file_out = red->file;
+		cmd->mode &= ~M_NO_MODE;
+		cmd->mode |= M_APPEND;
 	}
-	if (parc_outfile && parc_outfile->type == GREAT)
-	{
-		command->file_out = parc_outfile->data[0];
-		command->has_outfile = true;
-	}
-	else if (parc_outfile && parc_outfile->type == DGREAT)
-	{
-		command->file_out = parc_outfile->data[0];
-		command->has_append = true;
-	}
-	return (0);
+	return (true);
 }

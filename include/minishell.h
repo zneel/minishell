@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/25 13:12:45 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/29 11:50:20 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,22 @@ typedef struct s_minishell
 	int			std[2];
 }				t_minishell;
 
+typedef enum e_mode
+{
+	M_HERE_DOC = (1 << 0),
+	M_APPEND = (1 << 2),
+	M_NO_MODE = (1 << 4),
+}				t_mode;
+
 typedef struct s_command
 {
 	char		**command;
 	char		*file_in;
 	char		*file_out;
-	t_bool		has_good_infile;
-	t_bool		has_good_outfile;
-	t_bool		has_heredoc;
-	t_bool		has_append;
-	t_bool		has_infile;
-	t_bool		has_outfile;
+	t_bool		has_good_file;
+	t_mode		mode;
 	t_bool		has_path;
 	int			builtin;
-	t_bool		can_exec;
 }				t_command;
 
 char			**ft_separate(char *str, char sep);
@@ -66,6 +68,7 @@ void			ft_lstsort_env(t_kv *top);
 t_kv			*ft_lstcpy_env(t_kv *top);
 
 void			free_minishell(t_minishell *minishell);
+void			free_before_return(char **mat, int i);
 
 t_kv			*env_cpy(char **env);
 char			**convert_env(t_kv *lst);

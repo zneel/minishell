@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:21 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/25 17:08:21 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/29 12:56:51 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <unistd.h>
 
 int			test_cmd(char *cmd);
+char		**convert_arg(t_list *lst);
 char		**get_cmd(char **cmd, char **env);
 int			prep_exec(t_minishell *minishell);
 void		here_doc(char *limiter);
@@ -54,12 +55,13 @@ void		close_if(int fd);
 void		wait_all(t_minishell *minishell);
 void		dup_for_out(t_command *cmd);
 void		dup_for_in(t_command *cmd);
-void		open_file(t_command *command, t_node *node);
+t_bool		check_in(t_redirect *red, t_command *cmd);
+t_bool		check_out(t_redirect *red, t_command *cmd);
 t_command	*node_to_command(t_node *node, char **env);
 int			msg_error(char *str, char *error);
 void		free_minishell(t_minishell *minishell);
 void		exec_failed(t_command *cmd, char **env, t_minishell *minishell,
 				int status);
 void		nothing(void *x);
-
+void		free_command(t_command *cmd);
 #endif

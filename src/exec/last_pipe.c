@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   last_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:41 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/24 15:58:45 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/29 11:42:51 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	child_last(t_command *cmd, int pipefd[2][2])
 {
 	int	fdout;
 
-	if (cmd->has_heredoc == false && cmd->has_infile == false)
+	if (cmd->mode & M_NO_MODE)
 	{
 		close_if(pipefd[0][1]);
 		dup2(pipefd[0][0], STDIN_FILENO);
@@ -30,7 +30,7 @@ void	child_last(t_command *cmd, int pipefd[2][2])
 	}
 	else
 		dup_for_in(cmd);
-	if (cmd->has_append == false)
+	if (cmd->mode & ~M_APPEND)
 		fdout = open(cmd->file_out, O_WRONLY | O_TRUNC, 0644);
 	else
 		fdout = open(cmd->file_out, O_WRONLY | O_APPEND, 0644);

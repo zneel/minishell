@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:03 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/25 13:17:27 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/29 12:46:27 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ int	do_exec(t_command *command, t_minishell *minishell)
 			return (msg_error("No such file or directory",
 					command->command[0]));
 	}
-	else
+	else if (command->command)
 	{
 		execute_command(command, minishell);
 		wait_all(minishell);
 	}
-	free(command);
+	free_command(command);
 	return (0);
 }
 
@@ -45,8 +45,8 @@ int	exec_cmd(t_node *node, t_minishell *ms)
 		exit(msg_error("malloc", "Error"));
 	}
 	free_mat(env);
-	if (!command->has_good_infile || !command->has_good_outfile)
-		return (free(command), close(ms->std[0]), close(ms->std[1]), 1);
+	if (!command->has_good_file)
+		return (free_command(command), close(ms->std[0]), close(ms->std[1]), 1);
 	return (do_exec(command, ms));
 }
 

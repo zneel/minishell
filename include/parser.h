@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:25:00 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/28 14:54:29 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/29 13:56:59 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef enum e_node_type
 struct					s_node
 {
 	t_node_type			type;
-	t_list				*redir;
+	t_list				*redirs;
 	t_list				*args;
 	t_node				*left;
 	t_node				*right;

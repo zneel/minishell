@@ -72,7 +72,7 @@ SRC =	src/main.c \
 		src/exec/pipeline.c \
 		src/exec/open_file_cmd.c \
 		src/exec/utils.c \
-		src/exec/dup_for_pipe.c \
+		src/exec/dup.c \
 		src/exec/here_doc.c \
 		src/exec/error.c \
 		src/exec/convert_arg.c \

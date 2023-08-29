@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:41 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/29 11:42:51 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/29 14:32:02 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ void	parent_last(int pipefd[2][2])
 
 void	child_last(t_command *cmd, int pipefd[2][2])
 {
-	int	fdout;
-
 	if (cmd->mode & M_NO_MODE)
 	{
 		close_if(pipefd[0][1]);
@@ -29,13 +27,12 @@ void	child_last(t_command *cmd, int pipefd[2][2])
 		close_if(pipefd[0][0]);
 	}
 	else
-		dup_for_in(cmd);
-	if (cmd->mode & ~M_APPEND)
-		fdout = open(cmd->file_out, O_WRONLY | O_TRUNC, 0644);
-	else
-		fdout = open(cmd->file_out, O_WRONLY | O_APPEND, 0644);
-	dup2(fdout, STDOUT_FILENO);
-	close(fdout);
+	{
+		if (dup_in(cmd))
+			exit(1);
+	}
+	if (dup_out(cmd))
+		exit(1);
 }
 
 void	builtin_last(t_command *cmd, char **env, t_minishell *minishell)

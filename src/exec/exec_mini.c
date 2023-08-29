@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:03 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/29 12:46:27 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/29 14:25:01 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	exec_cmd(t_node *node, t_minishell *ms)
 	t_command	*command;
 
 	env = convert_env(ms->env);
-	command = node_to_command(node, env);
+	command = node_to_command(node, env, ms);
 	if (!command)
 	{
 		free_mat(env);
@@ -46,7 +46,10 @@ int	exec_cmd(t_node *node, t_minishell *ms)
 	}
 	free_mat(env);
 	if (!command->has_good_file)
+	{
+		ms->last_status = 1;
 		return (free_command(command), close(ms->std[0]), close(ms->std[1]), 1);
+	}
 	return (do_exec(command, ms));
 }
 

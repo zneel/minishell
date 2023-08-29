@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:47:47 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/29 12:15:00 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/29 14:32:13 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_command	*prep_cmd_pipe(t_node *node, t_minishell *minishell)
 	char		**env;
 
 	env = convert_env(minishell->env);
-	command = node_to_command(node, env);
+	command = node_to_command(node, env, minishell);
 	free_mat(env);
 	return (command);
 }
@@ -42,8 +42,7 @@ int	exec_cmd_pipe(t_node *root, t_node *node, t_minishell *minishell,
 	if (node->parent && node->parent->type == PIPE
 		&& node->parent->left == node)
 	{
-		if (pipe(pipefd[1]) == -1 || execute_first(cmd, minishell,
-				pipefd) == 1)
+		if (pipe(pipefd[1]) == -1 || execute_first(cmd, minishell, pipefd) == 1)
 			return (free_command(cmd), 1);
 	}
 	else if (check_middle(root, node))

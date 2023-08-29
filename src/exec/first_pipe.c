@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:37 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/29 11:41:10 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/29 13:23:07 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,8 @@ void	parent_first(int pipefd[2][2])
 
 void	child_first(t_command *cmd, int pipefd[2][2])
 {
-	int	fdin;
-
-	if (cmd->mode & ~M_HERE_DOC)
-		fdin = open(cmd->file_in, O_RDONLY, 0644);
-	else
-		fdin = open(FILE_HEREDOC, O_RDONLY, 0644);
-	if (fdin == -1)
-	{
-		if (cmd->mode & ~M_HERE_DOC)
-			exit(msg_error("No such file or directory", cmd->file_in));
-		else
-			exit(msg_error("No such file or directory", FILE_HEREDOC));
-	}
-	dup2(fdin, STDIN_FILENO);
-	close(fdin);
+	if (dup_in(cmd))
+		exit (1);
 	if (cmd->mode & M_NO_MODE)
 	{
 		close_if(pipefd[1][0]);
@@ -44,7 +31,10 @@ void	child_first(t_command *cmd, int pipefd[2][2])
 		close_if(pipefd[1][1]);
 	}
 	else
-		dup_for_out(cmd);
+	{
+		if (dup_out(cmd))
+			exit (1);
+	}
 }
 
 void	builtin_first(t_command *cmd, char **env, t_minishell *minishell)

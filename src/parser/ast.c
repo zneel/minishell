@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 11:33:20 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/29 12:36:20 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/29 14:17:18 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_node	*new_node(t_node_type type)
 		return (NULL);
 	node->type = type;
 	node->args = NULL;
-	node->redir = NULL;
+	node->redirs = NULL;
 	node->left = NULL;
 	node->right = NULL;
 	node->parent = NULL;
@@ -60,10 +60,10 @@ void	ast_delete(t_node *node)
 		return ;
 	ast_delete(node->left);
 	ast_delete(node->right);
-	ft_lstclear(&node->redir, delete_redir);
+	ft_lstclear(&node->redirs, delete_redir);
 	ft_lstclear(&node->args, free);
 	node->args = NULL;
-	node->redir = NULL;
+	node->redirs = NULL;
 	free(node);
 	node = NULL;
 }

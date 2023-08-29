@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 13:17:18 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/28 14:38:01 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/29 21:11:18 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@ t_node	*expr(t_parser *parser)
 	t_node	*node;
 
 	node = NULL;
-	if (accept(parser, T_LPAREN))
+	if (peek(parser, T_LPAREN))
 	{
 		stack_push(&parser->parse_stack, (void *)LPAREN);
+		accept(parser, T_LPAREN);
 		node = group(parser);
 		if (!node)
 			return (NULL);
@@ -100,6 +101,14 @@ t_node	*parse_grammar(t_parser *parser)
 		ft_dprintf(2, "minishell: syntax error near unexpected token `%s'\n",
 			token_to_str(parser->current_tok->type));
 		ast_delete(root);
+		return (NULL);
+	}
+	if (!stack_is_empty(parser->parse_stack))
+	{
+		ft_dprintf(2, "minishell: syntax error near unexpected token `('\n",
+			token_to_str(parser->current_tok->type));
+		ast_delete(root);
+		stack_delete(parser->parse_stack, free);
 		return (NULL);
 	}
 	if (!root)

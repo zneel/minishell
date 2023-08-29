@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:05:49 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/28 13:00:43 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/29 20:45:39 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	init_parser(t_parser *parser, t_lexer *lexer)
 		return (false);
 	parser->current_tok = lexer->token_lst;
 	parser->parse_state = 0;
+	parser->parse_stack = NULL;
 	parser->lexer = lexer;
 	return (true);
 }

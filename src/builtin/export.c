@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 10:54:01 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/24 15:29:41 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/29 14:44:20 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ int	test_export(t_command *cmd, t_minishell *minishell)
 	{
 		if (export_annexe(i, cmd->command, minishell) == 2)
 		{
-			printf("minishell: ");
-			printf("\"%s\": ", cmd->command[i]);
-			printf("not a valid identifier\n");
+			ft_dprintf(1,"minishell: ");
+			ft_dprintf(1,"\"%s\":", cmd->command[i]);
+			ft_dprintf(2," not a valid identifier\n");
 			return (1);
 		}
 	}

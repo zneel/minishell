@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:41 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/29 14:32:02 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/29 15:09:52 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,16 @@ void	parent_last(int pipefd[2][2])
 
 void	child_last(t_command *cmd, int pipefd[2][2])
 {
-	if (cmd->mode & M_NO_MODE)
+	if (cmd->mode & (M_HERE_DOC | M_IN))
+	{
+		if (dup_in(cmd))
+			exit(1);
+	}
+	else
 	{
 		close_if(pipefd[0][1]);
 		dup2(pipefd[0][0], STDIN_FILENO);
 		close_if(pipefd[0][0]);
-	}
-	else
-	{
-		if (dup_in(cmd))
-			exit(1);
 	}
 	if (dup_out(cmd))
 		exit(1);

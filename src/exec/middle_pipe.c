@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:39 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/29 13:23:28 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/29 15:05:32 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,27 @@ void	parent_middle(int pipefd[2][2])
 
 void	child_middle(int pipefd[2][2], t_command *cmd)
 {
-	if (cmd->mode & M_NO_MODE)
+	if (cmd->mode & (M_IN | M_HERE_DOC))
+	{
+		if (dup_in(cmd))
+			exit(1);
+	}
+	else
 	{
 		close_if(pipefd[0][1]);
 		dup2(pipefd[0][0], STDIN_FILENO);
 		close_if(pipefd[0][0]);
 	}
-	else
+	if (cmd->mode & (M_OUT | M_APPEND))
 	{
-		if (dup_in(cmd))
-			exit (1);
+		if (dup_out(cmd))
+			exit(1);
 	}
-	if (cmd->mode & M_NO_MODE)
+	else
 	{
 		close_if(pipefd[1][0]);
 		dup2(pipefd[1][1], STDOUT_FILENO);
 		close_if(pipefd[1][1]);
-	}
-	else
-	{
-		if (dup_out(cmd))
-			exit (1);
 	}
 }
 

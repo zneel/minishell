@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/29 11:50:20 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/29 15:02:45 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ typedef enum e_mode
 {
 	M_HERE_DOC = (1 << 0),
 	M_APPEND = (1 << 2),
-	M_NO_MODE = (1 << 4),
+	M_IN = (1 << 3),
+	M_OUT = (1 << 4),
+	M_NO_MODE = (1 << 5),
 }				t_mode;
 
 typedef struct s_command

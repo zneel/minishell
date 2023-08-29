@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 13:11:07 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/28 15:50:10 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/29 21:22:32 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,7 @@ t_node	*command(t_parser *parser)
 		while (is_redirect_token(parser))
 			io_redirect(parser, cmd);
 	}
+	if (!cmd->args && !cmd->redirs)
+		return (ast_delete(cmd), NULL);
 	return (cmd);
 }

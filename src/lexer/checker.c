@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 14:09:36 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/21 15:38:26 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/29 21:28:56 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_bool	quotes_valid(char *line)
 		ft_dprintf(STDERR_FILENO,
 			"minishell: syntax error unclosed quote: `%c\'\n",
 			*(char *)stack_peek(stack));
-		return (stack_delete(stack, NULL), false);
+		return (stack_delete(&stack, NULL), false);
 	}
 	return (stack_is_empty(stack));
 }

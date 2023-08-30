@@ -10,7 +10,7 @@ YELLOW  = \033[33m
 BLUE    = \033[34m
 
 ifeq ($(DEBUG), 1)
-	CFLAGS+=-g3
+	CFLAGS+=-g3 -gdwarf-4
 endif
 
 ifeq ($(SAN), 1)
@@ -69,7 +69,7 @@ SRC =	src/main.c \
 		src/exec/first_pipe.c \
 		src/exec/middle_pipe.c \
 		src/exec/last_pipe.c \
-		src/exec/ft_more_pipe.c \
+		src/exec/pipe_utils.c \
 		src/exec/pipeline.c \
 		src/exec/open_file_cmd.c \
 		src/exec/utils.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/30 13:34:15 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 17:00:19 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,7 @@ static void	execute(t_minishell *minishell, char *line)
 
 	lex = lexer(line);
 	free(line);
-	minishell->root = parse(lex);
-	// debug_lexer(lex);
-	// pretty_print_ast(minishell->root, "");
+	minishell->root = parse(minishell, lex);
 	delete_lexer(lex);
 	prep_exec(minishell);
 	ast_delete(minishell->root);

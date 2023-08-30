@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 14:03:38 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/30 12:56:26 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/30 13:03:19 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,24 @@ void	change_state(unsigned int new_state, t_expand_str *expand)
 	expand->input++;
 }
 
-t_list	*delete_expand_node(t_list **lst, t_list *to_delete)
+void	free_redir(void *redir)
+{
+	t_redirect	*tmp;
+
+	tmp = (t_redirect *)redir;
+	free(tmp->file);
+	free(tmp);
+}
+
+t_list	*delete_expand_node(t_list **lst, t_list *to_delete, t_bool is_redir)
 {
 	t_list	*tmp;
 
 	tmp = to_delete->next;
-	ft_lstdelone(to_delete, free);
+	if (is_redir)
+		ft_lstdelone(to_delete, free_redir);
+	else
+		ft_lstdelone(to_delete, free);
 	if (to_delete == *lst)
 		*lst = tmp;
 	return (tmp);

@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:39 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/29 15:05:32 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 10:20:06 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@ void	parent_middle(int pipefd[2][2])
 	close_if(pipefd[1][1]);
 }
 
-void	child_middle(int pipefd[2][2], t_command *cmd)
+void	child_middle(int pipefd[2][2], t_command *cmd, t_minishell *ms)
 {
+	if (!cmd->has_good_file)
+		close_all_pipe_free(pipefd, ms, cmd);
 	if (cmd->mode & (M_IN | M_HERE_DOC))
 	{
 		if (dup_in(cmd))
-			exit(1);
+			close_all_pipe_free(pipefd, ms, cmd);
 	}
 	else
 	{
@@ -36,7 +38,7 @@ void	child_middle(int pipefd[2][2], t_command *cmd)
 	if (cmd->mode & (M_OUT | M_APPEND))
 	{
 		if (dup_out(cmd))
-			exit(1);
+			close_all_pipe_free(pipefd, ms, cmd);
 	}
 	else
 	{
@@ -64,7 +66,7 @@ int	execute_middle(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 		return (1);
 	ft_lstadd_back(&minishell->pids, ft_lstnew(&pid));
 	if (pid == 0)
-		child_middle(pipefd, cmd);
+		child_middle(pipefd, cmd, minishell);
 	else
 		parent_middle(pipefd);
 	if (pid == 0)

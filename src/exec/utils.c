@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:54:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 12:02:55 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/30 13:34:54 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,15 @@ t_command	*node_to_command(t_node *node, char **env, t_minishell *ms)
 		command->command = get_cmd(command->command, env);
 	command->has_good_file = open_file(command, node->redirs);
 	return (command);
+}
+
+void	close_all_pipe_free(int pipefd[2][2], t_minishell *ms, t_command *cmd)
+{
+	close_if(pipefd[0][0]);
+	close_if(pipefd[0][1]);
+	close_if(pipefd[1][0]);
+	close_if(pipefd[1][1]);
+	free_minishell(ms);
+	free_command(cmd);
+	exit(1);
 }

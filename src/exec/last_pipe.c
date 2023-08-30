@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:41 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/29 15:09:52 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 10:20:31 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@ void	parent_last(int pipefd[2][2])
 	pipefd[0][0] = -1;
 }
 
-void	child_last(t_command *cmd, int pipefd[2][2])
+void	child_last(t_command *cmd, int pipefd[2][2], t_minishell *ms)
 {
+	if (!cmd->has_good_file)
+		close_all_pipe_free(pipefd, ms, cmd);
 	if (cmd->mode & (M_HERE_DOC | M_IN))
 	{
 		if (dup_in(cmd))
-			exit(1);
+			close_all_pipe_free(pipefd, ms, cmd);
 	}
 	else
 	{
@@ -32,7 +34,7 @@ void	child_last(t_command *cmd, int pipefd[2][2])
 		close_if(pipefd[0][0]);
 	}
 	if (dup_out(cmd))
-		exit(1);
+		close_all_pipe_free(pipefd, ms, cmd);
 }
 
 void	builtin_last(t_command *cmd, char **env, t_minishell *minishell)
@@ -53,7 +55,7 @@ int	execute_last(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 		return (1);
 	ft_lstadd_back(&minishell->pids, ft_lstnew(&pid));
 	if (pid == 0)
-		child_last(cmd, pipefd);
+		child_last(cmd, pipefd, minishell);
 	else
 		parent_last(pipefd);
 	if (pid == 0)

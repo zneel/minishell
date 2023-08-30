@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:54:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 13:35:17 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 16:49:00 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static t_command	*init_command(t_node *node, t_minishell *minishell)
 	cmd->file_in = "/dev/stdin";
 	cmd->file_out = "/dev/stdout";
 	cmd->mode = M_NO_MODE;
+	cmd->error = ERR_NO_ERR;
 	cmd->has_good_file = true;
 	cmd->has_path = false;
 	if (node->args)

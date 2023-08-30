@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 21:51:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/25 12:21:20 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/30 10:48:03 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,33 @@ int	ft_strncmp_back(char *str, char *ex, int size)
 	return (1);
 }
 
+int	check_str_good(char *cmd, char *builtin)
+{
+	size_t	size_builtin;
+
+	size_builtin = ft_strlen(builtin);
+	if (ft_strlen(cmd) != size_builtin)
+		return (1);
+	return (ft_strncmp(cmd, builtin, size_builtin));
+}
+
 t_builtin_type	check_npath(char *cmd)
 {
 	if (!cmd)
 		return (NONE);
-	if (ft_strncmp(cmd, "echo", ft_strlen(cmd)) == 0)
+	if (check_str_good(cmd, "echo") == 0)
 		return (ECHO);
-	if (ft_strncmp(cmd, "export", ft_strlen(cmd)) == 0)
+	if (check_str_good(cmd, "export") == 0)
 		return (EXPORT);
-	if (ft_strncmp(cmd, "env", ft_strlen(cmd)) == 0)
+	if (check_str_good(cmd, "env") == 0)
 		return (ENV);
-	if (ft_strncmp(cmd, "pwd", ft_strlen(cmd)) == 0)
+	if (check_str_good(cmd, "pwd") == 0)
 		return (PWD);
-	if (ft_strncmp(cmd, "unset", ft_strlen(cmd)) == 0)
+	if (check_str_good(cmd, "unset") == 0)
 		return (UNSET);
-	if (ft_strncmp(cmd, "cd", ft_strlen(cmd)) == 0)
+	if (check_str_good(cmd, "cd") == 0)
 		return (CD);
-	if (ft_strncmp(cmd, "exit", ft_strlen(cmd)) == 0)
+	if (check_str_good(cmd, "exit") == 0)
 		return (EXIT);
 	return (0);
 }

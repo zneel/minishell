@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 10:54:01 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/29 14:44:20 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 13:57:54 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	export_annexe(int i, char **cmd, t_minishell *minishell)
 	if (!tmp || !tmp[0] || !tmp[1])
 		return (1);
 	if (tmp && (!tmp[0] || !tmp[1]))
-		return(free(tmp), free(tmp[0]), free(tmp[1]), 1);
+		return (free(tmp), free(tmp[0]), free(tmp[1]), 1);
 	if (check_disp(minishell->env, tmp[0]) == 1)
 		error = replace_env(minishell->env, tmp);
 	else if (check_disp(minishell->env, tmp[0]) == 0)
@@ -90,16 +90,16 @@ int	export_annexe(int i, char **cmd, t_minishell *minishell)
 int	test_export(t_command *cmd, t_minishell *minishell)
 {
 	int	i;
-	
+
 	i = 0;
 	while (cmd->command && *cmd->command && cmd->command[++i]
 		&& cmd->command[i][0] != '=')
 	{
 		if (export_annexe(i, cmd->command, minishell) == 2)
 		{
-			ft_dprintf(1,"minishell: ");
-			ft_dprintf(1,"\"%s\":", cmd->command[i]);
-			ft_dprintf(2," not a valid identifier\n");
+			ft_dprintf(1, "minishell: ");
+			ft_dprintf(1, "\"%s\":", cmd->command[i]);
+			ft_dprintf(2, " not a valid identifier\n");
 			return (1);
 		}
 	}

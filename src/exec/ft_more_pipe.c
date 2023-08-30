@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 11:30:40 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 13:25:57 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 13:57:31 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	builtin_pipe(t_command *cmd, char **env, t_minishell *minishell)
 {
 	int	status;
 
+	signal(SIGPIPE, sig_handler_job);
 	status = exec_builtin(cmd, minishell, false);
 	exec_failed(cmd, env, minishell, status);
 }
-
 
 void	close_all_pipe_free(int pipefd[2][2], t_minishell *ms, t_command *cmd)
 {

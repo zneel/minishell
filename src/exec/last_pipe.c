@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:41 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 10:20:31 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 12:43:58 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,6 @@ void	child_last(t_command *cmd, int pipefd[2][2], t_minishell *ms)
 		close_all_pipe_free(pipefd, ms, cmd);
 }
 
-void	builtin_last(t_command *cmd, char **env, t_minishell *minishell)
-{
-	int	status;
-
-	status = exec_builtin(cmd, minishell, false);
-	exec_failed(cmd, env, minishell, status);
-}
-
 int	execute_last(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 {
 	pid_t	pid;
@@ -64,7 +56,7 @@ int	execute_last(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 		if (!env && !cmd->has_path && !cmd->builtin)
 			exec_failed(cmd, env, minishell, 1);
 		if (cmd->builtin)
-			builtin_last(cmd, env, minishell);
+			builtin_pipe(cmd, env, minishell);
 		if (execve(cmd->command[0], cmd->command, env) == -1)
 			exec_failed(cmd, env, minishell, 1);
 	}

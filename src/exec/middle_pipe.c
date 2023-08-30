@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:39 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 10:20:06 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 12:44:04 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,6 @@ void	child_middle(int pipefd[2][2], t_command *cmd, t_minishell *ms)
 	}
 }
 
-void	builtin_middle(t_command *cmd, char **env, t_minishell *minishell)
-{
-	int	status;
-
-	status = exec_builtin(cmd, minishell, false);
-	exec_failed(cmd, env, minishell, status);
-}
-
 int	execute_middle(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 {
 	pid_t	pid;
@@ -75,7 +67,7 @@ int	execute_middle(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 		if (!env && !cmd->has_path && !cmd->builtin)
 			exec_failed(cmd, env, minishell, 1);
 		if (cmd->builtin)
-			builtin_middle(cmd, env, minishell);
+			builtin_pipe(cmd, env, minishell);
 		if (execve(cmd->command[0], cmd->command, env) == -1)
 			exec_failed(cmd, env, minishell, 1);
 	}

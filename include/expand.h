@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:43:24 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/29 13:55:37 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 12:56:36 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ typedef struct s_expand_var
 	char			*end;
 }					t_expand_var;
 
-void				expand_args(t_list *lst, t_minishell *minishell);
-void				expand_redirs(t_list *lst, t_minishell *minishell);
+void				expand_args(t_list **lst, t_minishell *minishell);
+void				expand_redirs(t_list **lst, t_minishell *minishell);
+t_list				*delete_expand_node(t_list **lst, t_list *to_delete);
 void				free_expand_var(t_expand_var *var);
 void				copy_and_increment(t_expand_str *expand);
 void				change_state(unsigned int new_state, t_expand_str *expand);

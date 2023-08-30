@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:54:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/29 22:13:18 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/30 12:02:55 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,9 @@ static t_command	*init_command(t_node *node, t_minishell *minishell)
 	cmd->has_good_file = true;
 	cmd->has_path = false;
 	if (node->args)
-		expand_args(node->args, minishell);
-	ft_lstprint_str(node->args);
+		expand_args(&node->args, minishell);
 	if (node->redirs)
-		expand_redirs(node->redirs, minishell);
+		expand_redirs(&node->redirs, minishell);
 	cmd->command = convert_arg(node->args);
 	if (cmd->command)
 		cmd->has_path = ft_strrchr(cmd->command[0], '/');

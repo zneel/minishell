@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:03 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/29 15:47:31 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 16:32:03 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	do_exec(t_command *command, t_minishell *minishell)
 	else if (command->command)
 	{
 		execute_command(command, minishell);
+		ft_lstadd_back(&minishell->pids, ft_lstnew_int(-1));
 		wait_all(minishell);
 	}
 	free_command(command);

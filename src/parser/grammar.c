@@ -6,13 +6,12 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 13:17:18 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/29 21:29:42 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:06:55 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "parser.h"
-#include <stdio.h>
 
 t_node	*pipeline(t_parser *parser)
 {
@@ -88,7 +87,7 @@ t_node	*command_line(t_parser *parser)
 	return (left_node);
 }
 
-t_node	*parse_grammar(t_parser *parser)
+t_node	*parse_grammar(t_minishell *minishell, t_parser *parser)
 {
 	t_node	*root;
 
@@ -102,6 +101,7 @@ t_node	*parse_grammar(t_parser *parser)
 			token_to_str(parser->current_tok->type));
 		stack_delete(&parser->parse_stack, NULL);
 		ast_delete(root);
+		minishell->last_status = 2;
 		return (NULL);
 	}
 	if (!root)

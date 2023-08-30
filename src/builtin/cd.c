@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 09:23:02 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/25 12:18:08 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:50:58 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	do_cd(t_command *cmd, t_minishell *minishell)
 {
 	char	*path_to_go;
 
-	if (ft_strncmp(cmd->command[1], "-", ft_strlen(cmd->command[1])) == 0)
+	if (is_same(cmd->command[1], "-"))
 	{
 		path_to_go = get_env(minishell, "OLDPWD");
 		if (!path_to_go)

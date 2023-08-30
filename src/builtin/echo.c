@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 07:37:23 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/07/25 09:23:46 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 18:52:13 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	echo(t_command *cmd)
 	if (!cmd->command || !cmd->command[0])
 		return (1);
 	endl = 0;
-	if (cmd->command[1] && ft_strncmp(cmd->command[1], "-n", 2) == 0)
+	if (cmd->command[1] && is_same(cmd->command[1], "-n"))
 		endl = 1;
 	i = endl;
 	while (cmd->command[++i])

@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:54:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 13:35:17 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 18:50:17 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,13 @@ t_command	*node_to_command(t_node *node, char **env, t_minishell *ms)
 		command->command = get_cmd(command->command, env);
 	command->has_good_file = open_file(command, node->redirs);
 	return (command);
+}
+
+t_bool	is_same(char *s1, char *s2)
+{
+	if (!s1 || !s2)
+		return (false);
+	if (ft_strlen(s1) != ft_strlen(s2))
+		return (false);
+	return (ft_strncmp(s1, s2, ft_strlen(s1)) == 0);
 }

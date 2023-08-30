@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 09:34:27 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/24 13:23:47 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:53:10 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ char	*get_env(t_minishell *minishell, char *to_search)
 	env = minishell->env;
 	while (env)
 	{
-		if (ft_strlen(env->key) == to_search_len && ft_strncmp(env->key,
-				to_search, ft_strlen(env->key)) == 0)
+		if (ft_strlen(env->key) == to_search_len && is_same(env->key,
+				to_search))
 			return (env->value);
 		env = env->next;
 	}

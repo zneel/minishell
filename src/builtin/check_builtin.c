@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 21:51:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 11:17:57 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 18:51:53 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,33 +27,23 @@ int	ft_strncmp_back(char *str, char *ex, int size)
 	return (1);
 }
 
-t_bool	check_str_good(char *cmd, char *builtin)
-{
-	size_t	size_builtin;
-
-	size_builtin = ft_strlen(builtin);
-	if (ft_strlen(cmd) != size_builtin)
-		return (false);
-	return (ft_strncmp(cmd, builtin, size_builtin) == 0);
-}
-
 t_builtin_type	check_npath(char *cmd)
 {
 	if (!cmd)
 		return (NONE);
-	if (check_str_good(cmd, "echo"))
+	if (is_same(cmd, "echo"))
 		return (ECHO);
-	if (check_str_good(cmd, "export"))
+	if (is_same(cmd, "export"))
 		return (EXPORT);
-	if (check_str_good(cmd, "env"))
+	if (is_same(cmd, "env"))
 		return (ENV);
-	if (check_str_good(cmd, "pwd"))
+	if (is_same(cmd, "pwd"))
 		return (PWD);
-	if (check_str_good(cmd, "unset"))
+	if (is_same(cmd, "unset"))
 		return (UNSET);
-	if (check_str_good(cmd, "cd"))
+	if (is_same(cmd, "cd"))
 		return (CD);
-	if (check_str_good(cmd, "exit"))
+	if (is_same(cmd, "exit"))
 		return (EXIT);
 	return (0);
 }

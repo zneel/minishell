@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 14:04:12 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/30 12:57:49 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/30 13:03:28 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	expand_args(t_list **lst, t_minishell *minishell)
 		current->content = expand(minishell, &exp_struct);
 		free(tmp);
 		if (!current->content)
-			current = delete_expand_node(lst, current);
+			current = delete_expand_node(lst, current, false);
 		else
 			current = current->next;
 	}
@@ -104,6 +104,9 @@ void	expand_redirs(t_list **lst, t_minishell *minishell)
 		tmp = ((t_redirect *)current->content)->file;
 		((t_redirect *)current->content)->file = expand(minishell, &exp_struct);
 		free(tmp);
-		current = current->next;
+		if (!current->content)
+			current = delete_expand_node(lst, current, true);
+		else
+			current = current->next;
 	}
 }

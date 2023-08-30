@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 14:03:38 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/30 13:03:19 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/30 16:17:25 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,25 @@ void	free_redir(void *redir)
 
 t_list	*delete_expand_node(t_list **lst, t_list *to_delete, t_bool is_redir)
 {
-	t_list	*tmp;
+	t_list	*curr;
+	t_list	*prev;
 
-	tmp = to_delete->next;
+	curr = *lst;
+	prev = NULL;
+	while (curr && curr != to_delete)
+	{
+		prev = curr;
+		curr = curr->next;
+	}
+	if (!prev)
+		*lst = to_delete->next;
+	else
+		prev->next = to_delete->next;
 	if (is_redir)
 		ft_lstdelone(to_delete, free_redir);
 	else
 		ft_lstdelone(to_delete, free);
-	if (to_delete == *lst)
-		*lst = tmp;
-	return (tmp);
+	if (!prev)
+		return (*lst);
+	return (prev->next);
 }

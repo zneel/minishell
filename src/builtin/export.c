@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 10:54:01 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 13:57:54 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 18:52:51 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	check_disp(t_kv *env, char *new)
 	}
 	while (env)
 	{
-		if (ft_strncmp(env->key, new, ft_strlen(new)) == 0)
+		if (is_same(env->key, new))
 			return (1);
 		env = env->next;
 	}
@@ -35,7 +35,7 @@ int	replace_env(t_kv *env, char **tmp)
 {
 	while (env)
 	{
-		if (ft_strncmp(env->key, tmp[0], ft_strlen(tmp[0])) == 0)
+		if (is_same(env->key, tmp[0]))
 		{
 			free(env->value);
 			free(tmp[0]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/30 17:05:32 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:50:10 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,7 @@ t_kv		*env_cpy(char **env);
 char		*get_env(t_minishell *minishell, char *to_search);
 int			modif_env(t_minishell *minishell, char *key_s, char *value_m);
 char		**convert_env(t_kv *lst);
+
+t_bool		is_same(char *s1, char *s2);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:37 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 12:44:09 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 15:21:20 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int	execute_first(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 	pid = fork();
 	if (pid == -1)
 		return (1);
-	ft_lstadd_back(&minishell->pids, ft_lstnew(&pid));
+	if (pid != 0)
+		ft_lstadd_back(&minishell->pids, ft_lstnew_int(pid));
 	if (pid == 0)
 		child_first(cmd, pipefd, minishell);
 	else

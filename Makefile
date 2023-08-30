@@ -66,6 +66,7 @@ SRC =	src/main.c \
 		src/exec/exec.c \
 		src/exec/path.c \
 		src/exec/cmd.c \
+		src/exec/init_command.c \
 		src/exec/first_pipe.c \
 		src/exec/middle_pipe.c \
 		src/exec/last_pipe.c \

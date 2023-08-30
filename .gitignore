@@ -17,3 +17,4 @@ minishell
 compile_commands.json
 .cache
 .nfs*
+sup_minishell

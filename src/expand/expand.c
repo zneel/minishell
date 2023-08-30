@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 14:04:12 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/29 22:24:19 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/30 12:57:49 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ char	*expand(t_minishell *minishell, t_expand_str *expand)
 		return (NULL);
 	while (*expand->input)
 		handle_expand(expand, minishell);
+	if (expand->result_size == 0)
+	{
+		free(expand->result);
+		return (NULL);
+	}
 	return (expand->result);
 }
 
@@ -62,56 +67,43 @@ void	init_expand(t_expand_str *expand, char *input)
 	expand->state = EX_NONE;
 }
 
-void	expand_args(t_list *lst, t_minishell *minishell)
+void	expand_args(t_list **lst, t_minishell *minishell)
 {
 	char			*tmp;
 	t_expand_str	exp_struct;
-	t_list			*prev;
+	t_list			*current;
 
-	if (!lst)
+	current = *lst;
+	if (!current || !current->content)
 		return ;
-	prev = NULL;
-	while (lst)
+	while (current)
 	{
-		init_expand(&exp_struct, lst->content);
-		tmp = lst->content;
-		lst->content = expand(minishell, &exp_struct);
-		if (((char *)(lst->content))[0] == '\0')
-		{
-			if (prev)
-				prev->next = lst->next;
-			else
-				lst = lst->next;
-		}
-		prev = lst;
+		init_expand(&exp_struct, current->content);
+		tmp = current->content;
+		current->content = expand(minishell, &exp_struct);
 		free(tmp);
-		lst = lst->next;
+		if (!current->content)
+			current = delete_expand_node(lst, current);
+		else
+			current = current->next;
 	}
 }
 
-void	expand_redirs(t_list *lst, t_minishell *minishell)
+void	expand_redirs(t_list **lst, t_minishell *minishell)
 {
 	char			*tmp;
 	t_expand_str	exp_struct;
-	t_list			*prev;
+	t_list			*current;
 
-	if (!lst && !lst->content)
+	current = *lst;
+	if (!current || !current->content)
 		return ;
-	prev = NULL;
-	while (lst)
+	while (current)
 	{
-		prev = lst;
-		init_expand(&exp_struct, ((t_redirect *)lst->content)->file);
-		tmp = ((t_redirect *)lst->content)->file;
-		((t_redirect *)lst->content)->file = expand(minishell, &exp_struct);
-		if (((((t_redirect *)lst->content)->file))[0] == '\0')
-		{
-			if (prev)
-				prev->next = lst->next;
-			else
-				lst = lst->next;
-		}
+		init_expand(&exp_struct, ((t_redirect *)current->content)->file);
+		tmp = ((t_redirect *)current->content)->file;
+		((t_redirect *)current->content)->file = expand(minishell, &exp_struct);
 		free(tmp);
-		lst = lst->next;
+		current = current->next;
 	}
 }

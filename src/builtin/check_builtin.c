@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 21:51:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/25 12:21:20 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/30 10:37:33 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,19 @@ t_builtin_type	check_npath(char *cmd)
 {
 	if (!cmd)
 		return (NONE);
-	if (ft_strncmp(cmd, "echo", ft_strlen(cmd)) == 0)
+	if (ft_strncmp(cmd, "echo", ft_strlen("echo")) == 0)
 		return (ECHO);
-	if (ft_strncmp(cmd, "export", ft_strlen(cmd)) == 0)
+	if (ft_strncmp(cmd, "export", ft_strlen("export")) == 0)
 		return (EXPORT);
-	if (ft_strncmp(cmd, "env", ft_strlen(cmd)) == 0)
+	if (ft_strncmp(cmd, "env", ft_strlen("env")) == 0)
 		return (ENV);
-	if (ft_strncmp(cmd, "pwd", ft_strlen(cmd)) == 0)
+	if (ft_strncmp(cmd, "pwd", ft_strlen("pwd")) == 0)
 		return (PWD);
-	if (ft_strncmp(cmd, "unset", ft_strlen(cmd)) == 0)
+	if (ft_strncmp(cmd, "unset", ft_strlen("unset")) == 0)
 		return (UNSET);
-	if (ft_strncmp(cmd, "cd", ft_strlen(cmd)) == 0)
+	if (ft_strncmp(cmd, "cd", ft_strlen("cd")) == 0)
 		return (CD);
-	if (ft_strncmp(cmd, "exit", ft_strlen(cmd)) == 0)
+	if (ft_strncmp(cmd, "exit", ft_strlen("exit")) == 0)
 		return (EXIT);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 10:54:01 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 13:57:54 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 18:24:55 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ int	test_export(t_command *cmd, t_minishell *minishell)
 	{
 		if (export_annexe(i, cmd->command, minishell) == 2)
 		{
-			ft_dprintf(1, "minishell: ");
-			ft_dprintf(1, "\"%s\":", cmd->command[i]);
-			ft_dprintf(2, " not a valid identifier\n");
+			ft_dprintf(STDERR_FILENO, "minishell: ");
+			ft_dprintf(STDERR_FILENO, "\"%s\":", cmd->command[i]);
+			ft_dprintf(STDERR_FILENO, " not a valid identifier\n");
 			return (1);
 		}
 	}

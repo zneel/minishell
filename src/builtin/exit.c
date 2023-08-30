@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 12:05:16 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/25 14:15:27 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:26:12 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	ft_exit(t_command *cmd, t_minishell *minishell)
 
 	if (arg_len(cmd->command) > 2)
 	{
-		ft_dprintf(2, "minishell: exit: too many arguments\n");
+		ft_dprintf(STDERR_FILENO, "minishell: exit: too many arguments\n");
 		free_exit(cmd, minishell, 1);
 	}
 	if (arg_len(cmd->command) == 1)
@@ -69,8 +69,7 @@ int	ft_exit(t_command *cmd, t_minishell *minishell)
 	exit_code = ft_atoll(cmd->command[1]);
 	if (overflow_check(cmd->command[1], exit_code))
 	{
-		ft_dprintf(2, "minishell: exit: %s: numeric argument required\n",
-			cmd->command[1]);
+		ft_dprintf(STDERR_FILENO, NUMERIC_ARG_REQUIRED, cmd->command[1]);
 		free_exit(cmd, minishell, 2);
 	}
 	if (isatty(0) == 1)

@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 13:17:18 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/30 17:06:55 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:24:55 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_node	*parse_grammar(t_minishell *minishell, t_parser *parser)
 	root = command_line(parser);
 	if (parser->current_tok->type != T_EOF)
 	{
-		ft_dprintf(2, "minishell: syntax error near unexpected token `%s'\n",
+		ft_dprintf(STDERR_FILENO, "minishell: syntax error near unexpected token `%s'\n",
 			token_to_str(parser->current_tok->type));
 		stack_delete(&parser->parse_stack, NULL);
 		ast_delete(root);

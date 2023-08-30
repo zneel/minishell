@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 11:04:11 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 15:25:07 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 18:24:55 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	exec_failed(t_command *cmd, char **env, t_minishell *minishell,
 
 int	msg_error(char *str, char *error)
 {
-	ft_dprintf(2, "minishell: %s: %s\n", error, str);
+	ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n", error, str);
 	return (1);
 }
 

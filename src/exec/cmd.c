@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:52:56 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/29 14:16:09 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/29 17:04:13 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	sub_execute(t_command *cmd, t_minishell *minishell)
 	dup_out(cmd);
 	if (ok)
 	{
-		free(cmd);
+		free_command(cmd);
 		free_mat(env);
 		free_minishell(minishell);
 		exit(1);

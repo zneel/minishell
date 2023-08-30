@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 08:01:45 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/29 11:14:37 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 13:54:23 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "ft_printf.h"
 # include "libft.h"
 # include "minishell.h"
+# include "signals.h"
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>

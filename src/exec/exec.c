@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:55 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/29 14:24:17 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 15:25:27 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	wait_all(t_minishell *minishell)
 	parc = minishell->pids;
 	while (parc)
 	{
-		waitpid(-1, &minishell->last_status, 0);
+		waitpid(parc->n, &minishell->last_status, 0);
 		parc = parc->next;
 	}
 	if (WIFEXITED(minishell->last_status))

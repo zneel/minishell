@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/30 18:50:10 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 20:50:25 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,14 @@ typedef enum e_mode
 	M_NO_MODE = (1 << 5),
 }			t_mode;
 
+typedef enum e_err
+{
+	ERR_NO_ERR = 0,
+	ERR_BASIC = 1,
+	ERR_NOT_FOUND = 127,
+	ERR_IS_DIR = 126,
+}			t_err;
+
 typedef struct s_command
 {
 	char	**command;
@@ -39,6 +47,7 @@ typedef struct s_command
 	char	*file_out;
 	t_bool	has_good_file;
 	t_mode	mode;
+	t_err	error;
 	t_bool	has_path;
 	int		builtin;
 }			t_command;

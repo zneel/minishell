@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:41 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 15:20:52 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 15:45:21 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	child_last(t_command *cmd, int pipefd[2][2], t_minishell *ms)
 		close_all_pipe_free(pipefd, ms, cmd);
 	if (cmd->mode & (M_HERE_DOC | M_IN))
 	{
+		close_if(pipefd[0][1]);
+		close_if(pipefd[0][0]);
 		if (dup_in(cmd))
 			close_all_pipe_free(pipefd, ms, cmd);
 	}

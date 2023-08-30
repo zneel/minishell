@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 21:51:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 10:56:38 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 10:56:54 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_bool	check_str_good(char *cmd, char *builtin)
 	size_builtin = ft_strlen(builtin);
 	if (ft_strlen(cmd) != size_builtin)
 		return (false);
-	return (ft_strncmp(cmd, builtin, size_builtin) == false);
+	return (ft_strncmp(cmd, builtin, size_builtin) == 0);
 }
 
 t_builtin_type	check_npath(char *cmd)

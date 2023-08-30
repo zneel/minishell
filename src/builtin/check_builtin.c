@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 21:51:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 10:56:05 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 10:56:38 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,33 +27,33 @@ int	ft_strncmp_back(char *str, char *ex, int size)
 	return (1);
 }
 
-int	check_str_good(char *cmd, char *builtin)
+t_bool	check_str_good(char *cmd, char *builtin)
 {
 	size_t	size_builtin;
 
 	size_builtin = ft_strlen(builtin);
 	if (ft_strlen(cmd) != size_builtin)
-		return (1);
-	return (ft_strncmp(cmd, builtin, size_builtin));
+		return (false);
+	return (ft_strncmp(cmd, builtin, size_builtin) == false);
 }
 
 t_builtin_type	check_npath(char *cmd)
 {
 	if (!cmd)
 		return (NONE);
-	if (check_str_good(cmd, "echo") == 0)
+	if (check_str_good(cmd, "echo"))
 		return (ECHO);
-	if (check_str_good(cmd, "export") == 0)
+	if (check_str_good(cmd, "export"))
 		return (EXPORT);
-	if (check_str_good(cmd, "env") == 0)
+	if (check_str_good(cmd, "env"))
 		return (ENV);
-	if (check_str_good(cmd, "pwd") == 0)
+	if (check_str_good(cmd, "pwd"))
 		return (PWD);
-	if (check_str_good(cmd, "unset") == 0)
+	if (check_str_good(cmd, "unset"))
 		return (UNSET);
-	if (check_str_good(cmd, "cd") == 0)
+	if (check_str_good(cmd, "cd"))
 		return (CD);
-	if (check_str_good(cmd, "exit") == 0)
+	if (check_str_good(cmd, "exit"))
 		return (EXIT);
 	return (0);
 }

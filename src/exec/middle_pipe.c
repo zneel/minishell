@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:39 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 15:47:39 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/31 11:26:05 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	for_out(int pipefd[2][2], t_command *cmd, t_minishell *ms)
 
 void	child_middle(int pipefd[2][2], t_command *cmd, t_minishell *ms)
 {
-	if (!cmd->has_good_file)
+	if (cmd->has_good_file == false)
 		close_all_pipe_free(pipefd, ms, cmd);
 	for_in(pipefd, cmd, ms);
 	for_out(pipefd, cmd, ms);

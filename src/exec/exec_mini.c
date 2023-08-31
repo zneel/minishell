@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:03 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 16:32:03 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/31 11:33:17 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	exec_cmd(t_node *node, t_minishell *ms)
 		exit(msg_error("malloc", "Error"));
 	}
 	free_mat(env);
-	if (!command->has_good_file)
+	if (command->has_good_file == false)
 	{
 		ms->last_status = 1;
 		return (free_command(command), close(ms->std[0]), close(ms->std[1]), 1);

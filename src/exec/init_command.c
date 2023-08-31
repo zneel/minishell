@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 22:18:45 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 11:33:23 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/31 14:18:43 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,28 +38,25 @@ static t_command	*init_command(t_node *node, t_minishell *minishell)
 	return (cmd);
 }
 
-int	open_file(t_command *cmd, t_list *redirs)
+t_bool	open_file(t_command *cmd, t_list *redirs)
 {
 	t_redirect	*red;
-	int			error;
 
 	if (!redirs)
 		return (1);
 	red = (t_redirect *)redirs->content;
 	while (redirs)
 	{
-		error = check_in(red, cmd);
-		if (error != 1)
-			return (error);
-		error = check_out(red, cmd);
-		if (error != 1)
-			return (error);
+		if (!check_in(red, cmd))
+			return (false);
+		if (!check_out(red, cmd))
+			return (false);
 		redirs = redirs->next;
 		if (!redirs)
 			break ;
 		red = (t_redirect *)redirs->content;
 	}
-	return (1);
+	return (true);
 }
 
 t_command	*node_to_command(t_node *node, char **env, t_minishell *ms)

@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 08:01:45 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 13:54:23 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/31 16:01:27 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef enum e_builtin_type
 	W_PATH,
 }				t_builtin_type;
 
-t_builtin_type	check_builtin(char *str);
+t_builtin_type	check_npath(char *cmd);
 int				echo(t_command *cmd);
 int				pwd(t_minishell *minishell);
 int				print_env(t_minishell *minishell);

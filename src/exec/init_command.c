@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 22:18:45 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 14:34:19 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/31 16:01:08 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static t_command	*init_command(t_node *node, t_minishell *minishell)
 	if (node->redirs)
 		expand_redirs(&node->redirs, minishell);
 	cmd->command = convert_arg(node->args);
-	if (cmd->command)
-		cmd->has_path = ft_strrchr(cmd->command[0], '/');
+	if (cmd->command && ft_strrchr(cmd->command[0], '/'))
+		cmd->has_path = true;
 	else
 		cmd->has_path = false;
 	return (cmd);
@@ -67,7 +67,7 @@ t_command	*node_to_command(t_node *node, char **env, t_minishell *ms)
 	if (!command)
 		return (NULL);
 	if (command->command)
-		command->builtin = check_builtin(command->command[0]);
+		command->builtin = check_npath(command->command[0]);
 	if (command->command && command->builtin == NONE && !command->has_path)
 		command->command = get_cmd(command->command, env);
 	command->has_good_file = open_file(command, node->redirs);

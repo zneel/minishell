@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 10:54:01 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 18:52:51 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 20:02:17 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ int	test_export(t_command *cmd, t_minishell *minishell)
 	{
 		if (export_annexe(i, cmd->command, minishell) == 2)
 		{
-			ft_dprintf(1, "minishell: ");
-			ft_dprintf(1, "\"%s\":", cmd->command[i]);
+			ft_dprintf(2, "minishell: ");
+			ft_dprintf(2, "\"%s\":", cmd->command[i]);
 			ft_dprintf(2, " not a valid identifier\n");
 			return (1);
 		}
@@ -120,7 +120,7 @@ int	export(t_command *cmd, t_minishell *minishell)
 		ft_lstsort_env(parc);
 		while (parc)
 		{
-			printf("export %s=%s\n", parc->key, parc->value);
+			ft_printf("export %s=%s\n", parc->key, parc->value);
 			parc = parc->next;
 		}
 		return (ft_lstclear_env(&mem_parc, free), 0);

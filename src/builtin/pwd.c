@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 07:41:40 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/01 10:50:53 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/30 20:02:30 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ int	pwd(t_minishell *minishell)
 	while (env)
 	{
 		if (get_env(minishell, "PWD="))
-			return (printf("%s\n", env->value), 0);
+			return (ft_printf("%s\n", env->value), 0);
 		env = env->next;
 	}
 	dir = getcwd(NULL, 0);
 	if (dir == NULL)
 		return (1);
-	printf("%s\n", dir);
+	ft_printf("%s\n", dir);
 	free(dir);
 	return (0);
 }

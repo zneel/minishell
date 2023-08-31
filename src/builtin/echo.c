@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 07:37:23 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 18:52:13 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/30 20:02:12 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ int	echo(t_command *cmd)
 	while (cmd->command[++i])
 	{
 		if (i - 1 != endl)
-			printf(" ");
-		printf("%s", cmd->command[i]);
+			ft_printf(" ");
+		ft_printf("%s", cmd->command[i]);
 	}
 	if (!endl)
-		printf("\n");
+		ft_printf("\n");
 	return (0);
 }

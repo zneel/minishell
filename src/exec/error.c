@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 11:04:11 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 16:56:54 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/31 18:46:34 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ void	free_minishell(t_minishell *minishell)
 	ft_lstclear(&minishell->pids, nothing);
 	ft_lstclear_env(&minishell->env, free);
 	close(minishell->std[0]);
+}
+
+int	msg_error_more(char *str, char *error, char *type)
+{
+	ft_dprintf(2, "minishell: %s: %s: %s\n", type, error, str);
+	return (1);
 }
 
 int	msg_error(char *str, char *error)

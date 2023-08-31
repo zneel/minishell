@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:21 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 13:58:27 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/31 18:46:52 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int			dup_in(t_command *cmd);
 t_bool		check_in(t_redirect *red, t_command *cmd);
 t_bool		check_out(t_redirect *red, t_command *cmd);
 t_command	*node_to_command(t_node *node, char **env, t_minishell *minishell);
+int			msg_error_more(char *str, char *error, char *type);
 int			msg_error(char *str, char *error);
 void		close_all_pipe_free(int pipefd[2][2], t_minishell *ms,
 				t_command *cmd);

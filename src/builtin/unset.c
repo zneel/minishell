@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 07:32:23 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 18:49:49 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/31 16:18:05 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ int	unset(t_command *cmd, t_minishell *minishell)
 	int	i;
 
 	i = 1;
-	if (!cmd->command || !cmd->command[0] || !cmd->command[1])
+	if (!cmd->command || !cmd->command[0])
 		return (1);
+	if (!cmd->command[1])
+		return (0);
 	while (cmd->command[i])
 	{
 		delete_node(&minishell->env, cmd->command[i]);

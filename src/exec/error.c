@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 11:04:11 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 11:23:14 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/31 11:40:01 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,16 @@ void	print_msg_err(t_command *cmd)
 	}
 	else
 	{
-		msg_error("No such file or directory", cmd->command[0]);
-		cmd->error = ERR_NOT_FOUND;
+		if (access(cmd->command[0], F_OK) == -1)
+		{
+			msg_error("No such file or directory", cmd->command[0]);
+			cmd->error = ERR_NOT_FOUND;
+		}
+		else
+		{
+			msg_error("Permission denied", cmd->command[0]);
+			cmd->error = ERR_IS_DIR;
+		}
 	}
 }
 

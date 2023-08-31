@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 11:04:11 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 11:40:01 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/31 11:43:14 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	print_msg_err(t_command *cmd)
 	struct stat	file_info;
 
 	stat(cmd->command[0], &file_info);
+	cmd->error = ERR_NOT_FOUND;
 	if (cmd->has_path == false)
 	{
 		msg_error("command not found", cmd->command[0]);
@@ -52,10 +53,7 @@ void	print_msg_err(t_command *cmd)
 	else
 	{
 		if (access(cmd->command[0], F_OK) == -1)
-		{
 			msg_error("No such file or directory", cmd->command[0]);
-			cmd->error = ERR_NOT_FOUND;
-		}
 		else
 		{
 			msg_error("Permission denied", cmd->command[0]);

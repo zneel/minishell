@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:41 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 15:45:21 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/31 11:25:52 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	parent_last(int pipefd[2][2])
 
 void	child_last(t_command *cmd, int pipefd[2][2], t_minishell *ms)
 {
-	if (!cmd->has_good_file)
+	if (cmd->has_good_file == false)
 		close_all_pipe_free(pipefd, ms, cmd);
 	if (cmd->mode & (M_HERE_DOC | M_IN))
 	{

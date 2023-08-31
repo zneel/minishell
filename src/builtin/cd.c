@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 09:23:02 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/30 18:50:58 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/31 16:22:43 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,13 @@ int	cd(t_command *cmd, t_minishell *minishell)
 	char	*pwd;
 
 	if (arg_len(cmd->command) > 2)
-		return (1);
+		return (msg_error("too many arguments", ""));
 	if (arg_len(cmd->command) == 1)
 		return (go_home(minishell));
 	if (ft_strncmp(cmd->command[1], "-", ft_strlen(cmd->command[1])) == 1
 		&& access(cmd->command[1], F_OK) == -1)
+		return (msg_error("No such file or directory", cmd->command[1]));
+	if (access(cmd->command[1], F_OK) == -1)
 		return (msg_error("No such file or directory", cmd->command[1]));
 	do_cd(cmd, minishell);
 	pwd = alloc_pwd(cmd->command[1]);

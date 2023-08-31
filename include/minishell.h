@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/31 16:56:59 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/31 17:05:08 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,6 @@ char		*get_env(t_minishell *minishell, char *to_search);
 int			modif_env(t_minishell *minishell, char *key_s, char *value_m);
 char		**convert_env(t_kv *lst);
 t_bool		is_same(char *s1, char *s2);
-char		*prompt(t_minishell *minishell);
+char		*prompt(void);
 
 #endif

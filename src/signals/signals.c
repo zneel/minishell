@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 13:31:06 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/30 20:00:19 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/31 13:13:21 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,14 @@ void	sig_handler_minishell(int sig)
 {
 	if (sig == SIGINT)
 	{
-		if (g_sigint == 0)
-			ft_dprintf(2, "\n");
-		rl_on_new_line();
+		ft_printf("\n");
 		rl_replace_line("", 0);
+		rl_on_new_line();
 		rl_redisplay();
 	}
 	else if (sig == SIGQUIT)
 	{
-		ft_dprintf(2, "\33[2K\r");
+		ft_dprintf(1, "\33[2K\r");
 		rl_on_new_line();
 		rl_redisplay();
 	}

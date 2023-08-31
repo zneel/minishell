@@ -25,6 +25,7 @@ INCLUDES = -Iinclude -Ilibft/includes
 LIBS = -Llibft -lft -lreadline
 
 SRC =	src/main.c \
+		src/prompt.c \
 		src/lexer/lexer.c \
 		src/lexer/debug.c \
 		src/lexer/delete.c \

@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 12:05:16 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/25 14:15:27 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/31 12:45:31 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ static void	free_exit(t_command *cmd, t_minishell *minishell,
 {
 	free(cmd);
 	free_minishell(minishell);
-	exit(exit_code);
+	if (exit_code < 0)
+		exit(minishell->last_status);
+	else
+		exit(exit_code);
 }
 
 static t_bool	overflow_check(char *str, long long exit_code)

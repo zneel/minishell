@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/30 17:00:19 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/31 17:12:28 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,31 +55,19 @@ int	str_all_space(char *str)
 	return (1);
 }
 
-int	execute_inline(char **argv, t_minishell *minishell)
-{
-	char	*line;
-
-	line = ft_strdup(argv[2]);
-	execute(minishell, line);
-	return (free_minishell(minishell), 0);
-}
-
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	minishell;
 	char		*line;
 
 	(void)argv;
+	(void)argc;
 	init_minishell(&minishell, env);
-	if (argc > 1 && ft_strncmp(argv[1], "-c", 2) == 0)
-		return (execute_inline(argv, &minishell));
 	while (1)
 	{
-		signal(SIGINT, sig_handler_minishell);
-		signal(SIGQUIT, sig_handler_minishell);
+		line = prompt();
 		if (g_sigint == 1)
 			dup2(minishell.std[0], 0);
-		line = readline("minishell> ");
 		g_sigint = 0;
 		if (!line)
 			return (free_minishell(&minishell), 0);

@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 22:18:45 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 14:18:43 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/31 14:34:19 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_bool	open_file(t_command *cmd, t_list *redirs)
 	t_redirect	*red;
 
 	if (!redirs)
-		return (1);
+		return (true);
 	red = (t_redirect *)redirs->content;
 	while (redirs)
 	{

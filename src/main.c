@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/31 21:04:21 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/31 23:43:48 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ int	main(int argc, char **argv, char **env)
 	init_minishell(&minishell, env);
 	while (1)
 	{
-		line = prompt();
 		if (g_sigint == 1)
 			dup2(minishell.m_fdin, 0);
 		g_sigint = 0;
+		line = prompt();
 		if (!line)
 			return (free_minishell(&minishell), 0);
 		if (line && *line && !str_all_space(line))

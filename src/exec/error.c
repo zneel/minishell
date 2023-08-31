@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 11:04:11 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 18:46:34 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/31 19:55:46 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,15 @@ void	free_minishell(t_minishell *minishell)
 	ast_delete(minishell->root);
 	ft_lstclear(&minishell->pids, nothing);
 	ft_lstclear_env(&minishell->env, free);
-	close(minishell->std[0]);
+	close(minishell->m_fdin);
 }
 
-int	msg_error_more(char *str, char *error, char *type)
+int	msg_error(char *str, char *error, char *type)
 {
-	ft_dprintf(2, "minishell: %s: %s: %s\n", type, error, str);
-	return (1);
-}
-
-int	msg_error(char *str, char *error)
-{
-	ft_dprintf(2, "minishell: %s: %s\n", error, str);
+	if (type)
+		ft_dprintf(2, "minishell: %s: %s: %s\n", type, error, str);
+	else
+		ft_dprintf(2, "minishell: %s: %s\n", error, str);
 	return (1);
 }
 
@@ -47,21 +44,21 @@ void	print_msg_err(t_command *cmd)
 	cmd->error = ERR_NOT_FOUND;
 	if (cmd->has_path == false)
 	{
-		msg_error("command not found", cmd->command[0]);
+		msg_error("command not found", cmd->command[0], NULL);
 		cmd->error = ERR_NOT_FOUND;
 	}
 	else if (S_ISDIR(file_info.st_mode))
 	{
-		msg_error("Is a directory", cmd->command[0]);
+		msg_error("Is a directory", cmd->command[0], NULL);
 		cmd->error = ERR_IS_DIR;
 	}
 	else
 	{
 		if (access(cmd->command[0], F_OK) == -1)
-			msg_error("No such file or directory", cmd->command[0]);
+			msg_error("No such file or directory", cmd->command[0], NULL);
 		else
 		{
-			msg_error("Permission denied", cmd->command[0]);
+			msg_error("Permission denied", cmd->command[0], NULL);
 			cmd->error = ERR_IS_DIR;
 		}
 	}

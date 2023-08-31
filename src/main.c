@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/31 17:12:28 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/31 21:04:21 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ void	init_minishell(t_minishell *minishell, char **env)
 	minishell->pids = NULL;
 	minishell->root = NULL;
 	minishell->last_status = 0;
-	minishell->std[0] = dup(STDIN_FILENO);
-	minishell->std[1] = dup(STDOUT_FILENO);
+	minishell->m_fdin = dup(STDIN_FILENO);
 }
 
 static void	execute(t_minishell *minishell, char *line)
@@ -67,7 +66,7 @@ int	main(int argc, char **argv, char **env)
 	{
 		line = prompt();
 		if (g_sigint == 1)
-			dup2(minishell.std[0], 0);
+			dup2(minishell.m_fdin, 0);
 		g_sigint = 0;
 		if (!line)
 			return (free_minishell(&minishell), 0);

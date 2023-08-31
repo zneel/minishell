@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_file_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 15:04:59 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 14:19:09 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/31 19:56:07 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ t_bool	check_in(t_redirect *red, t_command *cmd)
 	if (red->type == LESS && red->file)
 	{
 		if (access(red->file, F_OK) == -1)
-			return (msg_error("No such file or directory", red->file), false);
+			return (msg_error("No such file or directory", red->file, NULL),
+				false);
 		if (access(red->file, R_OK) == -1)
-			return (msg_error("Permission denied", red->file), false);
+			return (msg_error("Permission denied", red->file, NULL), false);
 		cmd->file_in = red->file;
 		cmd->mode |= M_IN;
 		cmd->mode &= ~M_HERE_DOC;
@@ -37,9 +38,9 @@ t_bool	check_in(t_redirect *red, t_command *cmd)
 t_bool	check_access_out(t_redirect *red)
 {
 	if (access(red->file, F_OK) == -1)
-		return (msg_error("No such file or directory", red->file), false);
+		return (msg_error("No such file or directory", red->file, NULL), false);
 	if (access(red->file, R_OK) == -1)
-		return (msg_error("Permission denied", red->file), false);
+		return (msg_error("Permission denied", red->file, NULL), false);
 	return (true);
 }
 

@@ -50,6 +50,7 @@ SRC =	src/main.c \
 		src/builtin/cd.c \
 		src/builtin/print_env.c \
 		src/builtin/export.c \
+		src/builtin/export_2.c \
 		src/builtin/unset.c \
 		src/builtin/exit.c \
 		src/env/env_cpy.c \

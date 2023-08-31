@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 12:40:33 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/31 17:12:35 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/31 21:48:34 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*prompt(void)
 
 	set_signals();
 	if (isatty(STDIN_FILENO))
-		input = readline("minishell> ");
+		input = readline("minishell$ ");
 	else
 	{
 		line = get_next_line(STDIN_FILENO);

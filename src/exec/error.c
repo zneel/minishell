@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 11:04:11 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 11:43:14 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/31 16:56:54 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	free_minishell(t_minishell *minishell)
 	ft_lstclear(&minishell->pids, nothing);
 	ft_lstclear_env(&minishell->env, free);
 	close(minishell->std[0]);
-	close(minishell->std[1]);
 }
 
 int	msg_error(char *str, char *error)

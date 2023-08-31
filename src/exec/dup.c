@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dup.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 16:56:23 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/29 15:43:46 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/31 19:55:35 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	dup_out(t_command *cmd)
 	else
 		fdout = open(cmd->file_out, O_WRONLY | O_APPEND);
 	if (!fdout)
-		return (msg_error("No such file or directory", cmd->file_out));
+		return (msg_error("No such file or directory", cmd->file_out, NULL));
 	dup2(fdout, STDOUT_FILENO);
 	close(fdout);
 	return (0);
@@ -38,9 +38,9 @@ int	dup_in(t_command *cmd)
 	if (fdin == -1)
 	{
 		if (cmd->mode & ~M_HERE_DOC)
-			return (msg_error("No such file or directory", cmd->file_in));
+			return (msg_error("No such file or directory", cmd->file_in, NULL));
 		else
-			return (msg_error("No such file or directory", FILE_HEREDOC));
+			return (msg_error("No such file or directory", FILE_HEREDOC, NULL));
 	}
 	dup2(fdin, STDIN_FILENO);
 	close(fdin);

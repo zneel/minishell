@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_mini.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:03 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 14:21:08 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/31 19:55:56 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	do_exec(t_command *command, t_minishell *minishell)
 		if (command->builtin != W_PATH)
 			minishell->last_status = exec_builtin(command, minishell, true);
 		else
-			return (msg_error("No such file or directory",
-					command->command[0]));
+			return (msg_error("No such file or directory", command->command[0],
+					NULL));
 	}
 	else if (command->command)
 	{
@@ -43,13 +43,13 @@ int	exec_cmd(t_node *node, t_minishell *ms)
 	{
 		free_mat(env);
 		free_minishell(ms);
-		exit(msg_error("malloc", "Error"));
+		exit(msg_error("malloc", "Error", NULL));
 	}
 	free_mat(env);
 	if (!command->has_good_file)
 	{
 		ms->last_status = 1;
-		return (free_command(command), close(ms->std[0]), close(ms->std[1]), 1);
+		return (free_command(command), close_if(ms->m_fdin), 1);
 	}
 	return (do_exec(command, ms));
 }

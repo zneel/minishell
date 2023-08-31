@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:21 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 18:46:52 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/08/31 19:55:04 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ int			dup_in(t_command *cmd);
 t_bool		check_in(t_redirect *red, t_command *cmd);
 t_bool		check_out(t_redirect *red, t_command *cmd);
 t_command	*node_to_command(t_node *node, char **env, t_minishell *minishell);
-int			msg_error_more(char *str, char *error, char *type);
-int			msg_error(char *str, char *error);
+int			msg_error(char *str, char *error, char *type);
 void		close_all_pipe_free(int pipefd[2][2], t_minishell *ms,
 				t_command *cmd);
 void		free_minishell(t_minishell *minishell);

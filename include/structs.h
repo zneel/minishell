@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 17:03:52 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/30 17:07:06 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/08/31 19:50:12 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ typedef struct s_minishell
 	t_list				*pids;
 	t_node				*root;
 	int					last_status;
-	int					std[2];
+	int					m_fdin;
 }						t_minishell;
 
 #endif

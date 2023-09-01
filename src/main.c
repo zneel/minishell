@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/31 23:43:48 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 10:32:18 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	init_minishell(t_minishell *minishell, char **env)
 	minishell->pids = NULL;
 	minishell->root = NULL;
 	minishell->last_status = 0;
-	minishell->m_fdin = dup(STDIN_FILENO);
+	minishell->m_fd[0] = dup(STDIN_FILENO);
+	minishell->m_fd[1] = dup(STDOUT_FILENO);
 }
 
 static void	execute(t_minishell *minishell, char *line)
@@ -65,7 +66,7 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		if (g_sigint == 1)
-			dup2(minishell.m_fdin, 0);
+			dup2(minishell.m_fd[0], 0);
 		g_sigint = 0;
 		line = prompt();
 		if (!line)

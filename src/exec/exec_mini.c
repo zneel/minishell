@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_mini.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:03 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 19:55:56 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 10:40:30 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	exec_cmd(t_node *node, t_minishell *ms)
 	if (!command->has_good_file)
 	{
 		ms->last_status = 1;
-		return (free_command(command), close_if(ms->m_fdin), 1);
+		return (free_command(command), close_if(ms->m_fd[0]), close_if(ms->m_fd[1]), 1);
 	}
 	return (do_exec(command, ms));
 }

@@ -6,22 +6,20 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 09:23:02 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/09/01 12:09:47 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/09/01 15:07:27 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-static int	arg_len(char **arg)
+int	msg_for_perm(char *file)
 {
-	int	i;
+	struct stat info;
 
-	i = 0;
-	if (!arg)
-		return (0);
-	while (arg[i])
-		i++;
-	return (i);
+	if (stat(file, &info) != 0)
+		return (msg_error("Not a directory", file, "cd"));
+	else
+		return (msg_error("Permission denied", file, "cd"));
 }
 
 int	go_home(t_minishell *minishell)
@@ -31,12 +29,12 @@ int	go_home(t_minishell *minishell)
 
 	home = get_env(minishell, "HOME");
 	if (!home || ft_strlen(home) == 0)
-		return (1);
+		return (msg_error("HOME not set", "cd", NULL));
 	old_pwd = get_env(minishell, "PWD");
 	if (old_pwd)
 		modif_env(minishell, "OLDPWD", old_pwd);
 	if (chdir(home) == -1)
-		return (1);
+		return (msg_for_perm(home));
 	if (get_env(minishell, "PWD"))
 		modif_env(minishell, "PWD", home);
 	return (0);
@@ -67,23 +65,23 @@ int	do_cd(t_command *cmd, t_minishell *minishell)
 	{
 		path_to_go = get_env(minishell, "OLDPWD");
 		if (!path_to_go)
-			return (msg_error("OLDPWD not set", "cd", 0));
-		printf("%s\n", path_to_go);
+			return (msg_error("OLDPWD not set", "cd", NULL));
 		if (chdir(path_to_go))
-			return (1);
+			return (msg_for_perm(path_to_go));
+		printf("%s\n", path_to_go);
 	}
-	if (is_same(cmd->command[1], "~"))
+	else if (is_same(cmd->command[1], "~"))
 	{
 		path_to_go = get_env(minishell, "HOME");
 		if (!path_to_go)
-			return (1);
+			return (msg_error("HOME not set", "cd", NULL));
 		if (chdir(path_to_go))
-			return (1);
+			return (msg_for_perm(path_to_go));
 	}
 	else
 	{
 		if (chdir(cmd->command[1]))
-			return (1);
+			return (msg_for_perm(cmd->command[1]));
 	}
 	return (1);
 }
@@ -99,7 +97,8 @@ int	cd(t_command *cmd, t_minishell *minishell)
 	if (access(cmd->command[1], F_OK) == -1 && !is_same("-", cmd->command[1])
 		&& !is_same("~", cmd->command[1]))
 		return (msg_error("No such file or directory", cmd->command[1], "cd"));
-	do_cd(cmd, minishell);
+	if (do_cd(cmd, minishell))
+		return (1);
 	pwd = alloc_pwd(cmd->command[1]);
 	if (!pwd)
 		return (1);

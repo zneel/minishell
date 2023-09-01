@@ -53,6 +53,7 @@ SRC =	src/main.c \
 		src/builtin/export_2.c \
 		src/builtin/unset.c \
 		src/builtin/exit.c \
+		src/builtin/builtin_utils.c \
 		src/env/env_cpy.c \
 		src/env/get_env.c \
 		src/env/modif_env.c \

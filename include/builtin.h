@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 08:01:45 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 23:28:20 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:57:11 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef enum e_builtin_type
 	W_PATH,
 }				t_builtin_type;
 
+int				arg_len(char **arg);
 t_builtin_type	check_npath(char *cmd);
 int				replace_env(t_kv *env, char **tmp);
 int				echo(t_command *cmd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 22:14:40 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/09/01 09:47:32 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/09/01 11:00:03 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,7 @@ int	prep_exec_builtin(t_command *cmd)
 int	end_builtin(int fd[2])
 {
 	dup2(fd[0], STDIN_FILENO);
-	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
-	close(fd[1]);
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   last_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:41 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 14:22:44 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/09/01 17:10:24 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	child_last(t_command *cmd, int pipefd[2][2], t_minishell *ms)
 	}
 	if (dup_out(cmd))
 		close_all_pipe_free(pipefd, ms, cmd);
+	close_if(ms->m_fd[0]);
+	close_if(ms->m_fd[1]);
 }
 
 int	execute_last(t_command *cmd, t_minishell *minishell, int pipefd[2][2])

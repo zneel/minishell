@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   middle_pipe.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:39 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 14:22:17 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/09/01 17:00:58 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	child_middle(int pipefd[2][2], t_command *cmd, t_minishell *ms)
 		close_all_pipe_free(pipefd, ms, cmd);
 	for_in(pipefd, cmd, ms);
 	for_out(pipefd, cmd, ms);
+	close_if(ms->m_fd[0]);
+	close_if(ms->m_fd[1]);
 }
 
 int	execute_middle(t_command *cmd, t_minishell *minishell, int pipefd[2][2])

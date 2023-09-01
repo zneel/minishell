@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 15:04:59 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 19:56:07 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:15:17 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_bool	check_out(t_redirect *red, t_command *cmd)
 	if (red->type == GREAT && red->file)
 	{
 		fd = open(red->file, O_CREAT | O_WRONLY, 0644);
-		close(fd);
+		close_if(fd);
 		if (!check_access_out(red))
 			return (false);
 		cmd->file_out = red->file;
@@ -61,7 +61,7 @@ t_bool	check_out(t_redirect *red, t_command *cmd)
 	else if (red->type == DGREAT && red->file)
 	{
 		fd = open(red->file, O_CREAT | O_WRONLY, 0644);
-		close(fd);
+		close_if(fd);
 		if (!check_access_out(red))
 			return (false);
 		cmd->file_out = red->file;

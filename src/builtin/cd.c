@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 09:23:02 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/09/01 16:00:03 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:37:59 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	msg_for_perm(char *file)
 {
 	struct stat	file_info;
 
+	file_info.st_mode = 0;
 	stat(file, &file_info);
 	if (S_ISDIR(file_info.st_mode))
 		return (msg_error("Permission denied", file, "cd"));

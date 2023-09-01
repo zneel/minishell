@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   convert_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:30:28 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/09/01 12:16:32 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/09/01 16:29:24 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,24 @@ char	**convert_env(t_kv *lst)
 	char	**mat;
 	char	*tmp;
 	int		i;
-	t_kv	*copy;
 
-	i = -1;
-	copy = lst;
+	i = 0;
 	if (!lst)
 		return (NULL);
-	mat = ft_calloc(sizeof(char *), ft_lstsize_env(copy) + 1);
+	mat = ft_calloc(sizeof(char *), ft_lstsize_env(lst) + 1);
 	if (!mat)
 		return (NULL);
-	while (copy && ++i >= 0)
+	while (lst)
 	{
-		tmp = ft_strjoin(copy->key, "=");
+		tmp = ft_strjoin(lst->key, "=");
 		if (!tmp)
 			return (free_before_return(mat, i), NULL);
-		mat[i] = ft_strjoin(tmp, copy->value);
+		mat[i] = ft_strjoin(tmp, lst->value);
 		free(tmp);
 		if (!mat[i])
 			return (free_before_return(mat, i), NULL);
-		copy = copy->next;
+		lst = lst->next;
+		i++;
 	}
 	mat[i] = NULL;
 	return (mat);

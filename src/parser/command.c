@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 13:11:07 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/29 21:22:32 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:48:09 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ static t_bool	is_redirect_token(t_parser *parser)
 	t_bool	has_redirect;
 	t_bool	has_word_next;
 
-	has_redirect = peek(parser, T_DLESS) || peek(parser, T_DGREAT)
-		|| peek(parser, T_LESS) || peek(parser, T_GREAT);
+	has_redirect = false;
+	if (peek(parser, T_DLESS) || peek(parser, T_DGREAT) || peek(parser, T_LESS)
+		|| peek(parser, T_GREAT))
+		has_redirect = true;
 	has_word_next = peek_next(parser, T_WORD);
 	return (has_redirect && has_word_next);
 }

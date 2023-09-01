@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:52:56 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/29 17:04:13 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/09/01 16:57:02 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	sub_execute(t_command *cmd, t_minishell *minishell)
 	env = convert_env(minishell->env);
 	ok = dup_in(cmd);
 	dup_out(cmd);
+	close_if(minishell->m_fd[1]);
+	close_if(minishell->m_fd[0]);
 	if (ok)
 	{
 		free_command(cmd);

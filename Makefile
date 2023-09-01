@@ -26,6 +26,7 @@ LIBS = -Llibft -lft -lreadline
 
 SRC =	src/main.c \
 		src/prompt.c \
+		src/utils.c \
 		src/lexer/lexer.c \
 		src/lexer/debug.c \
 		src/lexer/delete.c \

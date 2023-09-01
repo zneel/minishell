@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 09:23:02 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 19:55:17 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 12:09:47 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,15 @@ int	do_cd(t_command *cmd, t_minishell *minishell)
 	{
 		path_to_go = get_env(minishell, "OLDPWD");
 		if (!path_to_go)
+			return (msg_error("OLDPWD not set", "cd", 0));
+		printf("%s\n", path_to_go);
+		if (chdir(path_to_go))
+			return (1);
+	}
+	if (is_same(cmd->command[1], "~"))
+	{
+		path_to_go = get_env(minishell, "HOME");
+		if (!path_to_go)
 			return (1);
 		if (chdir(path_to_go))
 			return (1);
@@ -87,10 +96,8 @@ int	cd(t_command *cmd, t_minishell *minishell)
 		return (msg_error("too many arguments", "cd", NULL));
 	if (arg_len(cmd->command) == 1)
 		return (go_home(minishell));
-	if (ft_strncmp(cmd->command[1], "-", ft_strlen(cmd->command[1])) == 1
-		&& access(cmd->command[1], F_OK) == -1)
-		return (msg_error("No such file or directory", cmd->command[1], "cd"));
-	if (access(cmd->command[1], F_OK) == -1)
+	if (access(cmd->command[1], F_OK) == -1 && !is_same("-", cmd->command[1])
+		&& !is_same("~", cmd->command[1]))
 		return (msg_error("No such file or directory", cmd->command[1], "cd"));
 	do_cd(cmd, minishell);
 	pwd = alloc_pwd(cmd->command[1]);

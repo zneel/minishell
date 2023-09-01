@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 09:23:02 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/09/01 15:31:20 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 15:37:17 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 int	msg_for_perm(char *file)
 {
-	struct stat	info;
+	struct stat	file_info;
 
-	if (stat(file, &info) != 0)
-		return (msg_error("Not a directory", file, "cd"));
-	else
+	stat(file, &file_info);
+	if (S_ISDIR(file_info.st_mode))
 		return (msg_error("Permission denied", file, "cd"));
+	else
+		return (msg_error("Not a directory", file, "cd"));
 }
 
 int	go_home(t_minishell *minishell)

@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 14:02:49 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/30 12:59:03 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 15:15:28 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	handle_dollar(t_expand_str *expand, t_minishell *minishell)
 	{
 		if (*expand->input == '?')
 			expand_last_status(expand, minishell);
-		else if (ft_strlen(var->name) == 0)
+		else if (ft_strlen(var->name) == 0 && expand->state & EX_DOUBLE_QUOTE)
 		{
 			expand->result = ft_realloc(expand->result, ++expand->result_size);
 			expand->result[expand->i++] = '$';

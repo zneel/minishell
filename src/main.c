@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/09/01 10:32:18 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/09/01 11:51:10 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,11 @@ int	main(int argc, char **argv, char **env)
 		g_sigint = 0;
 		line = prompt();
 		if (!line)
-			return (free_minishell(&minishell), 0);
+		{
+			if (isatty(0) == 1)
+				ft_printf("exit\n");
+			return (free_minishell(&minishell), minishell.last_status);
+		}
 		if (line && *line && !str_all_space(line))
 		{
 			add_history(line);

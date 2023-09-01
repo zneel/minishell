@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 12:05:16 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/31 21:45:18 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 11:26:37 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	free_exit(t_command *cmd, t_minishell *minishell,
 	free_command(cmd);
 	free_minishell(minishell);
 	if (exit_code < 0)
-		exit(minishell->last_status);
+		exit(156);
 	else
 		exit(exit_code);
 }

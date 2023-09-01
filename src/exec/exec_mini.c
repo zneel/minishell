@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:03 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/09/01 11:21:08 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 11:42:23 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ int	exec_cmd(t_node *node, t_minishell *ms)
 	if (!command->has_good_file)
 	{
 		ms->last_status = 1;
-		return (free_command(command), close_if(ms->m_fd[0]),
-			close_if(ms->m_fd[1]), 1);
+		return (free_command(command), 1);
 	}
 	return (do_exec(command, ms));
 }

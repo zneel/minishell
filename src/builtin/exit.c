@@ -6,23 +6,11 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 12:05:16 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/09/01 11:26:37 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 15:31:03 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
-
-static int	arg_len(char **arg)
-{
-	int	i;
-
-	i = 0;
-	if (!arg)
-		return (0);
-	while (arg[i])
-		i++;
-	return (i);
-}
 
 static void	free_exit(t_command *cmd, t_minishell *minishell,
 		long long exit_code)

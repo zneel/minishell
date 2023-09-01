@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 09:23:02 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/09/01 15:37:17 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 16:00:03 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	do_cd(t_command *cmd, t_minishell *minishell)
 		if (chdir(cmd->command[1]))
 			return (msg_for_perm(cmd->command[1]));
 	}
-	return (1);
+	return (0);
 }
 
 int	cd(t_command *cmd, t_minishell *minishell)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 22:14:40 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 19:51:42 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 09:47:32 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,12 @@ int	prep_exec_builtin(t_command *cmd)
 	return (dup_in(cmd) || dup_out(cmd));
 }
 
-int	end_builtin(int fdin)
+int	end_builtin(int fd[2])
 {
-	dup2(fdin, STDIN_FILENO);
-	close(fdin);
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
+	dup2(fd[1], STDOUT_FILENO);
+	close(fd[1]);
 	return (0);
 }
 
@@ -75,7 +77,7 @@ int	exec_builtin(t_command *cmd, t_minishell *minishell, int prep)
 		return (1);
 	if (search_builtin(cmd, minishell))
 		return (1);
-	if (prep && end_builtin(minishell->m_fdin))
+	if (prep && end_builtin(minishell->m_fd))
 		return (1);
 	return (0);
 }

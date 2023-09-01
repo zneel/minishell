@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:30:28 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/29 11:46:14 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/09/01 12:16:32 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ char	**convert_env(t_kv *lst)
 	int		i;
 	t_kv	*copy;
 
-	i = 0;
+	i = -1;
 	copy = lst;
 	if (!lst)
 		return (NULL);
 	mat = ft_calloc(sizeof(char *), ft_lstsize_env(copy) + 1);
 	if (!mat)
 		return (NULL);
-	while (copy)
+	while (copy && ++i >= 0)
 	{
 		tmp = ft_strjoin(copy->key, "=");
 		if (!tmp)
@@ -42,7 +42,6 @@ char	**convert_env(t_kv *lst)
 		free(tmp);
 		if (!mat[i])
 			return (free_before_return(mat, i), NULL);
-		i++;
 		copy = copy->next;
 	}
 	mat[i] = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 09:23:02 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/09/01 15:07:27 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/09/01 15:31:20 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	msg_for_perm(char *file)
 {
-	struct stat info;
+	struct stat	info;
 
 	if (stat(file, &info) != 0)
 		return (msg_error("Not a directory", file, "cd"));

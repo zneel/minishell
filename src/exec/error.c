@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 11:04:11 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/09/01 20:34:13 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/02 16:49:13 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	print_msg_err(t_command *cmd)
 {
 	struct stat	file_info;
 
+	file_info.st_mode = 0;
 	stat(cmd->command[0], &file_info);
 	cmd->error = ERR_NOT_FOUND;
 	if (cmd->has_path == false)

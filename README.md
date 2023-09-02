@@ -1,8 +1,8 @@
 # MINISHELL
 
-- [ ] lexer  
-- [ ] parser
-- [ ] exec
+- [x] lexer  
+- [x] parser
+- [x] exec
 ## LEXER / PARSER
 
 We first define a BNF grammar then we implement the lexer and finally the parser.

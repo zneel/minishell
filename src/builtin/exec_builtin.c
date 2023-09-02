@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 22:14:40 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/09/01 16:32:43 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/02 10:58:33 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,11 @@ int	prep_exec_builtin(t_command *cmd)
 	return (dup_in(cmd) || dup_out(cmd));
 }
 
-int	end_builtin(int fd[2])
-{
-	dup2(fd[0], STDIN_FILENO);
-	dup2(fd[1], STDOUT_FILENO);
-	return (0);
-}
-
 int	exec_builtin(t_command *cmd, t_minishell *minishell, int prep)
 {
 	if (prep && prep_exec_builtin(cmd))
 		return (1);
 	if (search_builtin(cmd, minishell))
-		return (1);
-	if (prep && end_builtin(minishell->m_fd))
 		return (1);
 	return (0);
 }

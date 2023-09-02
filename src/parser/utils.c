@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 17:00:29 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/29 14:16:51 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/09/02 18:14:09 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,94 +33,4 @@ t_node_type	lexer_to_node(t_type type)
 	else if (type == T_WORD)
 		return (COMMAND);
 	return (UNKNOWN);
-}
-
-/**
- * !DELETE
- */
-char	*node_type_to_str(t_node_type type)
-{
-	if (type == COMMAND)
-		return ("COMMAND");
-	else if (type == PIPE)
-		return ("PIPE");
-	else if (type == AND)
-		return ("AND");
-	else if (type == OR)
-		return ("OR");
-	else if (type == LESS)
-		return ("LESS");
-	else if (type == GREAT)
-		return ("GREAT");
-	else if (type == DGREAT)
-		return ("DGREAT");
-	else if (type == HERE_DOC)
-		return ("HERE_DOC");
-	else
-		return ("UNKNOWN");
-}
-
-void	print_redir(void *arg)
-{
-	t_redirect	*redir;
-
-	redir = (t_redirect *)arg;
-	if (redir->type == HERE_DOC)
-		printf("<< ");
-	else if (redir->type == DGREAT)
-		printf(">> ");
-	else if (redir->type == LESS)
-		printf("< ");
-	else if (redir->type == GREAT)
-		printf("> ");
-	printf("%s ", redir->file);
-}
-
-void	print_arg(void *arg)
-{
-	printf("%s ", (char *)arg);
-}
-
-/**
- * !DELETE
- */
-void	pretty_print_ast(t_node *node, char *prefix)
-{
-	int		len;
-	char	*new_prefix;
-
-	if (node == NULL)
-		return ;
-	printf("%s├── Type: %s\n", prefix, node_type_to_str(node->type));
-	if (node->args != NULL)
-	{
-		printf("%s|   ├── Args: ", prefix);
-		ft_lstiter(node->args, print_arg);
-		printf("\n");
-	}
-	if (node->redirs != NULL)
-	{
-		printf("%s|   ├── Redir: ", prefix);
-		ft_lstiter(node->redirs, print_redir);
-		printf("\n");
-	}
-	len = strlen(prefix);
-	new_prefix = malloc(len + 5);
-	strcpy(new_prefix, prefix);
-	strcat(new_prefix, node->right != NULL ? "|   " : "    ");
-	if (node->left != NULL)
-	{
-		printf("%s|   └── Left:\n", prefix);
-		pretty_print_ast(node->left, new_prefix);
-	}
-	else
-		printf("%s|   └── Left: NULL\n", prefix);
-	if (node->right != NULL)
-	{
-		printf("%s└── Right:\n", prefix);
-		pretty_print_ast(node->right, new_prefix);
-	}
-	else
-		printf("%s└── Right: NULL\n", prefix);
-	free(new_prefix);
 }

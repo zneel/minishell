@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:54:16 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 11:26:24 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/09/01 20:35:32 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,6 @@ void	init_pipes(int pipefd[2][2])
 	pipefd[0][1] = -1;
 	pipefd[1][0] = -1;
 	pipefd[1][1] = -1;
-}
-
-void	close_if(int fd)
-{
-	if (fd >= 0)
-		close(fd);
 }
 
 void	nothing(void *x)

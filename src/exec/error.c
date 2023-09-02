@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 11:04:11 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/09/01 16:31:14 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:34:13 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	free_minishell(t_minishell *minishell)
 	ast_delete(minishell->root);
 	ft_lstclear(&minishell->pids, nothing);
 	ft_lstclear_env(&minishell->env, free);
-	close(minishell->m_fd[0]);
-	close(minishell->m_fd[1]);
+	close_if(minishell->m_fd[0]);
+	close_if(minishell->m_fd[1]);
 }
 
 int	msg_error(char *str, char *error, char *type)

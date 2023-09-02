@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 12:40:33 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/09/01 10:39:12 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/09/01 23:21:36 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "signals.h"
 #include "structs.h"
 
-static void	set_signals(void)
+void	set_signals(void)
 {
 	signal(SIGINT, sig_handler_minishell);
 	signal(SIGQUIT, sig_handler_minishell);

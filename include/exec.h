@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:21 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 19:55:04 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:37:48 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int			execute_pipeline(t_node *root, t_node *node, t_minishell *minishell,
 void		builtin_pipe(t_command *cmd, char **env, t_minishell *minishell);
 
 void		init_pipes(int pipefd[2][2]);
-void		close_if(int fd);
 void		wait_all(t_minishell *minishell);
 int			dup_out(t_command *cmd);
 int			dup_in(t_command *cmd);

@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 16:56:23 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/09/01 11:18:58 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:34:19 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	dup_out(t_command *cmd)
 	if (fdout == -1)
 		return (msg_error("No such file or directory", cmd->file_out, NULL));
 	dup2(fdout, STDOUT_FILENO);
-	close(fdout);
+	close_if(fdout);
 	return (0);
 }
 
@@ -43,6 +43,6 @@ int	dup_in(t_command *cmd)
 			return (msg_error("No such file or directory", FILE_HEREDOC, NULL));
 	}
 	dup2(fdin, STDIN_FILENO);
-	close(fdin);
+	close_if(fdin);
 	return (0);
 }

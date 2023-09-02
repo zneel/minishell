@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:56:37 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/09/01 17:01:05 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:42:33 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,5 @@ int	execute_first(t_command *cmd, t_minishell *minishell, int pipefd[2][2])
 		if (execve(cmd->command[0], cmd->command, env) == -1)
 			exec_failed(cmd, env, minishell, 1);
 	}
-	close(minishell->m_fd[0]);
-	close(minishell->m_fd[1]);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/09/01 17:11:44 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:36:42 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_kv		*ft_lstcpy_env(t_kv *top);
 
 void		free_minishell(t_minishell *minishell);
 void		free_before_return(char **mat, int i);
+void		close_if(int fd);
 
 t_kv		*env_cpy(char **env);
 char		**convert_env(t_kv *lst);

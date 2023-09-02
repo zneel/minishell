@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 17:04:08 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/09/01 17:11:33 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 23:26:47 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	init_minishell(t_minishell *minishell, char **env)
 	minishell->pids = NULL;
 	minishell->root = NULL;
 	minishell->last_status = 0;
+	minishell->m_fd[0] = -1;
+	minishell->m_fd[1] = -1;
 }
 
 int	str_all_space(char *str)
@@ -41,6 +43,12 @@ void	dup_minishell(t_minishell *ms)
 
 void	close_minishell_dup(t_minishell *ms)
 {
-	close(ms->m_fd[0]);
-	close(ms->m_fd[1]);
+	close_if(ms->m_fd[0]);
+	close_if(ms->m_fd[1]);
+}
+
+void	close_if(int fd)
+{
+	if (fd >= 0)
+		close(fd);
 }

@@ -6,11 +6,12 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 09:51:32 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/21 16:03:07 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:37:05 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
+#include "minishell.h"
 #include "signals.h"
 
 int	str_cmpend(char *line, char *limiter)
@@ -51,7 +52,7 @@ void	here_doc(char *limiter)
 		signal(SIGINT, sig_handler_here_doc);
 		if (g_sigint == 1)
 		{
-			close(fd);
+			close_if(fd);
 			unlink(FILE_HEREDOC);
 			return ;
 		}
@@ -61,5 +62,5 @@ void	here_doc(char *limiter)
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
-	close(fd);
+	close_if(fd);
 }

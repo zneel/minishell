@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 23:27:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/09/04 14:31:47 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/09/04 14:42:13 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ int	export_no_value(char **cmd, int i, t_minishell *minishell)
 
 	swap = ft_strjoin(cmd[i], "=");
 	tmp = ft_separate(swap, '=');
-	if (valid_name(minishell->env, tmp[0]) == 0)
+	if (valid_name(minishell->env, tmp[0]) == 1)
+		error = 0;
+	else if (valid_name(minishell->env, tmp[0]) == 0)
 		error = new_env(&minishell->env, tmp);
 	else
 		error = 2;

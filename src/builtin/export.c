@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 10:54:01 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/08/31 23:28:08 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/04 14:33:07 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-static int	valid_name(t_kv *env, char *new)
+int	valid_name(t_kv *env, char *new)
 {
 	int	i;
 
@@ -52,11 +52,11 @@ int	export_annexe(int i, char **cmd, t_minishell *minishell)
 	error = 1;
 	tmp = ft_separate(cmd[i], '=');
 	if (!tmp)
-		return (valid_name(minishell->env, cmd[i]));
-	if (!tmp || !tmp[0] || !tmp[1])
-		return (error);
-	if (tmp && (!tmp[0] || !tmp[1]))
-		return (free(tmp), free(tmp[0]), free(tmp[1]), 1);
+	{
+		return (export_no_value(cmd, i, minishell));
+	}
+	if (tmp && (!tmp[0]))
+		return (free(tmp), free(tmp[0]), error);
 	if (valid_name(minishell->env, tmp[0]) == 1)
 		error = replace_env(minishell->env, tmp);
 	else if (valid_name(minishell->env, tmp[0]) == 0)
@@ -104,7 +104,10 @@ int	export(t_command *cmd, t_minishell *minishell)
 		ft_lstsort_env(parc);
 		while (parc)
 		{
-			ft_printf("export %s=%s\n", parc->key, parc->value);
+			if (parc->value[0])
+				ft_printf("export %s=\"%s\"\n", parc->key, parc->value);
+			else
+				ft_printf("export %s\n", parc->key);
 			parc = parc->next;
 		}
 		return (ft_lstclear_env(&mem_parc, free), 0);

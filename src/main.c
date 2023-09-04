@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/09/02 10:25:31 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:09:26 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)argc;
 	init_minishell(&minishell, env);
+	set_shlevel(&minishell);
 	while (1)
 	{
 		line = prompt();

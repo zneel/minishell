@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 08:01:45 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/09/01 14:57:11 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/09/04 13:36:43 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,5 @@ int				export(t_command *cmd, t_minishell *minishell);
 int				unset(t_command *cmd, t_minishell *minishell);
 int				cd(t_command *cmd, t_minishell *minishell);
 int				ft_exit(t_command *cmd, t_minishell *minishell);
+int				new_env(t_kv **env, char **tmp);
 #endif

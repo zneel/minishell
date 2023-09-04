@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 13:02:52 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/09/04 13:45:08 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:54:33 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	set_shlevel(t_minishell *minishell)
 	minishell->shlevel = ft_atoi(shlevel);
 	minishell->shlevel++;
 	sh_value = ft_itoa(minishell->shlevel);
+	if (!sh_value)
+		return ;
 	modif_env(minishell, "SHLVL", sh_value);
 	free(sh_value);
 }

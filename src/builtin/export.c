@@ -6,13 +6,13 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 10:54:01 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/09/04 14:01:00 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/09/04 14:33:07 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-static int	valid_name(t_kv *env, char *new)
+int	valid_name(t_kv *env, char *new)
 {
 	int	i;
 
@@ -47,22 +47,13 @@ int	new_env(t_kv **env, char **tmp)
 int	export_annexe(int i, char **cmd, t_minishell *minishell)
 {
 	char	**tmp;
-	char	*swap;
 	int		error;
 
 	error = 1;
 	tmp = ft_separate(cmd[i], '=');
 	if (!tmp)
 	{
-		swap = ft_strjoin(cmd[i], "=");
-		tmp = ft_separate(swap, '=');
-		if (valid_name(minishell->env, tmp[0]) == 0)
-			error = new_env(&minishell->env, tmp);
-		else
-			error = 2;
-		free(swap);
-		free(tmp);
-		return (error);
+		return (export_no_value(cmd, i, minishell));
 	}
 	if (tmp && (!tmp[0]))
 		return (free(tmp), free(tmp[0]), error);

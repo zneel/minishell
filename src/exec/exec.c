@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:55 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/09/04 14:49:09 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/04 15:07:23 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,13 @@ void	wait_all(t_minishell *minishell)
 		parc = parc->next;
 	}
 	if (WIFEXITED(minishell->last_status))
-		minishell->last_status = (WEXITSTATUS(minishell->last_status));
+		minishell->last_status = WEXITSTATUS(minishell->last_status);
+	else if (WIFSIGNALED(minishell->last_status))
+	{
+		if (minishell->last_status == SIGTERM)
+			ft_dprintf(2, "Terminated\n");
+		minishell->last_status += 128;
+	}
 }
 
 int	init_exec(t_node *node, int pipefd[2][2])

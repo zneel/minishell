@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 23:27:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/08/31 23:28:22 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/04 14:31:47 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,21 @@ int	replace_env(t_kv *env, char **tmp)
 		env = env->next;
 	}
 	return (0);
+}
+
+int	export_no_value(char **cmd, int i, t_minishell *minishell)
+{
+	char	*swap;
+	char	**tmp;
+	int		error;
+
+	swap = ft_strjoin(cmd[i], "=");
+	tmp = ft_separate(swap, '=');
+	if (valid_name(minishell->env, tmp[0]) == 0)
+		error = new_env(&minishell->env, tmp);
+	else
+		error = 2;
+	free(swap);
+	free(tmp);
+	return (error);
 }

@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 09:51:32 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/09/01 20:37:05 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/04 14:50:42 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ void	here_doc(char *limiter)
 	if (fd == -1)
 		return ;
 	line = NULL;
+	signal(SIGINT, sig_handler_here_doc);
 	while (1)
 	{
-		signal(SIGINT, sig_handler_here_doc);
 		if (g_sigint == 1)
 		{
 			close_if(fd);

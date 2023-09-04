@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 09:52:56 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/09/02 10:29:19 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/04 14:53:40 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,5 @@ void	execute_command(t_command *cmd, t_minishell *minishell)
 	if (pid == 0)
 		sub_execute(cmd, minishell);
 	else
-	{
-		signal(SIGINT, sig_handler_job);
-		signal(SIGQUIT, sig_handler_job);
 		ft_lstadd_back(&minishell->pids, ft_lstnew(&pid));
-	}
 }

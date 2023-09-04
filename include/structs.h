@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 17:03:52 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/09/01 09:46:44 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/09/04 13:07:30 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ typedef struct s_minishell
 	t_node				*root;
 	int					last_status;
 	int					m_fd[2];
+	int					shlevel;
 }						t_minishell;
 
 #endif

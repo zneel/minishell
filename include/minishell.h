@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:31:13 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/09/01 20:36:42 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:09:00 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,5 @@ void		init_minishell(t_minishell *minishell, char **env);
 int			str_all_space(char *str);
 void		dup_minishell(t_minishell *ms);
 void		close_minishell_dup(t_minishell *ms);
-
+void		set_shlevel(t_minishell *minishell);
 #endif

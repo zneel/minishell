@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:37:55 by mhoyer            #+#    #+#             */
-/*   Updated: 2023/09/02 11:01:19 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/04 14:49:09 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ int	exec(t_node *node, t_minishell *minishell)
 
 void	clear_exec(t_minishell *minishell)
 {
+	g_sigint = 0;
 	set_signals();
 	dup2(minishell->m_fd[1], 1);
 	dup2(minishell->m_fd[0], 0);
 	close_minishell_dup(minishell);
-	g_sigint = 0;
 	ft_lstclear(&minishell->pids, nothing);
 	unlink(FILE_HEREDOC);
 }
@@ -79,6 +79,8 @@ void	clear_exec(t_minishell *minishell)
 int	prep_exec(t_minishell *minishell)
 {
 	dup_minishell(minishell);
+	signal(SIGINT, sig_handler_job);
+	signal(SIGQUIT, sig_handler_job);
 	exec(minishell->root, minishell);
 	clear_exec(minishell);
 	return (0);

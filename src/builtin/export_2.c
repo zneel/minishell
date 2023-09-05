@@ -6,7 +6,7 @@
 /*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 23:27:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/09/04 14:42:13 by mhoyer           ###   ########.fr       */
+/*   Updated: 2023/09/05 14:30:01 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ int	export_no_value(char **cmd, int i, t_minishell *minishell)
 		error = new_env(&minishell->env, tmp);
 	else
 		error = 2;
+	if (error == 2)
+	{
+		free(tmp[0]);
+		free(tmp[1]);
+	}
 	free(swap);
 	free(tmp);
 	return (error);

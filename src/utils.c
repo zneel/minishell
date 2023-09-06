@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 17:04:08 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/09/05 10:37:25 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/06 11:06:01 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	init_minishell(t_minishell *minishell, char **env)
 	minishell->pids = NULL;
 	minishell->root = NULL;
 	minishell->last_status = 0;
-	minishell->shlevel = 0;	
+	minishell->shlevel = 0;
 	minishell->m_fd[0] = -1;
 	minishell->m_fd[1] = -1;
 }

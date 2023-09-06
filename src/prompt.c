@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 12:40:33 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/09/01 23:21:36 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/06 11:42:15 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ char	*prompt(void)
 		input = readline("minishell$ ");
 	else
 	{
-		line = get_next_line(STDIN_FILENO);
+		line = get_next_line(STDIN_FILENO, 1);
 		input = ft_strtrim(line, "\n");
 		free(line);
+		get_next_line(STDIN_FILENO, 0);
 	}
 	return (input);
 }

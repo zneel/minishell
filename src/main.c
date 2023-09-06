@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhoyer <mhoyer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 21:30:45 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/09/06 11:43:05 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/09/06 12:03:38 by mhoyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	execute(t_minishell *minishell, char *line)
 	t_lexer	*lex;
 
 	if (*line == '\0' || str_all_space(line))
-		return ;
+		return (free(line));
 	add_history(line);
 	lex = lexer(line);
 	free(line);
